@@ -4,15 +4,33 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var passport = require('passport');
+var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+//connect to db
+var db = mongoose.connect('mongodb://localhost:27017/StudentTeacherDB');
+
+
+
 var app = express();
+
+var cookiesession = require('cookie-session');
+var session = require('express-session');
+
+// required for passport
+app.use(session({ secret: 'secretkey', saveUninitialized: true, resave: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+var flash    = require('connect-flash')
+app.use(flash());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -30,6 +48,16 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+
+//Auth 
+require('./config/passport')(app,passport);
+require('./routes/passport')(app,passport);
 
 /// error handlers
 

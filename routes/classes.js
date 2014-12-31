@@ -10,7 +10,7 @@ module.exports = function(app) {
     /*
      * GET list classes
      */
-    app.get('/class/list', function(req, res) {
+    app.get('/api/classes', function(req, res) {
         _Class.find(function(err, classes) {
             if (err) {
                 res.send(err);
@@ -23,7 +23,7 @@ module.exports = function(app) {
     /*
      * GET one class by ID
      */
-    app.get('/class/:id', function(req, res) {
+    app.get('/api/classes/:id', function(req, res) {
 
         var _id = req.param('id');
 
@@ -42,7 +42,7 @@ module.exports = function(app) {
     /*
      * POST to addclass.
      */
-    app.post('/class/add', function(req, res) {
+    app.post('/api/classes', function(req, res) {
 
         var className = req.param('classname');
         var classCategory = req.param('classCategory');
@@ -84,7 +84,7 @@ module.exports = function(app) {
     /*
      * POST to edit.
      */
-    app.post('/class/edit', function(req, res) {
+    app.put('/api/classes', function(req, res) {
 
         var _id = req.param('id');
         var className = req.param('classname');
@@ -124,7 +124,7 @@ module.exports = function(app) {
     /*
      * DELETE to deleteuser.
      */
-    app.delete('/class/delete/:id', function(req, res) {
+    app.delete('/api/classes/:id', function(req, res) {
 
         var _id = req.param('id');
 

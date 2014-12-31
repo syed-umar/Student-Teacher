@@ -8,7 +8,8 @@ var classSchema = mongoose.Schema({
     classCategory: String,
     schoolName: String,
     description: String,
-    packageName: String
+    packageName: String,
+    classID: String	
 });
 
 // methods ======================

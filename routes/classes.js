@@ -1,80 +1,145 @@
-var express = require('express');
-var router = express.Router();
 var _Class = require('../models/class');
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-    res.redirect('/users/userlist');
-});
+module.exports = function(app) {
 
-/*
- * GET list classes
- */
-router.get('/list', function(req, res) {
-    _Class.find(function(err, classes) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(classes);
-        }
-    })
-});
-
-/*
- * POST to addclass.
- */
-router.post('/addclass', function(req, res) {
-
-    var className = req.param('classname');
-    var password = req.param('password');
-
-    //res.send(username);
-
-    _Class.findOne({
-        className: className
-    }, function(err, _class) {
-        // if there are any errors, return the error
-        if (err) {
-            res.send(err);
-        } else if (_class) {
-            res.send('That class name is already taken.');
-        } else {
-            var newClass = new _Class();
-
-            newUser.local.email = email;
-            newUser.local.password = newUser.generateHash(password);
-
-
-            // save the user
-            newClass.save(function(err) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.send('Class added!');
-                }
-            });
-        }
-    });
-});
-
-/*
- * DELETE to deleteuser.
- */
-router.delete('/deleteuser/:email', function(req, res) {
-
-    var email = req.param('email');
-
-    User.remove({
-        'local.email': email
-    }, function(err) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send('User removed!');
-        }
+    /* GET users listing. */
+    app.get('/', function(req, res) {
+        res.redirect('/users/userlist');
     });
 
-});
+    /*
+     * GET list classes
+     */
+    app.get('/class/list', function(req, res) {
+        _Class.find(function(err, classes) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(classes);
+            }
+        })
+    });
+
+    /*
+     * GET one class by ID
+     */
+    app.get('/class/:id', function(req, res) {
+
+        var _id = req.param('id');
+
+        _Class.findOne({
+            _id: _id
+        }, function(err, _class) {
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (_class) {
+                res.json(_class);
+            }
+        });
+    });
+
+    /*
+     * POST to addclass.
+     */
+    app.post('/class/add', function(req, res) {
+
+        var className = req.param('classname');
+        var classCategory = req.param('classCategory');
+        var description = req.param('description');
+        var packageName = req.param('packageName');
+        var classID = req.param('classID');
+        var schoolName = req.param('schoolName');
+
+        _Class.findOne({
+            className: className
+        }, function(err, _class) {
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (_class) {
+                res.send('That class name is already taken.');
+            } else {
+                var newClass = new _Class();
+
+                newClass.className = className;
+                newClass.classCategory = classCategory;
+                newClass.description = description;
+                newClass.packageName = packageName;
+                newClass.classID = classID;
+                newClass.schoolName = schoolName;
+
+                // save the user
+                newClass.save(function(err) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.send('Class added!');
+                    }
+                });
+            }
+        });
+    });
+
+    /*
+     * POST to edit.
+     */
+    app.post('/class/edit', function(req, res) {
+
+        var _id = req.param('id');
+        var className = req.param('classname');
+        var classCategory = req.param('classCategory');
+        var description = req.param('description');
+        var packageName = req.param('packageName');
+        var classID = req.param('classID');
+        var schoolName = req.param('schoolName');
+
+        _Class.findOne({
+            _id: _id
+        }, function(err, _class) {
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (_class) {
+
+                _class.className = className;
+                _class.classCategory = classCategory;
+                _class.description = description;
+                _class.packageName = packageName;
+                _class.classID = classID;
+                _class.schoolName = schoolName;
+
+                // save the user
+                _class.save(function(err) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.send('Class updated!');
+                    }
+                });
+            }
+        });
+    });
+
+    /*
+     * DELETE to deleteuser.
+     */
+    app.delete('/class/delete/:id', function(req, res) {
+
+        var _id = req.param('id');
+
+        _Class.remove({
+            _id: _id
+        }, function(err) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send('Class removed!');
+            }
+        });
+
+    });
 
 
-module.exports = router;
+
+};

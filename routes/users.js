@@ -90,9 +90,10 @@ module.exports = function(app) {
                     //save the user
                     newUser.save(function(err) {
                         if (err) {
-                            res.send(err);
+                            res.status(200).json({err: err});
                         } else {
-                            res.send('User added!');
+                            // res.send('User added!');
+                            res.status(200).send('User added!');
                         }
                     });
                 }

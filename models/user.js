@@ -20,7 +20,6 @@ var userSchema = mongoose.Schema({
         student_grade: String,
         teacher_availability: String,
         teacher_qualification: String,
-        teacher_grade: String,
         teacher_description: String
         // teacher_attachments: []
     },

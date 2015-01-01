@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  ng-app="signupValidationApp" ng-controller="mainController">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title"></h3>
+                            </div><!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" novalidate name="signupForm">
+                                <div class="box-body">
+
+                                    <div class="form-group">
+                                        <label>Select Type</label>
+                                        <select class="form-control" ng-model="user.type" name="usertype" ng-init="user.type='student'">
+                                            <option value="student">Student</option>
+                                            <option value="teacher">Teacher</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email address</label>
+                                        <input type="email" class="form-control" ng-model="user.email" name="email" required placeholder="Enter email">
+
+                                        <span style="color:red" ng-show="signupForm.email.$dirty && signupForm.email.$invalid">
+                                              <span ng-show="signupForm.email.$error.required">Email is required.</span>
+                                              <span ng-show="signupForm.email.$error.email">Invalid email format.</span>
+                                        </span>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" ng-model="user.password" name="password" required placeholder="Enter Password">
+
+                                        <span style="color:red" ng-show="signupForm.password.$dirty && signupForm.password.$invalid">
+                                              <span ng-show="signupForm.password.$error.required">Password is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" class="form-control" ng-model="user.firstname" name="firstname" required placeholder="Enter First Name">
+
+                                        <span style="color:red" ng-show="signupForm.firstname.$dirty && signupForm.firstname.$invalid">
+                                              <span ng-show="signupForm.firstname.$error.required">First Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" class="form-control" ng-model="user.lastname" name="lastname" required placeholder="Enter Last Name">
+
+                                        <span style="color:red" ng-show="signupForm.lastname.$dirty && signupForm.lastname.$invalid">
+                                              <span ng-show="signupForm.lastname.$error.required">Last Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" ng-model="user.phone" name="phone" required placeholder="Enter Phone">
+
+                                        <span style="color:red" ng-show="signupForm.phone.$dirty && signupForm.phone.$invalid">
+                                              <span ng-show="signupForm.phone.$error.required">Phone is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="skype">Skype ID</label>
+                                        <input type="text" class="form-control" ng-model="user.skype" name="skype" required placeholder="Enter Skype ID">
+
+                                        <span style="color:red" ng-show="signupForm.skype.$dirty && signupForm.skype.$invalid">
+                                              <span ng-show="signupForm.skype.$error.required">Skype ID is required.</span>
+                                        </span>
+                                    </div>
+
+                                </div><!-- /.box-body -->
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title"></h3>
+                            </div><!-- /.box-header -->
+                            
+                                <div class="box-body">
+                                    <div id="student-info" ng-if="user.type == 'student'">
+                                        <div class="form-group">
+                                        <label for="student_schoolName">School Name</label>
+                                            <input type="text" name="student_schoolName" class="form-control" id="student_schoolName" placeholder="Enter School Name">
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="student_guardianInfo">Guardian Info</label>
+                                            <textarea class="form-control" id="student_guardianInfo" name="student_guardianInfo" placeholder="Enter Guardian Info"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="student_grade">Student Grade</label>
+                                            <input type="text" class="form-control" id="student_grade" name="student_grade" placeholder="Enter Student Grade">
+                                        </div>
+                                    </div>
+                                    <div id="teacher-info" ng-if="user.type == 'teacher'">
+                                        <div class="form-group">
+                                        <label for="teacher_availability">Availability</label>
+                                            <input type="text" name="teacher_availability" class="form-control" id="teacher_availability" placeholder="Enter Availability">
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="teacher_qualification">Qualification</label>
+                                            <textarea class="form-control" id="teacher_qualification" name="teacher_qualification" placeholder="Enter Qualification"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="teacher_description">Teacher profile description</label>
+                                            <input type="text" class="form-control" id="teacher_description" name="teacher_description" placeholder="Enter Description">
+                                        </div>
+                                    </div>
+
+
+                                </div><!-- /.box-body -->
+
+                            
+                        </div>
+                    </div>
+
+                    <div style="margon: 0 auto;" class="col-lg-12">
+                        <button class="btn btn-primary pull-right" ng-disabled="signupForm.$invalid" ng-click="submitForm(signupForm.$valid)">Submit</button>    
+                    </div>
+                    
+                    </form>
+
+                </div>
+
+
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+
+
+
+    </div><!-- ./wrapper -->
+    <footer>footer</footer>
+
+    <script src="/angular/angular.min.js"></script>
+    <script src="/angular/angular-resource.min.js"></script>
+    <script src="/signup/app.js"></script>
+    
+
+</body>
+</html>

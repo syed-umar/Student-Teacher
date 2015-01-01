@@ -15,4 +15,18 @@ router.get('/', function(req, res) {
 	
 });
 
+/* GET home page. */
+router.get('/register', function(req, res) {
+
+	res.locals.logged = 0;
+
+	if (req.isAuthenticated()){
+		res.locals.logged = 1;
+		res.redirect('/');
+	} else {
+		res.render('signup', { title: 'Register', heading: 'Registration page', page: 'index.ejs' });
+	}
+	
+});
+
 module.exports = router;

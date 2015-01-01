@@ -20,39 +20,63 @@ module.exports = function(app, passport) {
 
 	//login
 	app.post('/login', function(req, res, next) {
-		//console.log(req.params);
-		passport.authenticate('local-login', function(err, user, info) {
-			//if (err) { return next(err); }
-			if (err) {
-				res.send({
-					error: err
-				});
-			} else {
 
-				req.login(user, function(err) {
-					if (err) {
-						return next(err);
-					}
+		var email = req.param('email');
+		var password = req.param('password');
+		var err_summary = '';
+		//validate
+		if (!email) {
+			err_summary += 'Email is required<br>';
+		}
 
-					//set remember cookie
-					// if (req.body.remember == "true") {
-					// 	req.session.cookie.maxAge = 60000 * 60 * 24 * 30;
-					// } else {
-					// 	req.session.cookie.expires = false;
-					// }
+		if (!password) {
+			err_summary += 'Password is required<br>';
+		}
 
-					res.send(user);
-				});
+		if (err_summary == '') {
+			passport.authenticate('local-login', function(err, user, info) {
+				//if (err) { return next(err); }
+				if (err) {
+					res.send({
+						error: err
+					});
+				} else {
 
-				//next(null, user);
-			}
+					req.login(user, function(err) {
+						if (err) {
+							return next(err);
+						}
 
-		})(req, res, next);
+						//console.log(req.body.remember);
+
+						//set remember cookie
+						if (req.body.remember == "on") {
+							req.session.cookie.maxAge = 6000000 * 60 * 24 * 30;
+						} else {
+							req.session.cookie.expires = false;
+						}
+
+						//res.send(user);
+						//console.log(req.user);
+						//res.end();
+						res.redirect('/');
+					});
+
+					//next(null, user);
+				}
+
+			})(req, res, next);
+		} else {
+			res.send(err_summary);
+		}
+
+
+
 	});
 
 	//check login
-	app.get('/check', function(req, res){
-		if(req.isAuthenticated()){
+	app.get('/check', function(req, res) {
+		if (req.isAuthenticated()) {
 			res.send('in');
 		} else {
 			res.send('out');
@@ -61,10 +85,10 @@ module.exports = function(app, passport) {
 
 	//logout
 	app.get('/logout', function(req, res) {
-	
+
 		// clear the remember me cookie when logging out
-		  res.clearCookie('connect.sid');
-		  req.logout();
-		  res.redirect('/');
+		res.clearCookie('connect.sid');
+		req.logout();
+		res.redirect('/');
 	});
 }

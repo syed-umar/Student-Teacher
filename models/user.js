@@ -9,11 +9,11 @@ var userSchema = mongoose.Schema({
     local: {
         email: String,
         password: String,
-        firstname: String,
+        firstName: String,
         lastName: String,
         phone: String,
         skype: String,
-        type: String,
+        userType: String,
         userID: String,
         student_schoolName: String,
         student_guardianInfo: String,
@@ -21,8 +21,8 @@ var userSchema = mongoose.Schema({
         teacher_availability: String,
         teacher_qualification: String,
         teacher_grade: String,
-        teacher_description: String,
-        teacher_attachments: [],
+        teacher_description: String
+        // teacher_attachments: []
     },
     facebook: {
         id: String,

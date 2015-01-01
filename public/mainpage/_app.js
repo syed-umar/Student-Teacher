@@ -8,8 +8,6 @@ DataService.factory('Classes', ['$resource', function($resource){
 
 var main = angular.module('Mainapp', ['DataService']);
 
-
-
 main.controller('MainCtrl', ['$scope', 'Classes', function($scope, Classes) {
 	$scope.editing = false;
 	$scope.text = "some text";

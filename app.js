@@ -38,12 +38,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 
 //routes
 app.use('/', routes);
 require('./routes/users')(app);
 require('./routes/classes')(app);
+
+//Auth 
+require('./config/passport')(app, passport);
+require('./routes/passport')(app, passport);
+
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -58,11 +65,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-//Auth 
-require('./config/passport')(app, passport);
-require('./routes/passport')(app, passport);
 
-require('./routes/users')(app);
 
 /// error handlers
 

@@ -5,7 +5,7 @@ module.exports = function(app) {
         /*
          * GET userlist.
          */
-        app.get('/user/list', function(req, res) {
+        app.get('/user', function(req, res) {
 
             User.find(function(err, users) {
                 if (err) {
@@ -13,7 +13,7 @@ module.exports = function(app) {
                 } else {
                     res.json(users);
                 }
-            })
+            });
         });
 
         /*
@@ -30,7 +30,7 @@ module.exports = function(app) {
                 if (err) {
                     res.send(err);
                 } else if (user) {
-                    res.json(_class);
+                    res.json(user);
                 }
             });
         });
@@ -38,27 +38,28 @@ module.exports = function(app) {
         /*
          * POST to add
          */
-        app.post('/user/add', function(req, res) {
+        app.post('/user', function(req, res) {
 
-            var email = req.param('email');
-            var password = req.param('password');
-            var firstname = req.param('firstname');
-            var lastName = req.param('lastName');
-            var phone = req.param('phone');
-            var skype = req.param('skype');
-            var type = req.param('type');
-            var userID = req.param('userID');
-            var student_schoolName = req.param('student_schoolName');
-            var student_guardianInfo = req.param('student_guardianInfo');
-            var student_grade = req.param('student_grade');
-            var teacher_availability = req.param('teacher_availability');
-            var teacher_qualification = req.param('teacher_qualification');
-            var teacher_grade = req.param('teacher_grade');
-            var teacher_description = req.param('teacher_description');
-            // var teacher_attachments = req.param('teacher_attachments');
+
+            var email = req.param('email', 'err');
+            var password = req.param('password', 'err');
+            var firstname = req.param('firstname', null);
+            var lastname = req.param('lastname', null);
+            var phone = req.param('phone', null);
+            var skype = req.param('skype', null);
+            var usertype = req.param('usertype', null);
+            var userID = req.param('userID', null);
+            var student_schoolName = req.param('student_schoolName', null);
+            var student_guardianInfo = req.param('student_guardianInfo', null);
+            var student_grade = req.param('student_grade', null);
+            var teacher_availability = req.param('teacher_availability', null);
+            var teacher_qualification = req.param('teacher_qualification', null);
+            var teacher_grade = req.param('teacher_grade', null);
+            var teacher_description = req.param('teacher_description', null);
+            //var teacher_attachments = req.param('teacher_attachments', null);
 
             User.findOne({
-                'local.username': email
+                'local.email': email
             }, function(err, user) {
                 // if there are any errors, return the error
                 if (err) {
@@ -70,10 +71,11 @@ module.exports = function(app) {
 
                     newUser.local.email = email;
                     newUser.local.password = newUser.generateHash(password);
-                    newUser.local.firstname = firstname;
-                    newUser.local.lastName = lastName;
+                    newUser.local.firstName = firstname;
+                    newUser.local.lastName = lastname;
+                    newUser.local.phone = phone;
                     newUser.local.skype = skype;
-                    newUser.local.type = type;
+                    newUser.local.userType = usertype;
                     newUser.local.userID = userID;
                     newUser.local.student_schoolName = student_schoolName;
                     newUser.local.student_guardianInfo = student_guardianInfo;
@@ -84,7 +86,8 @@ module.exports = function(app) {
                     newUser.local.teacher_grade = teacher_grade;
                     newUser.local.teacher_description = teacher_description;
 
-                    // save the user
+
+                    //save the user
                     newUser.save(function(err) {
                         if (err) {
                             res.send(err);
@@ -101,24 +104,24 @@ module.exports = function(app) {
          * POST to deleteuser.
          */
 
-        app.post('/user/edit', function(req, res) {
+        app.put('/user', function(req, res) {
 
             var _id = req.param('id');
-            var email = req.param('email');
-            var password = req.param('password');
-            var firstname = req.param('firstname');
-            var lastName = req.param('lastName');
-            var phone = req.param('phone');
-            var skype = req.param('skype');
-            var type = req.param('type');
-            var userID = req.param('userID');
-            var student_schoolName = req.param('student_schoolName');
-            var student_guardianInfo = req.param('student_guardianInfo');
-            var student_grade = req.param('student_grade');
-            var teacher_availability = req.param('teacher_availability');
-            var teacher_qualification = req.param('teacher_qualification');
-            var teacher_grade = req.param('teacher_grade');
-            var teacher_description = req.param('teacher_description');
+            var email = req.param('email', null);
+            var password = req.param('password', null);
+            var firstname = req.param('firstname', null);
+            var lastname = req.param('lastname', null);
+            var phone = req.param('phone', null);
+            var skype = req.param('skype', null);
+            var usertype = req.param('usertype', null);
+            var userID = req.param('userID', null);
+            var student_schoolName = req.param('student_schoolName', null);
+            var student_guardianInfo = req.param('student_guardianInfo', null);
+            var student_grade = req.param('student_grade', null);
+            var teacher_availability = req.param('teacher_availability', null);
+            var teacher_qualification = req.param('teacher_qualification', null);
+            var teacher_grade = req.param('teacher_grade', null);
+            var teacher_description = req.param('teacher_description', null);
             // var teacher_attachments = req.param('teacher_attachments');
 
             User.findOne({
@@ -128,12 +131,17 @@ module.exports = function(app) {
                     res.send(err);
                 } else if (user) {
 
+                    var bcrypt = require('bcrypt-nodejs');
+
                     user.local.email = email;
-                    user.local.password = User.generateHash(password);
-                    user.local.firstname = firstname;
-                    user.local.lastName = lastName;
+                    user.local.password = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+                    if (firstname != null) {
+                        user.local.firstName = firstname;
+                    }
+                    user.local.lastName = lastname;
+                    user.local.phone = skype;
                     user.local.skype = skype;
-                    user.local.type = type;
+                    user.local.userType = usertype;
                     user.local.userID = userID;
                     user.local.student_schoolName = student_schoolName;
                     user.local.student_guardianInfo = student_guardianInfo;
@@ -160,7 +168,7 @@ module.exports = function(app) {
         /*
          * DELETE to deleteuser.
          */
-        app.delete('/user/delete/:email', function(req, res) {
+        app.delete('/user/:email', function(req, res) {
 
             var email = req.param('email');
 

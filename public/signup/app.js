@@ -4,52 +4,44 @@ DataService.factory('User', ['$resource', function($resource) {
 	return $resource('/user/:id', {
 		id: '@_id'
 	}, {
-		update: {
-			method: 'PUT' // this method issues a PUT request
+		'update': {
+			method: 'PUT'
+		},
+		'get': {
+			method: 'GET',
+			isArray: false
 		}
 	});
 }]);
 
-// var main = angular.module('Mainapp', ['DataService']);
 
-// main.controller('MainCtrl', ['$scope', 'Classes', function($scope, Classes) {
-// 	$scope.editing = false;
-// 	$scope.text = "some text";
-
-// 	Classes.query(function() {
-//     	//console.log(ClassList.data);
-//   	}).$promise.then(function(r){
-
-//   	}); //query() returns all the entries
-
-// }]);
-
-function notNull(prom) {
-	return prom.then(function(res) {
-		if (res === null) return $q.reject("Error, got null");
-		return res;
-	});
-};
 
 
 // app.js
 // create angular app
-var signupValidationApp = angular.module('signupValidationApp', ['DataService']);
+var signupValidationApp = angular.module('signupValidationApp', ['DataService', 'ngAnimate']);
 
 // create angular controller
-signupValidationApp.controller('mainController', ['$scope', 'User', function($scope, User) {
+signupValidationApp.controller('mainController', ['$scope', '$timeout', 'User', function($scope, $timeout, User) {
 
 	$scope.user = new User();
+	$scope.serverRes = false;
+	$scope.serverMsg = '';
 
 	// function to submit the form after all validation has occurred            
 	$scope.submitForm = function(isValid) {
 
 		// check to make sure the form is completely valid
 		if (isValid) {
-			User.save($scope.user, function() {
-
-			}).$promise.then(function(r) {
-				console.log(r);
+			User.save($scope.user).$promise.then(function(r) {
+				// console.log(r.res);
+				$scope.serverRes = true;
+				$timeout(function() {
+					$scope.serverRes = false;
+				}, 3000);
+				$scope.serverMsg = r.res;
+			}, function(r) {
+				console.log("Server returned: " + r.status);
 			});
 
 

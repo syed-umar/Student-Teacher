@@ -24,7 +24,16 @@
             <!-- Main content -->
             <section class="content">
 
+
+
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  ng-app="signupValidationApp" ng-controller="mainController">
+
+
+                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+                        <h4>Errors</h4>
+                        <p>{{ serverMsg }}</p>
+                    </div>
+
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="box box-primary">
                             <div class="box-header">
@@ -107,29 +116,29 @@
                                     <div id="student-info" ng-if="user.type == 'student'">
                                         <div class="form-group">
                                         <label for="student_schoolName">School Name</label>
-                                            <input type="text" name="student_schoolName" class="form-control" id="student_schoolName" placeholder="Enter School Name">
+                                            <input ng-model="user.student_schoolName" type="text" name="student_schoolName" class="form-control" id="student_schoolName" placeholder="Enter School Name">
                                         </div>
                                         <div class="form-group">
                                         <label for="student_guardianInfo">Guardian Info</label>
-                                            <textarea class="form-control" id="student_guardianInfo" name="student_guardianInfo" placeholder="Enter Guardian Info"></textarea>
+                                            <textarea ng-model="user.student_guardianInfo" class="form-control" id="student_guardianInfo" name="student_guardianInfo" placeholder="Enter Guardian Info"></textarea>
                                         </div>
                                         <div class="form-group">
                                         <label for="student_grade">Student Grade</label>
-                                            <input type="text" class="form-control" id="student_grade" name="student_grade" placeholder="Enter Student Grade">
+                                            <input ng-model="user.student_grade" type="text" class="form-control" id="student_grade" name="student_grade" placeholder="Enter Student Grade">
                                         </div>
                                     </div>
                                     <div id="teacher-info" ng-if="user.type == 'teacher'">
                                         <div class="form-group">
                                         <label for="teacher_availability">Availability</label>
-                                            <input type="text" name="teacher_availability" class="form-control" id="teacher_availability" placeholder="Enter Availability">
+                                            <input ng-model="user.teacher_availability" type="text" name="teacher_availability" class="form-control" id="teacher_availability" placeholder="Enter Availability">
                                         </div>
                                         <div class="form-group">
                                         <label for="teacher_qualification">Qualification</label>
-                                            <textarea class="form-control" id="teacher_qualification" name="teacher_qualification" placeholder="Enter Qualification"></textarea>
+                                            <textarea ng-model="user.teacher_qualification" class="form-control" id="teacher_qualification" name="teacher_qualification" placeholder="Enter Qualification"></textarea>
                                         </div>
                                         <div class="form-group">
                                         <label for="teacher_description">Teacher profile description</label>
-                                            <input type="text" class="form-control" id="teacher_description" name="teacher_description" placeholder="Enter Description">
+                                            <input ng-model="user.teacher_description" type="text" class="form-control" id="teacher_description" name="teacher_description" placeholder="Enter Description">
                                         </div>
                                     </div>
 
@@ -160,6 +169,7 @@
 
     <script src="/angular/angular.min.js"></script>
     <script src="/angular/angular-resource.min.js"></script>
+    <script src="/angular/angular-animate.min.js"></script>
     <script src="/signup/app.js"></script>
     
 

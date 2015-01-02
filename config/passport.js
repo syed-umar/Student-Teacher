@@ -57,7 +57,7 @@ module.exports = function(app, passport) {
                     if (user) {
                         //console.log(user);
                         // return done(null, 'That email is already taken.');
-                        return done('That email is already taken.');
+                        return done({'res': 'That email is already taken'});
                     } else {
 
                         // if there is no user with that email

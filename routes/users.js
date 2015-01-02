@@ -47,7 +47,7 @@ module.exports = function(app) {
             var lastname = req.param('lastname', null);
             var phone = req.param('phone', null);
             var skype = req.param('skype', null);
-            var usertype = req.param('usertype', null);
+            var usertype = req.param('type', null);
             var userID = req.param('userID', null);
             var student_schoolName = req.param('student_schoolName', null);
             var student_guardianInfo = req.param('student_guardianInfo', null);
@@ -62,10 +62,11 @@ module.exports = function(app) {
                 'local.email': email
             }, function(err, user) {
                 // if there are any errors, return the error
+                
                 if (err) {
                     res.send(err);
                 } else if (user) {
-                    res.send('That email is already taken.');
+                    res.json({res: "That email is already taken"});
                 } else {
                     var newUser = new User();
 
@@ -90,7 +91,8 @@ module.exports = function(app) {
                     //save the user
                     newUser.save(function(err) {
                         if (err) {
-                            res.status(200).json({err: err});
+                            res.json({response: err});
+                            
                         } else {
                             // res.send('User added!');
                             res.status(200).send('User added!');
@@ -106,6 +108,8 @@ module.exports = function(app) {
          */
 
         app.put('/user', function(req, res) {
+
+            console.log('put');
 
             var _id = req.param('id');
             var email = req.param('email', null);

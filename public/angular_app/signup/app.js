@@ -14,7 +14,14 @@ DataService.factory('User', ['$resource', function($resource) {
 	});
 }]);
 
-
+//show error notify
+function showError($scope, $timeout, r) {
+	$scope.serverRes = true;
+	$timeout(function() {
+		$scope.serverRes = false;
+	}, 3000);
+	$scope.serverMsg = r.res;
+}
 
 
 // app.js
@@ -34,12 +41,12 @@ signupValidationApp.controller('mainController', ['$scope', '$timeout', 'User', 
 		// check to make sure the form is completely valid
 		if (isValid) {
 			User.save($scope.user).$promise.then(function(r) {
-				// console.log(r.res);
-				$scope.serverRes = true;
-				$timeout(function() {
-					$scope.serverRes = false;
-				}, 3000);
-				$scope.serverMsg = r.res;
+				if(r.res == "That email is already taken"){
+					showError($scope, $timeout, r);
+				} else {
+					window.location.href = "http://localhost:3000/?msg=r1";
+				}
+				
 			}, function(r) {
 				console.log("Server returned: " + r.status);
 			});

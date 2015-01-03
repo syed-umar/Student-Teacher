@@ -24,7 +24,18 @@
             <!-- Main content -->
             <section class="content">
 
+
+            <% if(serverMsg != null) {%>
+                    <div class="callout callout-primary server_msg">
+                        <h4>Server Msg</h4>
+                        <p><%= serverMsg %></p>
+                    </div>
+                    <% } %>
+
                 <div class="pull-right col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                    
+
                     <div class="box box-primary" ng-app="validationApp" ng-controller="mainController">
                         <div class="box-header">
                             <h3 class="box-title">Login</h3>
@@ -80,7 +91,7 @@
 </div><!-- ./wrapper -->
 
 <script src="/angular/angular.min.js"></script>
-<script src="/mainpage/app.js"></script>
+<script src="/angular_app/mainpage/app.js"></script>
 
 </body>
 </html>

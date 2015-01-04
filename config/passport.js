@@ -57,7 +57,9 @@ module.exports = function(app, passport) {
                     if (user) {
                         //console.log(user);
                         // return done(null, 'That email is already taken.');
-                        return done({'res': 'That email is already taken'});
+                        return done({
+                            'res': 'That email is already taken'
+                        });
                     } else {
 
                         // if there is no user with that email
@@ -109,8 +111,7 @@ module.exports = function(app, passport) {
             User.findOne({
                 'local.email': email
             }, function(err, user) {
-                //console.log(user.local.validated);
-
+                
                 if (err)
                     return done(err);
 

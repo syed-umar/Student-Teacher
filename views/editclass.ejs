@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+
+                <div ng-app="editClassApp" ng-controller="mainController">
+                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+
+                        <p>{{ serverMsg }}</p>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Create New Class</h3>
+                        </div><!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form" novalidate name="classForm">
+                            <div class="box-body">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="class_name">Class Name</label>
+                                        <input ng-model="class.className" required type="text" class="form-control" name="class_name" placeholder="Enter Class name">
+                                        <span style="color:red" ng-show="classForm.class_name.$dirty && classForm.class_name.$invalid">
+                                            <span ng-show="classForm.class_name.$error.required">Class Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_ID">Class ID</label>
+                                        <input ng-model="class.classID" required type="text" class="form-control" name="class_id" placeholder="Enter Class ID">
+                                        <span style="color:red" ng-show="classForm.class_id.$dirty && classForm.class_id.$invalid">
+                                            <span ng-show="classForm.class_id.$error.required">Class ID is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_category">Category</label>
+                                        <input ng-model="class.classCategory" required type="text" class="form-control" name="class_category" placeholder="Enter Class Category">
+                                        <span style="color:red" ng-show="classForm.class_category.$dirty && classForm.class_category.$invalid">
+                                            <span ng-show="classForm.class_category.$error.required">Class Category is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_package_name">Package Name</label>
+                                        <input ng-model="class.packageName" required type="text" class="form-control" name="class_package_name" placeholder="Enter Class Package name">
+                                        <span style="color:red" ng-show="classForm.class_package_name.$dirty && classForm.class_package_name.$invalid">
+                                            <span ng-show="classForm.class_package_name.$error.required">Package Name is required.</span>
+                                        </span>
+                                    </div>    
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="class_school_name">School Name</label>
+                                        <input ng-model="class.schoolName" required type="text" class="form-control" name="class_school_name" placeholder="Enter Class Package name">
+                                        <span style="color:red" ng-show="classForm.class_school_name.$dirty && classForm.class_school_name.$invalid">
+                                            <span ng-show="classForm.class_school_name.$error.required">Class Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_desc">Description</label>
+                                        <textarea ng-model="class.description" required class="form-control" name="class_desc" placeholder="Enter Class Description"></textarea>
+                                        <span style="color:red" ng-show="classForm.class_desc.$dirty && classForm.class_desc.$invalid">
+                                            <span ng-show="classForm.class_desc.$error.required">Description is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_start_time">Class - Start Time</label>
+                                        <input type="text" ng-model="class.starttime" required class="form-control" name="class_start_time" placeholder="Enter Class Start Time">
+                                        <span style="color:red" ng-show="classForm.class_start_time.$dirty && classForm.class_start_time.$invalid">
+                                            <span ng-show="classForm.class_start_time.$error.required">Start Time is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_end_time">Class - End Time</label>
+                                        <input ng-model="class.endtime" required type="text" class="form-control" name="class_end_time" placeholder="Enter Class End Time">
+                                        <span style="color:red" ng-show="classForm.class_end_time.$dirty && classForm.class_end_time.$invalid">
+                                            <span ng-show="classForm.class_end_time.$error.required">End Time is required.</span>
+                                        </span>
+                                    </div>    
+                                </div>
+
+
+
+
+                            </div><!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button class="btn btn-primary btn-lg" ng-disabled="classForm.$invalid" ng-click="editClassfunc(classForm.$valid)">Update</button> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script>
+        //set class id
+        class_id = "<%= class_id %>";
+    </script>
+    <script src="/angular/angular.min.js"></script>
+    <script src="/angular_app/editclass/app.js"></script>
+
+</body>
+</html>

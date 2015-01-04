@@ -47,6 +47,17 @@ module.exports = function(app, passport) {
 							return next(err);
 						}
 
+						//check admin
+		                var admins = require('../config/admins');
+		                admins.emails.forEach(function(admin) {
+		                    if(admin == user.local.email){
+		                    	req.session.isAdmin = true;
+		                    }
+		                });
+
+		                //console.log(req.user.isAdmin);
+
+
 						//console.log(req.body.remember);
 
 						//set remember cookie
@@ -88,6 +99,7 @@ module.exports = function(app, passport) {
 
 		// clear the remember me cookie when logging out
 		res.clearCookie('connect.sid');
+		req.session.isAdmin = false;
 		req.logout();
 		res.redirect('/');
 	});

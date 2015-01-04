@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <a class="btn btn-app" href="/createclass">
+                    <i class="fa fa-bars"></i> Create Class
+                </a>
+                <a class="btn btn-app" href="/editclass">
+                    <i class="fa fa-edit"></i> Edit Class
+                </a>
+                <a class="btn btn-app" href="/create_classreg">
+                    <i class="fa fa-group"></i> Add/Edit Class Registration
+                </a>
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script src="/angular/angular.min.js"></script>
+    <script src="/angular_app/mainpage/app.js"></script>
+
+</body>
+</html>

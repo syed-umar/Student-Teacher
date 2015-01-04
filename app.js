@@ -37,20 +37,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+
 
 
 //routes
 app.use('/', routes);
 require('./routes/users')(app);
-require('./routes/classes')(app);
+require('./routes/class')(app);
 
 //Auth 
 require('./config/passport')(app, passport);
 require('./routes/passport')(app, passport);
 
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/editclass',  express.static(__dirname + '/public'));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

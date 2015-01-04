@@ -2,28 +2,23 @@ var _Class = require('../models/class');
 
 module.exports = function(app) {
 
-    /* GET users listing. */
-    app.get('/', function(req, res) {
-        res.redirect('/users/userlist');
-    });
-
     /*
      * GET list classes
      */
-    app.get('/api/classes', function(req, res) {
+    app.get('/class', function(req, res) {
         _Class.find(function(err, classes) {
             if (err) {
                 res.send(err);
             } else {
                 res.json(classes);
             }
-        })
+        });
     });
 
     /*
      * GET one class by ID
      */
-    app.get('/api/classes/:id', function(req, res) {
+    app.get('/class/:id', function(req, res) {
 
         var _id = req.param('id');
 
@@ -42,7 +37,7 @@ module.exports = function(app) {
     /*
      * POST to addclass.
      */
-    app.post('/api/classes', function(req, res) {
+    app.post('/class', function(req, res) {
 
         var className = req.param('classname');
         var classCategory = req.param('classCategory');
@@ -50,6 +45,8 @@ module.exports = function(app) {
         var packageName = req.param('packageName');
         var classID = req.param('classID');
         var schoolName = req.param('schoolName');
+        var starttime = req.param('starttime');
+        var endtime = req.param('endtime');
 
         _Class.findOne({
             className: className
@@ -58,7 +55,9 @@ module.exports = function(app) {
             if (err) {
                 res.send(err);
             } else if (_class) {
-                res.send('That class name is already taken.');
+                res.send({
+                    "err": 'That class name is already taken.'
+                });
             } else {
                 var newClass = new _Class();
 
@@ -68,13 +67,19 @@ module.exports = function(app) {
                 newClass.packageName = packageName;
                 newClass.classID = classID;
                 newClass.schoolName = schoolName;
+                newClass.starttime = starttime;
+                newClass.endtime = endtime;
 
                 // save the user
                 newClass.save(function(err) {
                     if (err) {
-                        res.send(err);
+                        res.send({
+                            "err": err
+                        });
                     } else {
-                        res.send('Class added!');
+                        res.send({
+                            "res": 'Class added!'
+                        });
                     }
                 });
             }
@@ -82,24 +87,29 @@ module.exports = function(app) {
     });
 
     /*
-     * POST to edit.
+     * PUT to edit.
      */
-    app.put('/api/classes', function(req, res) {
+    app.put('/class', function(req, res) {
 
-        var _id = req.param('id');
-        var className = req.param('classname');
+        // var _class = req.param('class');
+        var _id = req.param('_id');
+        var className = req.param('className');
         var classCategory = req.param('classCategory');
         var description = req.param('description');
         var packageName = req.param('packageName');
         var classID = req.param('classID');
         var schoolName = req.param('schoolName');
+        var starttime = req.param('starttime');
+        var endtime = req.param('endtime');
 
         _Class.findOne({
             _id: _id
         }, function(err, _class) {
             // if there are any errors, return the error
             if (err) {
-                res.send(err);
+                res.send({
+                    "err": err
+                });
             } else if (_class) {
 
                 _class.className = className;
@@ -108,13 +118,19 @@ module.exports = function(app) {
                 _class.packageName = packageName;
                 _class.classID = classID;
                 _class.schoolName = schoolName;
+                _class.starttime = starttime;
+                _class.endtime = endtime;
 
                 // save the user
                 _class.save(function(err) {
                     if (err) {
-                        res.send(err);
+                        res.send({
+                            "err": err
+                        });
                     } else {
-                        res.send('Class updated!');
+                        res.send({
+                            "res": 'Class Updated!'
+                        });
                     }
                 });
             }
@@ -124,7 +140,7 @@ module.exports = function(app) {
     /*
      * DELETE to deleteuser.
      */
-    app.delete('/api/classes/:id', function(req, res) {
+    app.delete('/class/:id', function(req, res) {
 
         var _id = req.param('id');
 

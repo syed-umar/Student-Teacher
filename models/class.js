@@ -9,7 +9,9 @@ var classSchema = mongoose.Schema({
     schoolName: String,
     description: String,
     packageName: String,
-    classID: String	
+    classID: String,
+    starttime: String,
+    endtime: String	
 });
 
 // methods ======================

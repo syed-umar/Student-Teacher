@@ -58,18 +58,72 @@ router.get('/createclass', function(req, res) {
 
 /* GET Admin edit class */
 router.get('/editclasses', function(req, res) {
-	// if (req.session.isAdmin && req.isAuthenticated()) {
-				res.locals.logged = 1;
-		res.render('editclasses', {
-			title: 'Admin Edit Class',
-			heading: '',
-			user: req.user
-		});
-		
+	if (req.session.isAdmin && req.isAuthenticated()) {
 
-	// } else {
-	// 	res.redirect('/');
-	// }
+		var _Class = require('../models/class');
+
+		_Class.find(function(err, classes) {
+			if (err) {
+				res.send(err);
+			} else {
+				var totalClasses = classes.length, //get length
+					pageSize = 3,
+					pageCount = totalClasses / pageSize,
+					currentPage = 1,
+					//classes = [], //get classes
+					classesArrays = [],
+					classesList = [];
+
+					pageCount = Math.ceil(pageCount); 
+					//console.log(pageCount);
+
+
+				//split list into groups
+				while (classes.length > 0) {
+					classesArrays.push(classes.splice(0, pageSize));
+				}
+
+				//set current page if specifed as get variable (eg: /?page=2)
+				if (typeof req.query.page !== 'undefined') {
+
+					currentPage = +req.query.page;	
+					//console.log(req.query.page);
+
+					// if(req.query.page > pageCount){
+					// 	currentPage = +parseInt(pageCount);
+					// } else 
+					// if(req.query.page <= 0){
+					// 	currentPage = 1;
+					// } else {
+						
+					// }
+					
+				}
+
+				//show list of students from group
+				classesList = classesArrays[+currentPage - 1];
+				
+
+
+				res.locals.logged = 1;
+				res.render('editclasses', {
+					title: 'Admin Edit Classes',
+					heading: '',
+					user: req.user,
+					classes: classesList,
+					pageSize: pageSize,
+					totalClasses: totalClasses,
+					pageCount: pageCount,
+					currentPage: currentPage
+				});
+			}
+		});
+
+
+
+	} else {
+		res.redirect('/');
+	}
 });
 
 // router.get('/editclass/:classid', function(req, res){

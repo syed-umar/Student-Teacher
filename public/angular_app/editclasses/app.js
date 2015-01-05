@@ -1,39 +1,58 @@
-//show error notify
-function showError($scope, $timeout, r) {
-	$scope.serverRes = true;
-	$timeout(function() {
-		$scope.serverRes = false;
-	}, 3000);
-	$scope.serverMsg = r.err;
-}
+// //show error notify
+// function showError($scope, $timeout, r) {
+// 	$scope.serverRes = true;
+// 	$timeout(function() {
+// 		$scope.serverRes = false;
+// 	}, 3000);
+// 	$scope.serverMsg = r.err;
+// }
 
-//show Server Msg
-function showMsg($scope, $timeout, r) {
-	$scope.serverRes = true;
-	$timeout(function() {
-		$scope.serverRes = false;
-	}, 3000);
-	$scope.serverMsg = r.res;
-}
+// //show Server Msg
+// function showMsg($scope, $timeout, r) {
+// 	$scope.serverRes = true;
+// 	$timeout(function() {
+// 		$scope.serverRes = false;
+// 	}, 3000);
+// 	$scope.serverMsg = r.res;
+// }
 
 
-// app.js
-// create angular app
-var editClassApp = angular.module('editClassApp', []);
+// // app.js
+// // create angular app
+var editClassApp = angular.module('editClassApp', ['angularUtils.directives.dirPagination']);
 
+editClassApp.config(function(paginationTemplateProvider) {
+    paginationTemplateProvider.setPath('/bower_components/angular-utils-pagination/dirPagination.tpl.html');
+});
 
 // create angular controller
 editClassApp.controller('mainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
-	$scope.serverRes = false;
-	$scope.serverMsg = '';
-	// $scope.class_id = class_id;
-	$scope.classes;
+    $scope.users = [];
+    $scope.totalUsers = 0;
+    $scope.usersPerPage = 4// this should match however many results your API puts on one page
+    getResultsPage(1);
 
-	$scope.selectClass = function(id){
-		console.log(id);
-	}
+    $scope.pagination = {
+        current: 1
+    };
 
+    $scope.getClass = function(id){
+        alert(id);
+    }
 
+    $scope.pageChanged = function(newPage) {
+        getResultsPage(newPage);
+    };
+
+    function getResultsPage(pageNumber) {
+        // this is just an example, in reality this stuff should be in a service
+        // $http.get('/class?page=' + pageNumber + '&perpage=' + $scope.usersPerPage)
+        $http.get('/class?page=' + pageNumber )
+            .then(function(result) {
+                $scope.users = result.data.classes;
+                $scope.totalUsers = result.data.count;
+            });
+    }
 
 }]);

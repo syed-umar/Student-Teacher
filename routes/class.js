@@ -6,13 +6,27 @@ module.exports = function(app) {
      * GET list classes
      */
     app.get('/class', function(req, res) {
-        _Class.find(function(err, classes) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(classes);
-            }
-        });
+
+        var page = req.param('page', 1);
+        var perPage = req.param('perpage', 4);
+        page = page - 1;
+
+        _Class
+            .find()
+            //.select('local.email')
+            .limit(perPage)
+            .skip(Math.ceil(perPage * page))
+            // .sort({email: 'asc'})
+            .exec(function(err, classes) {
+                _Class.count().exec(function(err, count) {
+                    // console.log(count);
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.json({"count": count, "classes": classes});
+                    }
+                });
+            });
     });
 
     /*

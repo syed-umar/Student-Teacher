@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-app="editClassApp" ng-controller="mainController">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
+                                <h3 class="box-title">Select Class</h3>
+
+                            </div>
+                            <div class="box-body">
+                                <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                                
+                                <ul class="list-unstyled" >
+                                    <li dir-paginate="user in users | itemsPerPage: usersPerPage" total-items="totalUsers" >
+                                        <a href="#" ng-click="getClass(user._id)">{{ user.className }}</a>
+                                    </li>
+                                    
+                                </ul>    
+                            </div><!-- /.box-body -->
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-if="showClass">
+                        
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">Edit Class</h3>
+                            </div><!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" novalidate name="editForm">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Class Name</label>
+                                        <input type="text" value="{{ class.className }}" ng-model="class.className" name="classname" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.classname.$dirty && editForm.classname.$invalid">
+                                            <span ng-show="editForm.classname.$error.required">Class Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Class Category</label>
+                                        <input type="text" value="{{ class.classCategory }}" ng-model="class.classCategory" name="classcategory" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.classcategory.$dirty && editForm.classcategory.$invalid">
+                                            <span ng-show="editForm.classcategory.$error.required">Class Category is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <input type="text" value="{{ class.description }}" ng-model="class.description" name="description" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.description.$dirty && editForm.description.$invalid">
+                                            <span ng-show="editForm.description.$error.required">Description is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Package Name</label>
+                                        <input type="text" value="{{ class.packageName }}" ng-model="class.packageName" name="packageName" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.packageName.$dirty && editForm.packageName.$invalid">
+                                            <span ng-show="editForm.packageName.$error.required">Package Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Class ID</label>
+                                        <input type="text" value="{{ class.classID }}" ng-model="class.classID" name="classID" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.classID.$dirty && editForm.classID.$invalid">
+                                            <span ng-show="editForm.classID.$error.required">Class ID is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>School Name</label>
+                                        <input type="text" value="{{ class.schoolName }}" ng-model="class.schoolName" name="schoolName" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.schoolName.$dirty && editForm.schoolName.$invalid">
+                                            <span ng-show="editForm.schoolName.$error.required">School Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Start time</label>
+                                        <input type="text" value="{{ class.starttime }}" ng-model="class.starttime" name="starttime" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.starttime.$dirty && editForm.starttime.$invalid">
+                                            <span ng-show="editForm.starttime.$error.required">Start time is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End time</label>
+                                        <input type="text" value="{{ class.endtime }}" ng-model="class.endtime" name="endtime" class="form-control" required>
+                                        <span style="color:red" ng-show="editForm.endtime.$dirty && editForm.endtime.$invalid">
+                                            <span ng-show="editForm.endtime.$error.required">End time is required.</span>
+                                        </span>
+                                    </div>
+                                </div><!-- /.box-body -->
+
+                                <div class="box-footer">
+                                    <button class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="editClassfunc(editForm.$valid)">Submit</button>
+                                    <span>{{ serverMsg }}</span>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script>
+    </script>
+    <script src="/angular/angular.min.js"></script>
+
+    <script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
+    <script src="/angular_app/editclasses/app.js"></script>
+
+</body>
+</html>

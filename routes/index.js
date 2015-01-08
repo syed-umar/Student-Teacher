@@ -72,6 +72,20 @@ router.get('/editclasses', function(req, res) {
 	// }
 });
 
+/* GET Admin create class */
+router.get('/classreg', function(req, res) {
+	// if (req.session.isAdmin && req.isAuthenticated()) {
+		res.locals.logged = 1;
+		res.render('classreg', {
+			title: 'Class Registration',
+			heading: '',
+			user: req.user
+		});
+	// } else {
+	// 	res.redirect('/');
+	// }
+});
+
 // router.get('/editclass/:classid', function(req, res){
 // 	if(req.session.isAdmin && req.isAuthenticated()){
 

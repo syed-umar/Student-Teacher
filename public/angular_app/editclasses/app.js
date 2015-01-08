@@ -30,15 +30,37 @@ editClassApp.controller('mainController', ['$scope', '$http', '$timeout', functi
 
     $scope.users = [];
     $scope.totalUsers = 0;
-    $scope.usersPerPage = 4// this should match however many results your API puts on one page
+    $scope.usersPerPage = 4 // this should match however many results your API puts on one page
+    $scope.showClass = false;
     getResultsPage(1);
 
     $scope.pagination = {
         current: 1
     };
 
-    $scope.getClass = function(id){
-        alert(id);
+    $scope.editClassfunc = function(isValid) {
+        if (isValid) {
+            $http.put('/class', $scope.class).
+            success(function(data, status, headers, config) {
+                if (data.res == "Class Updated!") {
+                    $scope.serverMsg = data.res;           
+                } else {
+                    $scope.serverMsg = data.err;
+                }
+
+            }).
+            error(function(data, status, headers, config) {
+                
+            });
+        }
+    }
+
+    $scope.getClass = function(id) {
+        $http.get('/class/' + id)
+            .then(function(result) {
+                $scope.class = result.data;
+                $scope.showClass = true;
+            });
     }
 
     $scope.pageChanged = function(newPage) {
@@ -48,7 +70,7 @@ editClassApp.controller('mainController', ['$scope', '$http', '$timeout', functi
     function getResultsPage(pageNumber) {
         // this is just an example, in reality this stuff should be in a service
         // $http.get('/class?page=' + pageNumber + '&perpage=' + $scope.usersPerPage)
-        $http.get('/class?page=' + pageNumber )
+        $http.get('/class?page=' + pageNumber)
             .then(function(result) {
                 $scope.users = result.data.classes;
                 $scope.totalUsers = result.data.count;

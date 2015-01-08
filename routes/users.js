@@ -36,6 +36,40 @@ module.exports = function(app) {
         });
 
         /*
+         * GET all students
+         */
+        app.get('/user/list/students', function(req, res) {
+
+            User.find({
+                "local.userType": "student"
+            }, function(err, user) {
+                // if there are any errors, return the error
+                if (err) {
+                    res.send(err);
+                } else if (user) {
+                    res.json(user);
+                }
+            });
+        });
+
+        /*
+         * GET all teachers
+         */
+        app.get('/user/list/teachers', function(req, res) {
+
+            User.find({
+                "local.userType": "teacher"
+            }, function(err, user) {
+                // if there are any errors, return the error
+                if (err) {
+                    res.send(err);
+                } else if (user) {
+                    res.json(user);
+                }
+            });
+        });
+
+        /*
          * POST to add
          */
         app.post('/user', function(req, res) {

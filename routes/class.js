@@ -5,6 +5,20 @@ module.exports = function(app) {
     /*
      * GET list classes
      */
+    app.get('/class/list', function(req, res) {
+        _Class.find(function(err, _class) {
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (_class) {
+                res.json(_class);
+            }
+        });
+    });
+
+    /*
+     * GET list classes with pagination
+     */
     app.get('/class', function(req, res) {
 
         var page = req.param('page', 1);
@@ -23,7 +37,10 @@ module.exports = function(app) {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.json({"count": count, "classes": classes});
+                        res.json({
+                            "count": count,
+                            "classes": classes
+                        });
                     }
                 });
             });
@@ -53,7 +70,7 @@ module.exports = function(app) {
      */
     app.post('/class', function(req, res) {
 
-        var className = req.param('classname');
+        var className = req.param('className');
         var classCategory = req.param('classCategory');
         var description = req.param('description');
         var packageName = req.param('packageName');

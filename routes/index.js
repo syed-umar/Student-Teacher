@@ -11,6 +11,7 @@ router.get('/', function(req, res) {
 	}
 
 	res.locals.logged = 0;
+	res.locals.isAdmin = req.session.isAdmin;
 
 	if (req.isAuthenticated()) {
 		res.locals.logged = 1;
@@ -32,6 +33,7 @@ router.get('/', function(req, res) {
 router.get('/admin', function(req, res) {
 	if (req.session.isAdmin && req.isAuthenticated()) {
 		res.locals.logged = 1;
+		res.locals.isAdmin = req.session.isAdmin;
 		res.render('adminpanel', {
 			title: 'Admin',
 			heading: 'Admin actions',
@@ -46,6 +48,7 @@ router.get('/admin', function(req, res) {
 router.get('/createclass', function(req, res) {
 	if (req.session.isAdmin && req.isAuthenticated()) {
 		res.locals.logged = 1;
+		res.locals.isAdmin = req.session.isAdmin;
 		res.render('createclass', {
 			title: 'Admin Create Class',
 			heading: '',
@@ -59,7 +62,8 @@ router.get('/createclass', function(req, res) {
 /* GET Admin edit class */
 router.get('/editclasses', function(req, res) {
 	// if (req.session.isAdmin && req.isAuthenticated()) {
-				res.locals.logged = 1;
+		res.locals.logged = 1;
+		res.locals.isAdmin = req.session.isAdmin;
 		res.render('editclasses', {
 			title: 'Admin Edit Class',
 			heading: '',
@@ -74,16 +78,17 @@ router.get('/editclasses', function(req, res) {
 
 /* GET Admin create class */
 router.get('/classreg', function(req, res) {
-	// if (req.session.isAdmin && req.isAuthenticated()) {
+	if (req.session.isAdmin && req.isAuthenticated()) {
+		res.locals.isAdmin = req.session.isAdmin;
 		res.locals.logged = 1;
 		res.render('classreg', {
 			title: 'Class Registration',
 			heading: '',
 			user: req.user
 		});
-	// } else {
-	// 	res.redirect('/');
-	// }
+	} else {
+		res.redirect('/');
+	}
 });
 
 // router.get('/editclass/:classid', function(req, res){
@@ -108,6 +113,7 @@ router.get('/classreg', function(req, res) {
 router.get('/register', function(req, res) {
 
 	res.locals.logged = 0;
+	res.locals.isAdmin = req.session.isAdmin;
 
 	if (req.isAuthenticated()) {
 		res.locals.logged = 1;
@@ -126,6 +132,7 @@ router.get('/editprofile', function(req, res) {
 	var User = require('../models/user');
 
 	res.locals.logged = 0;
+	res.locals.isAdmin = req.session.isAdmin;
 
 	if (req.isAuthenticated()) {
 		res.locals.logged = 1;

@@ -47,19 +47,7 @@ module.exports = function(app, passport) {
 							return next(err);
 						}
 
-						//check admin
-		                var admins = require('../config/admins');
-		                admins.emails.forEach(function(admin) {
-		                    if(admin == user.local.email){
-		                    	req.session.isAdmin = true;
-		                    }
-		                });
-
-		                //console.log(req.user.isAdmin);
-
-
-						//console.log(req.body.remember);
-
+						
 						//set remember cookie
 						if (req.body.remember == "on") {
 							req.session.cookie.maxAge = 6000000 * 60 * 24 * 30;
@@ -67,10 +55,20 @@ module.exports = function(app, passport) {
 							req.session.cookie.expires = false;
 						}
 
-						//res.send(user);
-						//console.log(req.user);
-						//res.end();
-						res.redirect('/');
+						//check admin
+		                var admins = require('../config/admins');
+		                admins.emails.forEach(function(admin) {
+		                    if(admin == user.local.email){
+		                    	req.session.isAdmin = true;
+		                    	res.locals.isAdmin = true;
+		                    	res.redirect('/admin');
+		                    } else {
+		                    	res.locals.isAdmin = false;
+		                    	res.redirect('/');
+		                    }
+		                });
+						
+						
 					});
 
 					//next(null, user);

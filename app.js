@@ -9,7 +9,8 @@ var mongoose = require('mongoose');
 var routes = require('./routes/index');
 
 //connect to db
-var db = mongoose.connect('mongodb://localhost:27017/StudentTeacherDB');
+//var db = mongoose.connect('mongodb://localhost:27017/StudentTeacherDB');
+var db = mongoose.connect('mongodb://nodejitsu:827578fcbfc33e31bb2ef44d1342e88c@troup.mongohq.com:10066/nodejitsudb3278735468');
 
 var app = express();
 
@@ -51,7 +52,7 @@ require('./routes/passport')(app, passport);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/editclass',  express.static(__dirname + '/public'));
+app.use('/editclasses',  express.static(__dirname + '/public'));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

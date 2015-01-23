@@ -70,7 +70,7 @@ module.exports = function(app) {
      */
     app.post('/class', function(req, res) {
 
-        var className = req.param('className');
+        var className = req.param('classname');
         var classCategory = req.param('classCategory');
         var description = req.param('description');
         var packageName = req.param('packageName');

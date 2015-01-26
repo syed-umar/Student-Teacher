@@ -45,6 +45,7 @@ app.use(cookieParser());
 app.use('/', routes);
 require('./routes/users')(app);
 require('./routes/class')(app);
+require('./routes/classReg')(app);
 
 //Auth 
 require('./config/passport')(app, passport);

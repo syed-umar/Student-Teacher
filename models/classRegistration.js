@@ -4,11 +4,9 @@ var mongoose = require('mongoose');
 
 // define the schema for our class model
 var classRegSchema = mongoose.Schema({
-    students: [String],
-    teachers: [String],
+    students: [],
+    teachers: [],
     class_id: String,
-    classStartTime: String,
-    classEndTime: String,
     classID: String
 });
 

@@ -23,7 +23,7 @@ module.exports = function(app) {
         var _id = req.param('id');
 
         ClassReg.findOne({
-            _id: _id
+            class_id: _id
         }, function(err, classReg) {
             // if there are any errors, return the error
             if (err) {
@@ -35,15 +35,97 @@ module.exports = function(app) {
     });
 
     /*
+     * GET teachers
+     */
+    app.get('/getTeachersInClass/:id', function(req, res) {
+
+        var _id = req.param('id');
+
+        ClassReg.findOne({
+            class_id: _id
+        }, function(err, classReg) {
+
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (classReg) {
+                var User = require('../models/user');
+
+                User
+                    .find()
+                    .select('local.firstName local.lastName')
+                    .where('_id')
+                    .in(classReg.teachers).exec(function(err, teachers) {
+                        if (err) {
+                            res.send(err);
+                        } else if(teachers.length > 0) {
+                            res.send(teachers);
+                        } else {
+                            res.send('[]');
+                        }
+                    });
+            } else {
+                res.send('[]');
+            }
+
+
+        });
+
+        //res.end();
+    });
+
+    /*
+     * GET students
+     */
+    app.get('/getStudentsInClass/:id', function(req, res) {
+
+        var _id = req.param('id');
+
+        ClassReg.findOne({
+            class_id: _id
+        }, function(err, classReg) {
+
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (classReg) {
+                var User = require('../models/user');
+
+                User
+                    .find()
+                    .select('local.firstName local.lastName')
+                    .where('_id')
+                    .in(classReg.students).exec(function(err, students) {
+                        if (err) {
+                            res.send(err);
+                        } else if(students.length > 0) {
+                            res.send(students);
+                        } else {
+                            res.send('[]');
+                        }
+                    });
+            } else {
+                res.send('[]');
+            }
+
+
+        });
+
+        //res.end();
+    });
+
+    /*
      * POST Add User
      */
     app.post('/classRegistration/add', function(req, res) {
 
+        var async = require('async');
+
         var user = req.param('user');
-        var type = req.param('type');
         var class_id = req.param('class_id');
-        var classStartTime = req.param('classStartTime');
-        var classEndTime = req.param('classEndTime');
+        var classRegtype = req.param('classRegtype');
+
+        // var id = req.param('id');
 
 
         ClassReg.findOne({
@@ -54,41 +136,93 @@ module.exports = function(app) {
                 res.send(err);
             } else if (classReg) {
 
-                if (type == "student") {
-                    classReg.student.push(user);
-                } else if (type == "teacher") {
-                    classReg.teacher.push(user);
+                //check duplicate addition
+
+
+                if (classRegtype == "student") {
+
+                    async.series([
+                            function(callback) {
+                                classReg.students.forEach(function(item) {
+                                    if (item == user._id) {
+                                        callback('found');
+                                    }
+                                });
+                                callback(null);
+                            },
+                            function(callback) {
+                                classReg.students.push(user._id);
+                                callback(null);
+                            }
+                        ],
+                        function(err, results) {
+                            if (err) {
+                                //console.log(err);
+                                res.send('Student Already Added!');
+                            } else {
+                                classReg.class_id = class_id;
+
+                                // save the user
+                                classReg.save(function(err) {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        res.send('ClassReg Updated!');
+                                    }
+                                });
+                            }
+                        });
+
+                } else if (classRegtype == "teacher") {
+                    async.series([
+                            function(callback) {
+                                classReg.teachers.forEach(function(item) {
+                                    if (item == user._id) {
+                                        callback('found');
+                                    }
+                                });
+                                callback(null);
+                            },
+                            function(callback) {
+                                classReg.teachers.push(user._id);
+                                callback(null);
+                            }
+                        ],
+                        function(err, results) {
+                            if (err) {
+                                res.send('Teacher Already Added!');
+                            } else {
+                                classReg.class_id = class_id;
+
+                                // save the user
+                                classReg.save(function(err) {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        res.send('ClassReg Updated!');
+                                    }
+                                });
+                            }
+                        });
                 }
 
 
-                classReg.class_id = class_id;
-                classReg.classStartTime = classStartTime;
-                classReg.classEndTime = classEndTime;
 
-                // save the user
-                classReg.save(function(err) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        res.send('ClassReg Updated!');
-                    }
-                });
             } else {
+
+                //create new 
                 var newClassReg = new ClassReg();
 
-                if (type == "student") {
-                    newClassReg.student.push(user);
-                } else if (type == "teacher") {
-                    newClassReg.teacher.push(user);
+                if (user.local.userType == "student") {
+                    newClassReg.students.push(user._id);
+                } else if (user.local.userType == "teacher") {
+                    newClassReg.teachers.push(user._id);
                 }
 
-
                 newClassReg.class_id = class_id;
-                newClassReg.classStartTime = classStartTime;
-                newClassReg.classEndTime = classEndTime;
 
                 // save the user
-                newClass.save(function(err) {
+                newClassReg.save(function(err) {
                     if (err) {
                         res.send(err);
                     } else {
@@ -99,6 +233,16 @@ module.exports = function(app) {
         });
     });
 
+    //check duplicate addition
+    function checkDuplicate(id, users, cb) {
+
+        users.forEach(function(item) {
+            if (item == id) {
+                console.log('found');
+                cb('found');
+            }
+        });
+    }
 
     /*
      * DELETE to delete User from reg.
@@ -107,7 +251,9 @@ module.exports = function(app) {
 
         var id = req.param('id');
 
-        ClassReg.find({ students: id }, function(err, item){
+        ClassReg.find({
+            students: id
+        }, function(err, item) {
             if (err) {
                 res.send(err);
             } else {

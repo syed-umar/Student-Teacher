@@ -95,11 +95,7 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 			classRegtype: $scope.classRegtype
 		}).
 		success(function(data, status, headers, config) {
-			// if (data.res == "Class added!") {
-			// 	showMsg($scope, $timeout, data);
-			// } else {
-			// 	showError($scope, $timeout, data);
-			// }
+			
 			showMsg($scope, $timeout, data);
 
 			$scope.updateLists();
@@ -108,6 +104,28 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 		error(function(data, status, headers, config) {
 			// showError($scope, $timeout, data);
 			showMsg($scope, $timeout, data);
+		});
+	}
+
+	$scope.deleteTeacher = function(user_id){
+		$http.delete('/classRegistration/deleteTeacher/'+ $scope.class._id + '/' + user_id)
+		.success(function(data) {
+			if(data == "removed"){
+				$scope.updateLists();
+			} else{
+				alert('problem');
+			}
+		});
+	}
+
+	$scope.deleteStudent = function(user_id){
+		$http.delete('/classRegistration/deleteStudent/'+ $scope.class._id + '/' + user_id)
+		.success(function(data) {
+			if(data == "removed"){
+				$scope.updateLists();
+			} else{
+				alert('problem');
+			}
 		});
 	}
 

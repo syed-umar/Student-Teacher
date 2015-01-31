@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var routes = require('./routes/index');
 
 //connect to db
-//var db = mongoose.connect('mongodb://localhost:27017/StudentTeacherDB');
+// var db = mongoose.connect('mongodb://localhost:27017/StudentTeacherDB');
 var db = mongoose.connect('mongodb://nodejitsu:827578fcbfc33e31bb2ef44d1342e88c@troup.mongohq.com:10066/nodejitsudb3278735468');
 
 var app = express();

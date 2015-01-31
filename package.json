@@ -1,6 +1,6 @@
 {
   "name": "teacher-student-app",
-  "version": "0.0.1-2",
+  "version": "0.0.1-4",
   "private": true,
   "dependencies": {
     "express": "~4.2.0",
@@ -20,7 +20,8 @@
     "express-session": "^1.9.3",
     "mongoose": "^3.8.21",
     "cookie-session": "^1.1.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "async": "^0.9.0"
   },
   "subdomain": "student-teacher",
   "scripts": {

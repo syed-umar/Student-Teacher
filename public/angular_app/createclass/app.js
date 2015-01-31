@@ -19,7 +19,7 @@ function showMsg($scope, $timeout, r) {
 
 // app.js
 // create angular app
-var createClassApp = angular.module('createClassApp', []);
+var createClassApp = angular.module('createClassApp', ['ui.date']);
 
 
 // create angular controller
@@ -50,7 +50,8 @@ createClassApp.controller('mainController', ['$scope', '$http', '$timeout', func
 				showError($scope, $timeout, data);
 			});
 		}
-
 	};
+
+	
 
 }]);

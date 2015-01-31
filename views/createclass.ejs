@@ -82,24 +82,50 @@
                                             <span ng-show="classForm.class_desc.$error.required">Description is required.</span>
                                         </span>
                                     </div>
+
+                                    
+
+                                    
+                                    
                                     <div class="form-group">
-                                        <label for="class_start_time">Class - Start Time</label>
-                                        <input type="text" ng-model="class.starttime" required class="form-control" name="class_start_time" placeholder="Enter Class Start Time">
-                                        <span style="color:red" ng-show="classForm.class_start_time.$dirty && classForm.class_start_time.$invalid">
-                                            <span ng-show="classForm.class_start_time.$error.required">Start Time is required.</span>
-                                        </span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_end_time">Class - End Time</label>
-                                        <input ng-model="class.endtime" required type="text" class="form-control" name="class_end_time" placeholder="Enter Class End Time">
-                                        <span style="color:red" ng-show="classForm.class_end_time.$dirty && classForm.class_end_time.$invalid">
-                                            <span ng-show="classForm.class_end_time.$error.required">End Time is required.</span>
-                                        </span>
-                                    </div>    
+                                     <table class="table">
+                                        <tr>
+                                            <td style="border-top: none">
+                                                <div class="form-group">
+
+                                                    <label for="class_start_time">Class - Start Time {{openedstart }}</label>
+                                                    
+                                                    <input ui-date name="class_start_time" required class="form-control" ng-model="class.starttime" ui-date-format="dd-MM-yy">
+
+                                                    <span style="color:red" ng-show="classForm.class_start_time.$dirty && classForm.class_start_time.$invalid">
+                                                        <span ng-show="classForm.class_start_time.$error.required">Start Time is required.</span>
+                                                    </span>
+
+
+                                                    
+                                                    
+                                                    
+                                                </div>            
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top: none">
+                                                <div class="form-group">
+                                                    <label for="class_end_time">Class - End Time</label>
+                                                    
+                                                    <input ui-date name="class_end_time" required class="form-control" ng-model="class.endtime" ui-date-format="dd-MM-yy">
+                                                    
+                                                    <span style="color:red" ng-show="classForm.class_end_time.$dirty && classForm.class_end_time.$invalid">
+                                                        <span ng-show="classForm.class_end_time.$error.required">End Time is required.</span>
+                                                    </span>
+                                                </div>            
+                                            </td>
+                                        </tr>
+                                    </table> 
                                 </div>
 
 
-
+                                <!-- <div class="clearfix"></div> -->
 
                             </div><!-- /.box-body -->
 
@@ -115,7 +141,10 @@
     </div><!-- ./wrapper -->
 
     <script src="/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
     <script src="/angular_app/createclass/app.js"></script>
+
 
 </body>
 </html>

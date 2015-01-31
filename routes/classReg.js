@@ -58,7 +58,7 @@ module.exports = function(app) {
                     .in(classReg.teachers).exec(function(err, teachers) {
                         if (err) {
                             res.send(err);
-                        } else if(teachers.length > 0) {
+                        } else if (teachers.length > 0) {
                             res.send(teachers);
                         } else {
                             res.send('[]');
@@ -98,7 +98,7 @@ module.exports = function(app) {
                     .in(classReg.students).exec(function(err, students) {
                         if (err) {
                             res.send(err);
-                        } else if(students.length > 0) {
+                        } else if (students.length > 0) {
                             res.send(students);
                         } else {
                             res.send('[]');
@@ -167,7 +167,7 @@ module.exports = function(app) {
                                     if (err) {
                                         res.send(err);
                                     } else {
-                                        res.send('ClassReg Updated!');
+                                        res.send('Class Registration Updated!');
                                     }
                                 });
                             }
@@ -199,7 +199,7 @@ module.exports = function(app) {
                                     if (err) {
                                         res.send(err);
                                     } else {
-                                        res.send('ClassReg Updated!');
+                                        res.send('Class Registration Updated!');
                                     }
                                 });
                             }
@@ -226,7 +226,7 @@ module.exports = function(app) {
                     if (err) {
                         res.send(err);
                     } else {
-                        res.send('ClassReg Updated!');
+                        res.send('Class Registration Updated!');
                     }
                 });
             }
@@ -247,21 +247,76 @@ module.exports = function(app) {
     /*
      * DELETE to delete User from reg.
      */
-    app.delete('/classRegistration/deleteuser/:id', function(req, res) {
+    app.delete('/classRegistration/deleteTeacher/:class_id/:user_id', function(req, res) {
 
-        var id = req.param('id');
+        var class_id = req.param('class_id');
+        var user_id = req.param('user_id');
 
-        ClassReg.find({
-            students: id
+        ClassReg.findOne({
+            'class_id': class_id,
+            'teachers': user_id
         }, function(err, item) {
             if (err) {
                 res.send(err);
             } else {
-                console.log(item);
+                //res.send(item);
+                var index = item.teachers.indexOf(user_id);
+                if (index > -1) {
+                    item.teachers.splice(index, 1);
+
+                    // save the record
+                    item.save(function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.send('removed');
+                        }
+                    });
+                } else {
+                    res.send('error');
+                }
             }
         });
 
     });
+
+    /*
+     * DELETE to delete User from reg.
+     */
+    app.delete('/classRegistration/deleteStudent/:class_id/:user_id', function(req, res) {
+
+        var class_id = req.param('class_id');
+        var user_id = req.param('user_id');
+
+        ClassReg.findOne({
+            'class_id': class_id,
+            'students': user_id
+        }, function(err, item) {
+            if (err) {
+                res.send(err);
+            } else {
+                //res.send(item);
+                var index = item.students.indexOf(user_id);
+                if (index > -1) {
+                    item.students.splice(index, 1);
+
+                    // save the record
+                    item.save(function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.send('removed');
+                        }
+                    });
+                } else {
+                    res.send('error');
+                }
+            }
+        });
+
+    });
+
+
 
     /*
      * DELETE to delete Class reg.

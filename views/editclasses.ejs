@@ -94,7 +94,7 @@
                                             <span ng-show="editForm.schoolName.$error.required">School Name is required.</span>
                                         </span>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>Start time</label>
                                         <input type="text" value="{{ class.starttime }}" ng-model="class.starttime" name="starttime" class="form-control" required>
                                         <span style="color:red" ng-show="editForm.starttime.$dirty && editForm.starttime.$invalid">
@@ -107,12 +107,45 @@
                                         <span style="color:red" ng-show="editForm.endtime.$dirty && editForm.endtime.$invalid">
                                             <span ng-show="editForm.endtime.$error.required">End time is required.</span>
                                         </span>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <table class="table">
+                                        <tr>
+                                            <td style="border-top: none">
+                                                <div class="form-group">
+                                                    <label for="class_start_time">Class - Start Time </label>
+                                                    
+                                                    <input ui-date name="class_start_time" required class="form-control" ng-model="class.starttime" ui-date-format="dd-MM-yy">
+                                                    
+                                                    <span style="color:red" ng-show="editForm.class_start_time.$dirty && editForm.class_start_time.$invalid">
+                                                        <span ng-show="editForm.class_start_time.$error.required">Start Time is required.</span>
+                                                    </span>
+                                                </div>            
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top: none">
+                                                <div class="form-group">
+                                                    <label for="class_end_time">Class - End Time</label>
+
+                                                    <input ui-date name="class_end_time" required class="form-control" ng-model="class.endtime" ui-date-format="dd-MM-yy">
+
+                                                    <span style="color:red" ng-show="editForm.class_end_time.$dirty && editForm.class_end_time.$invalid">
+                                                        <span ng-show="editForm.class_end_time.$error.required">End Time is required.</span>
+                                                    </span>
+                                                </div>            
+                                            </td>
+                                        </tr>
+                                    </table>
                                     </div>
                                 </div><!-- /.box-body -->
 
                                 <div class="box-footer">
+                                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+
+                                        <p>{{ serverMsg }}</p>
+                                    </div>
                                     <button class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="editClassfunc(editForm.$valid)">Submit</button>
-                                    <span>{{ serverMsg }}</span>
                                 </div>
                             </form>
                         </div>
@@ -127,8 +160,9 @@
     <script>
     </script>
     <script src="/angular/angular.min.js"></script>
-
     <script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
+    <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
     <script src="/angular_app/editclasses/app.js"></script>
 
 </body>

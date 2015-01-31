@@ -1,25 +1,18 @@
-// //show error notify
-// function showError($scope, $timeout, r) {
-// 	$scope.serverRes = true;
-// 	$timeout(function() {
-// 		$scope.serverRes = false;
-// 	}, 3000);
-// 	$scope.serverMsg = r.err;
-// }
 
-// //show Server Msg
-// function showMsg($scope, $timeout, r) {
-// 	$scope.serverRes = true;
-// 	$timeout(function() {
-// 		$scope.serverRes = false;
-// 	}, 3000);
-// 	$scope.serverMsg = r.res;
-// }
+
+//show Server Msg
+function showMsg($scope, $timeout, r) {
+    $scope.serverRes = true;
+    $timeout(function() {
+        $scope.serverRes = false;
+    }, 3000);
+    $scope.serverMsg = r.res;
+}
 
 
 // // app.js
 // // create angular app
-var editClassApp = angular.module('editClassApp', ['angularUtils.directives.dirPagination']);
+var editClassApp = angular.module('editClassApp', ['angularUtils.directives.dirPagination', 'ui.date']);
 
 editClassApp.config(function(paginationTemplateProvider) {
     paginationTemplateProvider.setPath('/bower_components/angular-utils-pagination/dirPagination.tpl.html');
@@ -28,6 +21,7 @@ editClassApp.config(function(paginationTemplateProvider) {
 // create angular controller
 editClassApp.controller('mainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
+    $scope.openedstart = false;
     $scope.users = [];
     $scope.totalUsers = 0;
     $scope.usersPerPage = 4 // this should match however many results your API puts on one page
@@ -38,14 +32,16 @@ editClassApp.controller('mainController', ['$scope', '$http', '$timeout', functi
         current: 1
     };
 
+    
     $scope.editClassfunc = function(isValid) {
         if (isValid) {
             $http.put('/class', $scope.class).
             success(function(data, status, headers, config) {
                 if (data.res == "Class Updated!") {
-                    $scope.serverMsg = data.res;           
+                    $scope.serverMsg = data.res;
+                    showMsg($scope, $timeout, data);           
                 } else {
-                    $scope.serverMsg = data.err;
+                    showMsg($scope, $timeout, data);
                 }
 
             }).
@@ -76,5 +72,6 @@ editClassApp.controller('mainController', ['$scope', '$http', '$timeout', functi
                 $scope.totalUsers = result.data.count;
             });
     }
+
 
 }]);

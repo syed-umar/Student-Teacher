@@ -1,5 +1,9 @@
 var User = require('../models/user');
 
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
+
 module.exports = function(app) {
 
         /*
@@ -142,7 +146,7 @@ module.exports = function(app) {
 
 
         /*
-         * POST to deleteuser.
+         * Update user.
          */
 
         app.put('/user', function(req, res) {
@@ -291,6 +295,116 @@ module.exports = function(app) {
                 });
             }
         });
+
+        /*
+         * Upload file
+         */
+        app.post('/user/uploadpic', multipartMiddleware, function(req, res) {
+            var file = req.files.file;
+            var fs = require('fs');
+            var savePath = './public/uploads/'+req.user._id+'/files/';
+            
+            //check type
+            if(file.type == 'image/png' 
+                || file.type == 'image/jpg' 
+                || file.type == 'image/jpeg' 
+                || file.type == 'image/gif'){
+                //check size - 2mb
+                if(file.size <= 2000000){
+                    var fs = require('fs');
+
+                    //create save path
+                    if(!fs.exists(savePath)) {
+                        var mkdirp = require('mkdirp');
+                    
+                        mkdirp(savePath, function(err) { 
+                            if(err) console.log(err); 
+
+                        });
+                    };
+
+                    fs.readFile(file.path, function(err, data) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+
+                            //set extention
+                            var ext = '';
+                            if(file.type == 'image/png'){ ext = ".png";};
+                            if(file.type == 'image/jpg'){ ext = ".jpg";};
+                            if(file.type == 'image/jpeg'){ ext = ".jpeg";};
+                            if(file.type == 'image/gif'){ ext = ".gif";};
+
+                            fs.writeFile(savePath + 'profile', data, function(err) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.send('Saved pic');
+                                }
+                            });
+                        }
+
+                    });
+                } else {
+                    res.send('Size must be less the 2 MB');
+                }
+            } else if(file.type == 'application/pdf' 
+                || file.type == 'application/msword' 
+                || file.type == 'application/vnd.oasis.opendocument.text'){
+                //check size - 5mb
+                if(file.size <= 5000000){
+                    var fs = require('fs');
+
+                    //create save path
+                    if(!fs.exists(savePath)) {
+                        var mkdirp = require('mkdirp');
+                    
+                        mkdirp(savePath, function(err) { 
+                            if(err) console.log(err); 
+
+                        });
+                    };
+
+                    fs.readFile(file.path, function(err, data) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+
+                            //set extention 
+                            var ext = '';
+                            if(file.type == 'application/pdf'){ ext = ".pdf";};
+                            if(file.type == 'application/msword'){ ext = ".doc";};
+                            if(file.type == 'application/vnd.oasis.opendocument.text'){ ext = ".odt";};
+                            
+                            //file name
+                            // var uuid = require('node-uuid');
+
+                            //fs.writeFile(savePath + uuid.v1() + ext, data, function(err) {
+                            fs.writeFile(savePath + file.name, data, function(err) {
+                                if (err) {
+                                    res.send(err);
+                                } else {
+                                    res.send('Saved file');
+                                }
+                            });
+                        }
+
+                    });
+                } else {
+                    res.send('Size must be less the 5 MB');
+                }
+            } else {
+                res.send('Wrong format!');
+            }
+
+
+            
+
+
+            //res.end();
+        });
+
+
         /*
          * DELETE to deleteuser.
          */

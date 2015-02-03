@@ -144,11 +144,21 @@ router.get('/editprofile', function(req, res) {
 			if (err) {
 				res.send(err);
 			} else if (user) {
-				res.render('editprofile', {
-					title: 'Edit Profile',
-					heading: 'Change Information',
-					user: req.user
+
+				var filesPath = './public/uploads/'+req.user._id+'/files/';
+
+				//get user files
+				var fs = require('fs');
+				fs.readdir(filesPath, function(err, data){
+					res.render('editprofile', {
+						title: 'Edit Profile',
+						heading: 'Change Information',
+						user: req.user,
+						files: data
+					});	
 				});
+
+				
 			}
 		});
 

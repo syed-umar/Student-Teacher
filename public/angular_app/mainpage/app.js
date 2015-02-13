@@ -3,16 +3,25 @@
 var validationApp = angular.module('validationApp', []);
 
 // create angular controller
-validationApp.controller('mainController', function($scope) {
+validationApp.controller('mainController', function($scope, $http) {
+	
+});
 
-	// function to submit the form after all validation has occurred            
-	$scope.submitForm = function(isValid) {
+validationApp.controller('dataController', function($scope, $http) {
 
-		// check to make sure the form is completely valid
-		if (isValid) {
-			
+	$scope.showClass = false;
+
+	$http.get('/getclassregs/' + user_id)
+		.success(function(docs) {
+			$scope.classes = docs;
+		})
+		.error(function(err){
+			console.log(err);
+		});
+
+		$scope.showDetails = function(_class){
+			$scope.class = _class;
+			$scope.showClass = true;
 		}
-
-	};
 
 });

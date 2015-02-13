@@ -22,7 +22,7 @@ module.exports = function(app) {
     app.get('/class', function(req, res) {
 
         var page = req.param('page', 1);
-        var perPage = req.param('perpage', 4);
+        var perPage = req.param('perpage', 10);
         page = page - 1;
 
         _Class
@@ -78,6 +78,8 @@ module.exports = function(app) {
         var schoolName = req.param('schoolName');
         var starttime = req.param('starttime');
         var endtime = req.param('endtime');
+        var startingTime = req.param('startingTime');
+        var endingTime = req.param('endingTime');
 
         _Class.findOne({
             className: className
@@ -100,6 +102,8 @@ module.exports = function(app) {
                 newClass.schoolName = schoolName;
                 newClass.starttime = starttime;
                 newClass.endtime = endtime;
+                newClass.startingTime = startingTime;
+                newClass.endingTime = endingTime;
 
                 // save the user
                 newClass.save(function(err) {
@@ -132,6 +136,8 @@ module.exports = function(app) {
         var schoolName = req.param('schoolName');
         var starttime = req.param('starttime');
         var endtime = req.param('endtime');
+        var startingTime = req.param('startingTime');
+        var endingTime = req.param('endingTime');
 
         _Class.findOne({
             _id: _id
@@ -151,6 +157,8 @@ module.exports = function(app) {
                 _class.schoolName = schoolName;
                 _class.starttime = starttime;
                 _class.endtime = endtime;
+                _class.startingTime = startingTime;
+                _class.endingTime = endingTime;
 
                 // save the user
                 _class.save(function(err) {

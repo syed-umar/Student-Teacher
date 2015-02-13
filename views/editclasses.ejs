@@ -16,7 +16,7 @@
                     <small><%= heading %></small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
                     <li class="active"><%= title %></li>
                 </ol>
             </section>
@@ -113,12 +113,12 @@
                                         <tr>
                                             <td style="border-top: none">
                                                 <div class="form-group">
-                                                    <label for="class_start_time">Class - Start Time </label>
+                                                    <label for="class_start_time">Class - Start Date </label>
                                                     
                                                     <input ui-date name="class_start_time" required class="form-control" ng-model="class.starttime" ui-date-format="dd-MM-yy">
                                                     
                                                     <span style="color:red" ng-show="editForm.class_start_time.$dirty && editForm.class_start_time.$invalid">
-                                                        <span ng-show="editForm.class_start_time.$error.required">Start Time is required.</span>
+                                                        <span ng-show="editForm.class_start_time.$error.required">Start Date is required.</span>
                                                     </span>
                                                 </div>            
                                             </td>
@@ -126,18 +126,36 @@
                                         <tr>
                                             <td style="border-top: none">
                                                 <div class="form-group">
-                                                    <label for="class_end_time">Class - End Time</label>
+                                                    <label for="class_end_time">Class - End Date</label>
 
                                                     <input ui-date name="class_end_time" required class="form-control" ng-model="class.endtime" ui-date-format="dd-MM-yy">
 
                                                     <span style="color:red" ng-show="editForm.class_end_time.$dirty && editForm.class_end_time.$invalid">
-                                                        <span ng-show="editForm.class_end_time.$error.required">End Time is required.</span>
+                                                        <span ng-show="editForm.class_end_time.$error.required">End Date is required.</span>
                                                     </span>
                                                 </div>            
                                             </td>
                                         </tr>
                                     </table>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Start Time</label>
+                                        <input type="text" value="{{ class.startingTime }}" ng-model="class.startingTime" name="startingTime" class="form-control" required placeholder="Starting Time">
+                                        <span style="color:red" ng-show="editForm.startingTime.$dirty && editForm.startingTime.$invalid">
+                                            <span ng-show="editForm.startingTime.$error.required">Starting Time is required.</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>End Time</label>
+                                        <input type="text" value="{{ class.endingTime }}" ng-model="class.endingTime" name="endingTime" class="form-control" required placeholder="Ending Time">
+                                        <span style="color:red" ng-show="editForm.endingTime.$dirty && editForm.endingTime.$invalid">
+                                            <span ng-show="editForm.endingTime.$error.required">Ending Time is required.</span>
+                                        </span>
+                                    </div>
+
+                                    
                                 </div><!-- /.box-body -->
 
                                 <div class="box-footer">
@@ -157,8 +175,6 @@
         </aside><!-- /.right-side -->
     </div><!-- ./wrapper -->
 
-    <script>
-    </script>
     <script src="/angular/angular.min.js"></script>
     <script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
     <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>

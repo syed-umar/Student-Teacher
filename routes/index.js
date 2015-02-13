@@ -10,16 +10,26 @@ router.get('/', function(req, res) {
 		res.locals.serverMsg = null;
 	}
 
+
 	res.locals.logged = 0;
 	res.locals.isAdmin = req.session.isAdmin;
 
 	if (req.isAuthenticated()) {
+
 		res.locals.logged = 1;
+
+		//getClassRegs(req.user._id, function(docs){
+			//console.log(docs);
+		//});
+		
+
 		res.render('index', {
 			title: 'Home',
 			heading: 'Main page',
-			user: req.user
+			user: req.user,
+			// docs: docs
 		});
+
 	} else {
 		res.render('index', {
 			title: 'Home',
@@ -28,6 +38,112 @@ router.get('/', function(req, res) {
 	}
 
 });
+
+/* get Class reg info for main page */
+function getClassRegs(userID, cb){
+
+	var _Class = require('../models/class');
+	var User = require('../models/user');
+	var ClassReg = require('../models/classRegistration');
+
+	User.findOne({
+			'_id': userID
+		}, function(err, user) {
+			if (err) {
+				res.send('User not Found');
+			} else {
+				if (user.local.userType == 'teacher') {
+					ClassReg.find({
+						'teachers': {
+							$in: [
+								userID
+							]
+						}
+					}, function(err, docs) {
+						if (err) {
+							// res.send(err);
+							// return err;
+							cb(err);
+						} else if (docs) {
+
+							// //make array of ids
+							var class_ids = [];
+							docs.forEach(function(item){
+								class_ids.push(item.class_id);
+							});
+
+							// //find all the class details
+							_Class.find({
+								'_id': {
+									$in: class_ids
+								}
+							}, function(err, docs) {
+								if (err) {
+									// res.send(err);
+									// return err;
+									cb(err);
+								} else {
+									// res.send(docs);
+									// return docs;									
+									cb(docs);
+								}
+							});
+						} else {
+							// res.send('[]');
+							cb('[]');
+						}
+					});
+				} else if (user.local.userType == 'student') {
+
+					console.log(userID);
+					//get student classes regs
+					ClassReg.find({
+						'students': {
+							$in: [
+								userID
+							]
+						}
+					}, function(err, docs) {
+						console.log(err);
+						if (err) {
+							// res.send(err);
+							// return err;
+							cb(err);
+						} else if (docs) {
+								// console.log('st');
+								console.log(docs);
+							// //make array of ids
+							var class_ids = [];
+							docs.forEach(function(item){
+								class_ids.push(item.class_id);
+							});
+
+							// //find all the class details
+							_Class.find({
+								'_id': {
+									$in: class_ids
+								}
+							}, function(err, docs) {
+								if (err) {
+									// res.send(err);
+									// return err;
+									cb(err);
+								} else {
+									//res.send(docs);
+									// return docs;
+									cb(docs);
+								}
+							});
+						} else {
+							// res.send('[]');
+							// return '[]';
+							cb('[]');
+						}
+					});
+				}
+			}
+		});
+}
 
 /* GET Admin page */
 router.get('/admin', function(req, res) {

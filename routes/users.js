@@ -318,7 +318,11 @@ module.exports = function(app) {
                         var mkdirp = require('mkdirp');
                     
                         mkdirp(savePath, function(err) { 
-                            if(err) console.log(err); 
+                            if(err){ 
+                                console.log(err)
+                            } else {
+                                console.log('created');
+                            } 
 
                         });
                     };

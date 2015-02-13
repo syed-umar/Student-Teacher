@@ -44,7 +44,7 @@ signupValidationApp.controller('mainController', ['$scope', '$timeout', 'User', 
 				if(r.res == "That email is already taken"){
 					showError($scope, $timeout, r);
 				} else {
-					window.location.href = "http://localhost:3000/?msg=r1";
+					window.location.href = "http://student-teacher.nodejitsu.com";
 				}
 				
 			}, function(r) {

@@ -11,7 +11,9 @@ var classSchema = mongoose.Schema({
     packageName: String,
     classID: String,
     starttime: String,
-    endtime: String	
+    endtime: String,
+    startingTime: String,
+    endingTime: String	
 });
 
 // methods ======================

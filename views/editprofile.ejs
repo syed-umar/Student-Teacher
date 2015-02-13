@@ -16,7 +16,7 @@
               <small><%= heading %></small>
             </h1>
             <ol class="breadcrumb">
-              <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+              <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
               <li class="active"><%= title %></li>
             </ol>
           </section>
@@ -163,13 +163,15 @@
                     <div class="form-group">
                       <ul>
                         
-                        <% files.forEach(function(item){ 
-                          var url = 'uploads/' + user._id + '/files/' ; %>
-                          <% if(item == 'profile'){ %>
-                          <% } else { %>
-                          <li><a href="<%= url %><%= item %>" target="_blank" ><%= item %></a></li>
-                          <% } %>
-                        <% }) %>
+                        <% if (typeof files != 'undefined'){ %>
+                          <% files.forEach(function(item){ 
+                            var url = 'uploads/' + user._id + '/files/' ; %>
+                            <% if(item == 'profile'){ %>
+                            <% } else { %>
+                            <li><a href="<%= url %><%= item %>" target="_blank" ><%= item %></a></li>
+                            <% } %>
+                          <% }) %>
+                        <% } %>
                       </ul>
                     </div>
                     

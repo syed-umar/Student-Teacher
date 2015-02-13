@@ -24,7 +24,7 @@ editClassApp.controller('mainController', ['$scope', '$http', '$timeout', functi
     $scope.openedstart = false;
     $scope.users = [];
     $scope.totalUsers = 0;
-    $scope.usersPerPage = 4 // this should match however many results your API puts on one page
+    $scope.usersPerPage = 10 // this should match however many results your API puts on one page
     $scope.showClass = false;
     getResultsPage(1);
 

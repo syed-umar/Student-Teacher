@@ -181,6 +181,7 @@ editProfileApp.controller('mainController', ['$scope', 'fileUpload', '$http', '$
     $scope.user_id = user_id;
     $scope.Upload_btn = false;
     $scope.Upload_file_btn = false;
+    $scope.displayPage = false;
 
     //password form
     $scope.passwordFormMsg = false;
@@ -254,6 +255,14 @@ editProfileApp.controller('mainController', ['$scope', 'fileUpload', '$http', '$
         $scope.user = user.local;
         $scope.user.type = user.local.userType;
         $scope.user.password = '';
+
+        //display page
+        // $scope.displayPage = true;
+        $timeout(function() {
+            $scope.displayPage = true;
+            //console.log(angular.element('#app'));
+            angular.element('#app').attr('style', 'display: block;');
+        }, 2000);
     });
 
 

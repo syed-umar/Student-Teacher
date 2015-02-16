@@ -35,7 +35,7 @@
 
                 <% if(logged){ %>
 
-                <div ng-controller="dataController" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div ng-controller="dataController" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="app" style="display: none;">
 
                     Welcome, <%= user.local.firstName %> <%= user.local.lastName %>
 
@@ -111,7 +111,7 @@
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <img ng-src="/uploads/{{c._id}}/files/profile">
+                                                                <img style="width:150px; height:150px;" ng-src="/uploads/{{c._id}}/files/profile">
                                                             </td>
                                                         </tr>
                                                         <tr>

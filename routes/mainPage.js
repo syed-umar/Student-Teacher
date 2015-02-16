@@ -95,4 +95,46 @@ module.exports = function(app) {
 			res.send('not logged in');
 		}
 	});
+
+	//get class reg by class id
+	app.get('/getclassRegbyClassid/:id', function(req, res) {
+		var id = req.param('id');
+
+		ClassReg.findOne({
+			'class_id': id
+		}, function(err, classReg) {
+			if (err) {
+				res.send(err);
+			} else {
+
+				var results = [];
+
+				//get all teachers
+				User.find({
+					'_id': {
+						$in: classReg.teachers
+					}
+				}, function(err, docs) {
+					results.push(docs);
+
+					//get all students
+					User.find({
+						'_id': {
+							$in: classReg.students
+						}
+					}, function(err, docs) {
+						results.push(docs);
+						res.send(results);
+					});
+
+				});
+
+				
+
+
+			}
+		});
+	});
+
+
 }

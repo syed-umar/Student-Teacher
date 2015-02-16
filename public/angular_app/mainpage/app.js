@@ -22,6 +22,14 @@ validationApp.controller('dataController', function($scope, $http) {
 		$scope.showDetails = function(_class){
 			$scope.class = _class;
 			$scope.showClass = true;
+
+			$http.get('/getclassRegbyClassid/' + _class._id)
+			.success(function(docs) {
+				$scope.classReg = docs;
+			})
+			.error(function(err){
+				console.log(err);
+			});
 		}
 
 });

@@ -55,6 +55,13 @@ module.exports = function(app, passport) {
 							req.session.cookie.expires = false;
 						}
 
+						//check Evaluator
+						if(user.local.isEvaluator){
+							req.session.isEvaluator = true;
+						} else {
+							req.session.isEvaluator = false;
+						}
+
 						//check admin
 		                var admins = require('../config/admins');
 		                admins.emails.forEach(function(admin) {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-app="myAudioApp" ng-controller="mainController">
+                  <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+
+                    <p>{{ serverMsg }}</p>
+                  </div>  
+                        
+                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="list-unstyled" >
+                            <li dir-paginate="clip in clips | itemsPerPage: usersPerPage" total-items="totalClips" id="{{clip._id}}" >
+            
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 well">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <audio ng-src="{{makeAudioSrc(clip.audioFile)}}" controls="true"></audio>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                Added: {{ clip.added | date }} <br>
+                                                Score: {{ clip.score }} <br>
+                                                Status: {{ clip.status }} 
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <button class="btn btn-danger" ng-click="deleteClip(clip._id)">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>        
+            
+                            </li>
+                        </ul>    
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <% if(logged){ %>
+    <script>
+    //set user id
+    var user_id = "<%= user._id %>";
+    </script>
+    <% } %>
+
+    <script src="/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
+    <script src="/angular_app/myaudios/app.js"></script>
+
+</body>
+</html>

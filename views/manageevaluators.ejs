@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content" ng-app="EvaluatorApp" ng-controller="mainController">
+                <div>
+                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+                    <p>{{ serverMsg }}</p>
+                    </div>
+                    
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title"></h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <select class="form-control" ng-model="selectedUser" ng-options="user as user.local.firstName for user in users" ng-change="setUser(selectedUser)">
+                                <option value="">Select A Teacher</option>
+                            </select>
+
+                            <br>
+                            <button class="btn btn-info" ng-click="makeEvaluator()">Make Evaluator</button>
+                            <br><br>
+                            Full Name: {{ user.local.firstName }} {{ user.local.lastName }}
+                            <br>
+                            Availability: {{ user.local.teacher_availability }}
+                            <br>
+                            Qualification: {{ user.local.teacher_qualification }}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Current Evaluators</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <ul>
+                                <li ng-repeat="user in evaluators">
+                                    <i style="color:red; cursor: pointer;" class="fa fa-close" ng-click="removeEvaluator(user._id)"></i>
+                                    {{ user.local.firstName }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script src="/angular/angular.min.js"></script>
+    <script src="/angular_app/evaluators/app.js"></script>
+
+
+</body>
+</html>

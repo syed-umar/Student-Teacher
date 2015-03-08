@@ -39,7 +39,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
+app.use(function(req, res, next) {
 
+    if (typeof req.user !== "undefined") {
+        if (req.user.local.isEvaluator == "true") {
+            res.locals.isEvaluator = true;
+        } else {
+            res.locals.isEvaluator = false;
+        }
+    } else {
+        res.locals.isEvaluator = false;
+    }
+
+    if (req.session.isAdmin) {
+        res.locals.isAdmin = true;
+    }
+
+    next();
+});
 
 //routes
 app.use('/', routes);
@@ -47,14 +64,15 @@ require('./routes/users')(app);
 require('./routes/class')(app);
 require('./routes/classReg')(app);
 require('./routes/mainPage')(app);
+require('./routes/wav')(app);
 
 //Auth 
 require('./config/passport')(app, passport);
 require('./routes/passport')(app, passport);
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/editclasses',  express.static(__dirname + '/public'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
+app.use('/editclasses', express.static(__dirname + '/public'));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

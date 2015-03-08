@@ -15,6 +15,28 @@
                     <i class="fa fa-user"></i> <span>Profile</span>
                 </a>
             </li>
+
+            <% if(logged){ %>
+            <li>
+                <a href="/recordAudio">
+                    <i class="fa fa-user"></i> <span>Record Audio</span>
+                </a>
+            </li>
+            <li>
+                <a href="/myAudios">
+                    <i class="fa fa-user"></i> <span>My Recorded Audios</span>
+                </a>
+            </li>
+
+                <% if(isEvaluator){ %>
+                    <li>
+                        <a href="/scoreClips">
+                            <i class="fa fa-user"></i> <span>Score Clips</span>
+                        </a>
+                    </li>                    
+                <% } %>
+            <% } %>
+
             <% if(isAdmin){ %>
             <li>
                 <a href="/createclass">
@@ -29,6 +51,11 @@
             <li>
                 <a href="/classreg">
                     <i class="fa fa-group"></i> <span>Add/Edit Class Registration</span>
+                </a>
+            </li>
+            <li>
+                <a href="/manageEvaluators">
+                    <i class="fa fa-group"></i> <span>Add/Remove Evaluators</span>
                 </a>
             </li>
             <% } %>

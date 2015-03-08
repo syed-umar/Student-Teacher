@@ -39,6 +39,7 @@ router.get('/', function(req, res) {
 
 });
 
+
 /* get Class reg info for main page */
 function getClassRegs(userID, cb){
 
@@ -153,6 +154,21 @@ router.get('/admin', function(req, res) {
 		res.render('adminpanel', {
 			title: 'Admin',
 			heading: 'Admin actions',
+			user: req.user
+		});
+	} else {
+		res.redirect('/');
+	}
+});
+
+// Admin Evaluators Page
+router.get('/manageEvaluators', function(req, res){
+	if (req.session.isAdmin && req.isAuthenticated()) {
+		res.locals.logged = 1;
+		res.locals.isAdmin = req.session.isAdmin;
+		res.render('manageevaluators', {
+			title: 'Manage Evaluators',
+			heading: '',
 			user: req.user
 		});
 	} else {

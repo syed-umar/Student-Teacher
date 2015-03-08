@@ -13,7 +13,8 @@ var userSchema = mongoose.Schema({
         lastName: String,
         phone: String,
         skype: String,
-        userType: String,
+        userType: String, //student, teacher
+        isEvaluator: { type: String, default: "false" },
         userID: String,
         student_schoolName: String,
         student_guardianInfo: String,
@@ -21,7 +22,6 @@ var userSchema = mongoose.Schema({
         teacher_availability: String,
         teacher_qualification: String,
         teacher_description: String
-        // teacher_attachments: []
     },
     facebook: {
         id: String,

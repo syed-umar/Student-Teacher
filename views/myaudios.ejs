@@ -42,8 +42,13 @@
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                 Added: {{ clip.added | date }} <br>
-                                                Score: {{ clip.score }} <br>
-                                                Status: {{ clip.status }} 
+                                                Status: {{ clip.status }} <br>
+                                                Pronunciation : {{ clip.pronunciation }} <br>
+                                                Accent : {{ clip.accent }} <br>
+                                                Vocabulary : {{ clip.vocabulary }} <br>
+                                                Expression : {{ clip.expression }} <br>
+                                                Pace : {{ clip.pace }} <br>
+                                                Final Score : {{ clip.finalScore }} <br>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                 <button class="btn btn-danger" ng-click="deleteClip(clip._id)">Delete</button>

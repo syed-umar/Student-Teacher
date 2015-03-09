@@ -6,7 +6,12 @@ var mongoose = require('mongoose');
 var audioFileSchema = mongoose.Schema({
     student_id: String,
     audioFile: String,
-    score: String,
+    pronunciation: String,
+    accent: String,
+    vocabulary: String,
+    expression: String,
+    pace: String,
+    finalScore: String,
     status: String, // New, in evaluation, scored
     added: Date
 });

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content" ng-app="ScoreApp" ng-controller="mainController">
+                <div>
+                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+                    <p>{{ serverMsg }}</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom: 15px;">
+                    Status: 
+                    <select ng-model="sort" class="form-control" ng-change="change()">
+                        <option ng-selected="1">New</option>
+                        <option>In evaluation</option>
+                        <option>Scored</option>
+                    </select>
+                </div>
+
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                   <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="list-unstyled" >
+                            <li dir-paginate="clip in clips | itemsPerPage: usersPerPage" total-items="totalClips" id="{{clip._id}}">
+            
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 well">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <audio ng-src="{{makeAudioSrc(clip)}}" controls="true"></audio>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                Added: {{ clip.added | date }} <br>
+                                                Status: {{ clip.status }} <br>
+                                                Pronunciation : {{ clip.pronunciation }} <br>
+                                                Accent : {{ clip.accent }} <br>
+                                                Vocabulary : {{ clip.vocabulary }} <br>
+                                                Expression : {{ clip.expression }} <br>
+                                                Pace : {{ clip.pace }} <br>
+                                                Final Score : {{ clip.finalScore }} <br>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <button class="btn btn-danger">Delete Clip</button>
+                                                <br><br>
+                                                <select class="form-control" ng-model="clipsModel[clip._id].status" ng-change="updateStatus(clip)">
+                                                    <option ng-selected="1">Select Status</option>
+                                                    <option>New</option>
+                                                    <option>In evaluation</option>
+                                                    <option>Scored</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-312 col-md-12 col-sm-12 col-xs-12 well" style="margin-top: 15px;">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <select class="form-control" ng-model="clipsModel[clip._id].pronunciation">
+                                                    <option ng-selected="1">Score Pronunciation</option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                    <option>6</option>
+                                                    <option>7</option>
+                                                    <option>8</option>
+                                                    <option>9</option>
+                                                    <option>10</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <select class="form-control" ng-model="clipsModel[clip._id].accent">
+                                                <option ng-selected="1">Score Accent</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <select class="form-control" ng-model="clipsModel[clip._id].vocabulary">
+                                                <option ng-selected="1">Score Vocabulary</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <select class="form-control" ng-model="clipsModel[clip._id].expression">
+                                                <option ng-selected="1">Score Expression</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <select class="form-control" ng-model="clipsModel[clip._id].pace">
+                                                <option ng-selected="1">Score Pace</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <select class="form-control" ng-model="clipsModel[clip._id].finalScore">
+                                                <option ng-selected="1">Final Score</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <button class="btn btn-primary" ng-click="updateScore(clip)">Update</button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>        
+            
+                            </li>
+                        </ul>    
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script src="/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
+    <script src="/angular_app/score/app.js"></script>
+
+
+</body>
+</html>

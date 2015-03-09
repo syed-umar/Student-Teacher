@@ -585,9 +585,9 @@ module.exports = function(app) {
                     if (clip.student_id == req.user._id) { //check user
 
                         //check file status
-                        if(clip.status == "In evaluation" || clip.status == "Scored"){
+                        if (clip.status == "In evaluation" || clip.status == "Scored") {
                             res.send('You cannot delete In evaluation or Scored clips');
-                        } else{
+                        } else {
                             var fs = require('fs');
 
                             var file = './public/uploads/' + req.user._id + '/files/' + clip.audioFile;
@@ -616,19 +616,21 @@ module.exports = function(app) {
                 }
             });
         });
-    
+
         // make teacher evaluator
-        app.get('/makeEvaluator/:id', function(req, res){
+        app.get('/makeEvaluator/:id', function(req, res) {
             var id = req.param('id');
 
-            User.findOne({ _id: id}, function(err, user){
-                if(err){
+            User.findOne({
+                _id: id
+            }, function(err, user) {
+                if (err) {
                     res.send(err);
                 } else {
                     user.local.isEvaluator = "true";
 
-                    user.save(function(err){
-                        if(err){
+                    user.save(function(err) {
+                        if (err) {
                             res.send(err);
                         } else {
                             res.send('added');
@@ -639,17 +641,19 @@ module.exports = function(app) {
         });
 
         // remove teacher evaluator
-        app.get('/removeEvaluator/:id', function(req, res){
+        app.get('/removeEvaluator/:id', function(req, res) {
             var id = req.param('id');
 
-            User.findOne({ _id: id}, function(err, user){
-                if(err){
+            User.findOne({
+                _id: id
+            }, function(err, user) {
+                if (err) {
                     res.send(err);
                 } else {
                     user.local.isEvaluator = "false";
 
-                    user.save(function(err){
-                        if(err){
+                    user.save(function(err) {
+                        if (err) {
                             res.send(err);
                         } else {
                             res.send('removed');
@@ -660,14 +664,141 @@ module.exports = function(app) {
         });
 
         // get all evaluators
-        app.get('/getEvaluators', function(req, res){
-            User.find({ 'local.isEvaluator': 'true'}, function(err, users){
-                if(err){
+        app.get('/getEvaluators', function(req, res) {
+            User.find({
+                'local.isEvaluator': 'true'
+            }, function(err, users) {
+                if (err) {
                     res.send(err);
                 } else {
                     res.json(users);
                 }
             });
+        });
+
+        // score clip page
+        app.get('/scoreClips', function(req, res) {
+            if (req.session.isAdmin && req.isAuthenticated()) {
+                res.locals.logged = 1;
+                res.locals.isAdmin = req.session.isAdmin;
+                res.render('scoreclips', {
+                    title: 'Score Clips',
+                    heading: 'Score Audio Clips',
+                    user: req.user
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
+
+        app.get('/getAllClips', function(req, res) {
+            var page = req.param('page', 1);
+            var perPage = req.param('perpage', 3);
+            var sort = req.param('sort', 'New');
+            page = page - 1;
+
+            var AudioFile = require('../models/audioFile');
+
+            AudioFile
+                .find({
+                    status: sort
+                })
+                //.select('local.email')
+                .limit(perPage)
+                .skip(Math.ceil(perPage * page))
+                .sort({
+                    added: 'asc'
+                })
+                .exec(function(err, clips) {
+                    AudioFile.count({
+                        status: sort
+                    }).exec(function(err, count) {
+                        // console.log(count);
+                        if (err) {
+                            res.send(err);
+                        } else {
+
+                            res.json({
+                                "count": count,
+                                "clips": clips
+                            });
+
+                        }
+                    });
+                });
+        });
+
+        app.post('/updateScore', function(req, res){
+            var id = req.param('id');
+            var score = req.param('score');
+
+            var AudioFile = require('../models/audioFile');
+
+            AudioFile.findOne({
+                _id: id
+            }, function(err, clip) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if(score.pronunciation){
+                        clip.pronunciation = score.pronunciation;
+                    }
+
+                    if(score.accent){
+                        clip.accent = score.accent;
+                    }
+
+                    if(score.vocabulary){
+                        clip.vocabulary = score.vocabulary;
+                    }
+
+                    if(score.expression){
+                        clip.expression = score.expression;
+                    }
+
+                    if(score.pace){
+                        clip.pace = score.pace;
+                    }
+
+                    if(score.finalScore){
+                        clip.finalScore = score.finalScore;
+                    }
+                    
+                    clip.save(function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.send('upated');
+                        }
+                    });
+                }
+            });
+        });
+
+        app.get('/updateStatus/:id/:status', function(req, res){
+            var id = req.param('id');
+            var status = req.param('status');
+
+            var AudioFile = require('../models/audioFile');
+
+            AudioFile.findOne({
+                _id: id
+            }, function(err, clip) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    clip.status = status;
+
+                    clip.save(function(err) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.send('upated');
+                        }
+                    });
+                }
+            });
+
         });
 
         /*

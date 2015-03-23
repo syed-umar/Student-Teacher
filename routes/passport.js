@@ -62,16 +62,26 @@ module.exports = function(app, passport) {
 							req.session.isEvaluator = false;
 						}
 
+						var r = {};
+
 						//check admin
 		                var admins = require('../config/admins');
 		                admins.emails.forEach(function(admin) {
 		                    if(admin == user.local.email){
 		                    	req.session.isAdmin = true;
 		                    	res.locals.isAdmin = true;
-		                    	res.redirect('/admin');
+		                    	// res.redirect('/admin');
+		                    	
+		                    	r.status = 'logged in';
+		                    	r.isAdmin = true;
+		                    	res.json(r);
 		                    } else {
 		                    	res.locals.isAdmin = false;
-		                    	res.redirect('/');
+		                    	// res.redirect('/');
+
+		                    	r.status = 'logged in';
+		                    	r.isAdmin = false;
+		                    	res.json(r);
 		                    }
 		                });
 						

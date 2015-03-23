@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+        <% var log = logged %>
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+
+                <div ng-app="createCourseApp" ng-controller="mainController">
+                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+
+                        <p>{{ serverMsg }}</p>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Create New Course</h3>
+                        </div><!-- /.box-header -->
+                        <!-- form start -->
+                        <form role="form" novalidate name="classForm">
+                            <div class="box-body">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="class_name">Course Name</label>
+                                        <input ng-model="course.coursename" required type="text" class="form-control" name="class_name" placeholder="Enter Class name">
+                                        <span style="color:red" ng-show="classForm.class_name.$dirty && classForm.class_name.$invalid">
+                                            <span ng-show="classForm.class_name.$error.required">Course Name is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_ID">Course ID</label>
+                                        <input ng-model="course.courseID" required type="text" class="form-control" name="class_id" placeholder="Enter Class ID">
+                                        <span style="color:red" ng-show="classForm.class_id.$dirty && classForm.class_id.$invalid">
+                                            <span ng-show="classForm.class_id.$error.required">Course ID is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_category">Category</label>
+                                        <!-- <input ng-model="course.courseCategory" required type="text" class="form-control" name="class_category" placeholder="Enter Course Category">
+                                        <span style="color:red" ng-show="classForm.class_category.$dirty && classForm.class_category.$invalid">
+                                            <span ng-show="classForm.class_category.$error.required">Course Category is required.</span>
+                                        </span> -->
+
+                                        <select class="form-control" ng-model="course.courseCategory">
+                                        <% common.Courses.forEach(function(item){ %>
+                                            <option value="<%= item %>">
+                                                <%= item %>
+                                            </option>
+                                        <%  }) %>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group">
+      
+                                    </div>
+                                        
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="class_school_name">School Name</label>
+                                        <!-- <input ng-model="course.schoolName" required type="text" class="form-control" name="class_school_name" placeholder="Enter School name">
+                                        <span style="color:red" ng-show="classForm.class_school_name.$dirty && classForm.class_school_name.$invalid">
+                                            <span ng-show="classForm.class_school_name.$error.required">School Name is required.</span>
+                                        </span> -->
+
+                                        <select class="form-control" ng-model="course.schoolName">
+                                            <% common.SchoolNames.forEach(function(item){ %>
+                                                <option value="<%= item %>">
+                                                    <%= item %>
+                                                </option>
+                                            <%  }) %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_desc">Description</label>
+                                        <textarea ng-model="course.description" required class="form-control" name="class_desc" placeholder="Enter Class Description"></textarea>
+                                        <span style="color:red" ng-show="classForm.class_desc.$dirty && classForm.class_desc.$invalid">
+                                            <span ng-show="classForm.class_desc.$error.required">Description is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_school_name">Number of Classes</label>
+                                        <input ng-model="course.numberof" required type="text" class="form-control" name="class_numberof" placeholder="Enter Number of Classes">
+                                        <span style="color:red" ng-show="classForm.class_numberof.$dirty && classForm.class_numberof.$invalid">
+                                            <span ng-show="classForm.class_numberof.$error.required">Number is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_package_name">Package Name</label>
+                                        <input ng-model="course.packageName" required type="text" class="form-control" name="class_package_name" placeholder="Enter Class Package name">
+                                        <span style="color:red" ng-show="classForm.class_package_name.$dirty && classForm.class_package_name.$invalid">
+                                            <span ng-show="classForm.class_package_name.$error.required">Package Name is required.</span>
+                                        </span>
+                                    </div>
+
+                                    
+                                </div>
+                                    
+                                    
+                                    
+
+                                
+
+                                
+
+
+                                <!-- <div class="clearfix"></div> -->
+
+                            </div><!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button class="btn btn-primary btn-lg" ng-disabled="classForm.$invalid" ng-click="createClassfunc(classForm.$valid)">Save</button> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script src="/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
+    <script src="/angular_app/createcourse/app.js"></script>
+
+
+</body>
+</html>

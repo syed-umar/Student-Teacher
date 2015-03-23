@@ -10,13 +10,14 @@
                     <i class="fa fa-home"></i> <span>Home</span>
                 </a>
             </li>
+            
+
+            <% if(logged){ %>
             <li>
                 <a href="/editprofile">
                     <i class="fa fa-user"></i> <span>Profile</span>
                 </a>
             </li>
-
-            <% if(logged){ %>
             <li>
                 <a href="/recordAudio">
                     <i class="fa fa-user"></i> <span>Record Audio</span>
@@ -36,16 +37,23 @@
                     </li>                    
                 <% } %>
             <% } %>
+            <% if(logged == '0'){%>
+                <li>
+                    <a href="/auth">
+                        <i class="fa fa-user"></i> <span>Register and Login</span>
+                    </a>
+                </li>
+            <% } %>
 
             <% if(isAdmin){ %>
             <li>
-                <a href="/createclass">
-                    <i class="fa fa-bars"></i> <span>Add Class</span>
+                <a href="/createcourse">
+                    <i class="fa fa-bars"></i> <span>Add Course</span>
                 </a>
             </li>
             <li>
-                <a href="/editclasses">
-                    <i class="fa fa-edit"></i> <span>Edit Class</span>
+                <a href="/editcourse">
+                    <i class="fa fa-edit"></i> <span>Edit Course</span>
                 </a>
             </li>
             <li>
@@ -59,6 +67,11 @@
                 </a>
             </li>
             <% } %>
+            <li>
+                <a href="/contactus">
+                    <i class="fa fa-user"></i> <span>Contact Us</span>
+                </a>
+            </li>
             
         </ul>
     </section>

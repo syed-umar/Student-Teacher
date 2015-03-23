@@ -22,25 +22,36 @@
             </section>
 
             <!-- Main content -->
-            <section class="content">
-                <a class="btn btn-app" href="/createclass">
-                    <i class="fa fa-bars"></i> Create Class
-                </a>
-                <a class="btn btn-app" href="/editclasses">
-                    <i class="fa fa-edit"></i> Edit Class
-                </a>
-                <a class="btn btn-app" href="/classreg">
-                    <i class="fa fa-group"></i> Add/Edit Class Registration
-                </a>
-                <a class="btn btn-app" href="/manageEvaluators">
-                    <i class="fa fa-group"></i> Add/Remove Evaluators
-                </a>
+            <section class="content" ng-app="authApp">
+
+
+
+                <div>
+                    <loading-indicator ></loading-indicator>
+                    <div ng-if='!isRouteLoading' ng-view ></div>
+                </div>
+
+
+
             </section><!-- /.content -->
         </aside><!-- /.right-side -->
-    </div><!-- ./wrapper -->
+</div><!-- ./wrapper -->
 
-    <script src="/angular/angular.min.js"></script>
-    <script src="/angular_app/mainpage/app.js"></script>
+<% if(logged){ %>
+<script>
+console.log('hmm:' + log);
+var logged_in = "<%= logged %>";
+</script>
+<%  } else { %>
+<script>
+//set user id
+var logged_in = "<%= logged %>";
+</script>
+<% } %>
+
+<script src="/angular/angular.min.js"></script>
+<script src="/angular/angular-route.min.js"></script>
+<script src="/angular_app/registerAndLogin/app.js"></script>
 
 </body>
 </html>

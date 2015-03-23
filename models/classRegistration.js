@@ -6,8 +6,14 @@ var mongoose = require('mongoose');
 var classRegSchema = mongoose.Schema({
     students: [],
     teachers: [],
-    class_id: String,
-    classID: String
+    course_id: String,
+    classID: String,
+    name: String,
+    startDate: Date,
+    endDate: Date,
+    classDay: String,
+    startTime: String,
+    duration: String
 });
 
 // methods ======================

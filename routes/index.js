@@ -177,14 +177,18 @@ router.get('/manageEvaluators', function(req, res){
 });
 
 /* GET Admin create class */
-router.get('/createclass', function(req, res) {
+router.get('/createcourse', function(req, res) {
 	if (req.session.isAdmin && req.isAuthenticated()) {
 		res.locals.logged = 1;
 		res.locals.isAdmin = req.session.isAdmin;
-		res.render('createclass', {
-			title: 'Admin Create Class',
+
+		var common = require("../config/common");
+
+		res.render('createcourse', {
+			title: 'Admin Create Course',
 			heading: '',
-			user: req.user
+			user: req.user,
+			common: common
 		});
 	} else {
 		res.redirect('/');
@@ -192,20 +196,22 @@ router.get('/createclass', function(req, res) {
 });
 
 /* GET Admin edit class */
-router.get('/editclasses', function(req, res) {
-	// if (req.session.isAdmin && req.isAuthenticated()) {
+router.get('/editcourse', function(req, res) {
+	if (req.session.isAdmin && req.isAuthenticated()) {
+
+		var common = require("../config/common");
+
 		res.locals.logged = 1;
 		res.locals.isAdmin = req.session.isAdmin;
-		res.render('editclasses', {
-			title: 'Admin Edit Class',
+		res.render('editcourses', {
+			title: 'Admin Edit Course',
 			heading: '',
-			user: req.user
+			user: req.user,
+			common: common
 		});
-		
-
-	// } else {
-	// 	res.redirect('/');
-	// }
+	} else {
+		res.redirect('/');
+	}
 });
 
 /* GET Admin create class */
@@ -254,6 +260,24 @@ router.get('/register', function(req, res) {
 		res.render('signup', {
 			title: 'Register',
 			heading: 'Registration page'
+		});
+	}
+
+});
+
+/* GET home page. */
+router.get('/auth', function(req, res) {
+
+	res.locals.logged = 0;
+	res.locals.isAdmin = req.session.isAdmin;
+
+	if (req.isAuthenticated()) {
+		res.locals.logged = 1;
+		res.redirect('/');
+	} else {
+		res.render('auth', {
+			title: 'Auth',
+			heading: 'Register and Login'
 		});
 	}
 

@@ -4,7 +4,7 @@
 <body class="skin-blue">
     <% include header.ejs %>
     <div class="wrapper row-offcanvas row-offcanvas-left">
-
+        <% var log = logged %>
         <% include leftside.ejs %>
 
         <!-- Right side column. Contains the navbar and content of the page -->
@@ -27,38 +27,33 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="box box-primary">
                             <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
-                                <h3 class="box-title">Select Class</h3>
+                                <h3 class="box-title">Select Course</h3>
 
                             </div>
                             <div class="box-body">
                                 <form role="form" novalidate name="classForm">
                                     <div class="form-group">
                                         <label>Select</label>
-                                        <select class="form-control" ng-model="selectedClass" ng-options="class as class.className for class in classes" ng-change="getClass(selectedClass)">
-                                            <option value="">Select A Class</option>
+                                        <select class="form-control" ng-model="selectedCourse" ng-options="course as course.courseName for course in courses" ng-change="getCourse(selectedCourse)">
+                                            <option value="">Select A Course</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_name">Class Name: {{ class.className }}</label>
+                                        <label for="class_name">Course Name: {{ course.courseName }}</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_name">Class Catehory: {{ class.classCategory }}</label>
+                                        <label for="class_name">Course Catehory: {{ course.courseCategory }}</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_name">Package Name: {{ class.packageName }}</label>
+                                        <label for="class_name">Package Name: {{ course.packageName }}</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_name">Class ID: {{ class.classID }}</label>
+                                        <label for="class_name">Course ID: {{ course.courseID }}</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_name">School Name: {{ class.schoolName }}</label>
+                                        <label for="class_name">School Name: {{ course.schoolName }}</label>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="class_name">Start Time: {{ class.starttime | filter:date}}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_name">End Time: {{ class.endtime }}</label>
-                                    </div>
+                                    
 
                                 </form>  
                             </div><!-- /.box-body -->
@@ -68,121 +63,171 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="box box-primary">
                             <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select User">
-                                <h3 class="box-title">Select User</h3>
+                                <h3 class="box-title">Class</h3>
 
                             </div>
                             <div class="box-body">
-                                <form role="form" novalidate name="">
-                                    <div class="form-group">
-                                        <label>Select User</label>
-                                        <select class="form-control" ng-model="userType" ng-change="getUser(userType)">
-                                            <option value="0" selected="selected">Select A User Type</option>
-                                            <option value="student">Student</option>
-                                            <option value="teacher">Teacher</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Select User</label>
-                                        <select class="form-control" ng-model="selectedUser" ng-options="user as user.local.firstName for user in users" ng-change="setUser(selectedUser)">
-                                            <option value="">Select A User</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_name">First Name: {{ currentUser.local.firstName }}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_name">Last Name: {{ currentUser.local.lastName }}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_name">Email: {{ currentUser.local.email }}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_name">Phone: {{ currentUser.local.phone }}</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="class_name">Skype ID: {{ currentUser.local.skype }}</label>
-                                    </div>
-
-                                    <div ng-if="currentUser.local.userType == 'student'">
+                                <span ng-if="showCreateClass">
+                                    <button ng-click="createClassReg()" class="btn btn-primary">Generate Class</button>
+                                </span>
+                                <span ng-if="showClassReg">
+                                    <form>
                                         <div class="form-group">
-                                            <label for="class_name">School Name: {{ currentUser.local.student_schoolName }}</label>
+                                            Class ID: {{ classReg.classID }}
                                         </div>
                                         <div class="form-group">
-                                            <label for="class_name">Guardian Info: {{ currentUser.local.student_guardianInfo }}</label>
+                                            Class Day: <select ng-model="classReg.classDay" class="form-control">
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednessday">Wednessday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="class_name">Student Grade: {{ currentUser.local.student_grade }}</label>
-                                        </div>    
-                                    </div>
-
-                                    <div ng-if="currentUser.local.userType == 'teacher'">
-                                        <div class="form-group">
-                                            <label for="class_name">Availibility: {{ currentUser.local.teacher_availability }}</label>
+                                            StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.startDate" value="{{classReg.startDate | date}}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="class_name">Qualification: {{ currentUser.local.teacher_qualification }}</label>
+                                            End Date: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.endDate" value="{{classReg.endDate | date}}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="class_name">Grade: {{ currentUser.local.teacher_grade }}</label>
+                                            Start Time: <input type="text" ng-model="classReg.startTime" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label for="class_name">Description: {{ currentUser.local.teacher_description }}</label>
+                                            Duration: <input type="text" ng-model="classReg.duration" class="form-control">
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                    <button class="btn btn-lg btn-primary" ng-click="addUser()">Add User to Class</button>
-                                    </div>
-                                    <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
-
-                                        <p>{{ serverMsg }}</p>
-                                    </div>
-
-                                </form>  
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" ng-click="updateClassReg()">Update</button>
+                                        </div>
+                                    </form>
+                                </span>
                             </div><!-- /.box-body -->
 
                         </div>
                     </div>
+                    </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="box box-primary">
-                            <div class="box-header" data-toggle="tooltip" title="" data-original-title="Class Info">
-                                <h3 class="box-title">Class Info</h3>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="box box-primary">
+                                <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select User">
+                                    <h3 class="box-title">Select User</h3>
 
-                            </div>
-                            <div class="box-body">
-                              <div class="box box-solid">
-                                <div class="box-header">
-                                    <i class="fa fa-user"></i>
-                                    <h3 class="box-title">Teachers</h3>
-                                </div><!-- /.box-header -->
+                                </div>
                                 <div class="box-body">
-                                    <ul>
-                                        <li ng-repeat="c in class_teachers" >
-                                            <i style="color:red; cursor: pointer;" class="fa fa-close" ng-click="deleteTeacher(c._id)"></i> {{ c.local.firstName }} {{ c.local.lastName }}   
-                                        </li>
-                                    </ul>
-                                </div><!-- /.box-body -->
-                            </div>
+                                    <form role="form" novalidate name="">
+                                        <div class="form-group">
+                                            <label>Select User</label>
+                                            <select class="form-control" ng-model="userType" ng-change="getUser(userType)">
+                                                <option value="0" selected="selected">Select A User Type</option>
+                                                <option value="student">Student</option>
+                                                <option value="teacher">Teacher</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Select User</label>
+                                            <select class="form-control" ng-model="selectedUser" ng-options="user as user.local.firstName for user in users" ng-change="setUser(selectedUser)">
+                                                <option value="">Select A User</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_name">First Name: {{ currentUser.local.firstName }}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_name">Last Name: {{ currentUser.local.lastName }}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_name">Email: {{ currentUser.local.email }}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_name">Phone: {{ currentUser.local.phone }}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_name">Skype ID: {{ currentUser.local.skype }}</label>
+                                        </div>
 
-                            <div class="box box-solid">
-                                <div class="box-header">
-                                    <i class="fa fa-users"></i>
-                                    <h3 class="box-title">Students</h3>
-                                </div><!-- /.box-header -->
+                                        <div ng-if="currentUser.local.userType == 'student'">
+                                            <div class="form-group">
+                                                <label for="class_name">School Name: {{ currentUser.local.student_schoolName }}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="class_name">Guardian Info: {{ currentUser.local.student_guardianInfo }}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="class_name">Student Grade: {{ currentUser.local.student_grade }}</label>
+                                            </div>    
+                                        </div>
+
+                                        <div ng-if="currentUser.local.userType == 'teacher'">
+                                            <div class="form-group">
+                                                <label for="class_name">Availibility: {{ currentUser.local.teacher_availability }}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="class_name">Qualification: {{ currentUser.local.teacher_qualification }}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="class_name">Grade: {{ currentUser.local.teacher_grade }}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="class_name">Description: {{ currentUser.local.teacher_description }}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                        <button class="btn btn-lg btn-primary" ng-click="addUser()">Add User to Class</button>
+                                        </div>
+                                        <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+
+                                            <p>{{ serverMsg }}</p>
+                                        </div>
+
+                                    </form>  
+                                </div><!-- /.box-body -->
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="box box-primary">
+                                <div class="box-header" data-toggle="tooltip" title="" data-original-title="Class Info">
+                                    <h3 class="box-title">Class Info</h3>
+
+                                </div>
                                 <div class="box-body">
-                                    <ul>
-                                        <li ng-repeat="c in class_students">
-                                            <i style="color:red; cursor: pointer;" class="fa fa-close" ng-click="deleteStudent(c._id)"></i> {{ c.local.firstName }} {{ c.local.lastName }}   
-                                        </li>
-                                    </ul>
-                                </div><!-- /.box-body -->
-                            </div>
-                        </div><!-- /.box-body -->
+                                  <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-user"></i>
+                                        <h3 class="box-title">Teachers</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <ul>
+                                            <li ng-repeat="c in class_teachers" >
+                                                <i style="color:red; cursor: pointer;" class="fa fa-close" ng-click="deleteTeacher(c._id)"></i> {{ c.local.firstName }} {{ c.local.lastName }}   
+                                            </li>
+                                        </ul>
+                                    </div><!-- /.box-body -->
+                                </div>
 
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-users"></i>
+                                        <h3 class="box-title">Students</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <ul>
+                                            <li ng-repeat="c in class_students">
+                                                <i style="color:red; cursor: pointer;" class="fa fa-close" ng-click="deleteStudent(c._id)"></i> {{ c.local.firstName }} {{ c.local.lastName }}   
+                                            </li>
+                                        </ul>
+                                    </div><!-- /.box-body -->
+                                </div>
+                            </div><!-- /.box-body -->
+
+                        </div>
                     </div>
                 </div>
 
-            </div>
+            
 
 
         </section><!-- /.content -->
@@ -190,6 +235,8 @@
 </div><!-- ./wrapper -->
 
 <script src="/angular/angular.min.js"></script>
+<script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
 <script src="/angular_app/classreg/app.js"></script>
 
 </body>

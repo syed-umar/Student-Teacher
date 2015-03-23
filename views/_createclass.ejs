@@ -4,7 +4,7 @@
 <body class="skin-blue">
     <% include header.ejs %>
     <div class="wrapper row-offcanvas row-offcanvas-left">
-
+        <% var log = logged %>
         <% include leftside.ejs %>
 
         <!-- Right side column. Contains the navbar and content of the page -->
@@ -32,24 +32,24 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Create New Class</h3>
+                            <h3 class="box-title">Create New Course</h3>
                         </div><!-- /.box-header -->
                         <!-- form start -->
                         <form role="form" novalidate name="classForm">
                             <div class="box-body">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label for="class_name">Class Name</label>
+                                        <label for="class_name">Course Name</label>
                                         <input ng-model="class.classname" required type="text" class="form-control" name="class_name" placeholder="Enter Class name">
                                         <span style="color:red" ng-show="classForm.class_name.$dirty && classForm.class_name.$invalid">
-                                            <span ng-show="classForm.class_name.$error.required">Class Name is required.</span>
+                                            <span ng-show="classForm.class_name.$error.required">Course Name is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_ID">Class ID</label>
+                                        <label for="class_ID">Course ID</label>
                                         <input ng-model="class.classID" required type="text" class="form-control" name="class_id" placeholder="Enter Class ID">
                                         <span style="color:red" ng-show="classForm.class_id.$dirty && classForm.class_id.$invalid">
-                                            <span ng-show="classForm.class_id.$error.required">Class ID is required.</span>
+                                            <span ng-show="classForm.class_id.$error.required">Course ID is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
@@ -57,6 +57,13 @@
                                         <input ng-model="class.classCategory" required type="text" class="form-control" name="class_category" placeholder="Enter Class Category">
                                         <span style="color:red" ng-show="classForm.class_category.$dirty && classForm.class_category.$invalid">
                                             <span ng-show="classForm.class_category.$error.required">Class Category is required.</span>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="class_school_name">Number of Classes</label>
+                                        <input ng-model="class.numberof" required type="text" class="form-control" name="class_numberof" placeholder="Enter Number of Classes">
+                                        <span style="color:red" ng-show="classForm.class_numberof.$dirty && classForm.class_numberof.$invalid">
+                                            <span ng-show="classForm.class_numberof.$error.required">Number is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
@@ -84,10 +91,10 @@
                                     </div>
 
                                     
-
+                                </div>
                                     
                                     
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                      <table class="table">
                                         <tr>
                                             <td style="border-top: none">
@@ -122,9 +129,9 @@
                                             </td>
                                         </tr>
                                     </table> 
-                                </div>
+                                </div> -->
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>Start Time</label>
                                     <input type="text" value="{{ class.startingTime }}" ng-model="class.startingTime" name="startingTime" class="form-control" required placeholder="Starting Time">
                                     <span style="color:red" ng-show="classForm.startingTime.$dirty && classForm.startingTime.$invalid">
@@ -138,7 +145,7 @@
                                     <span style="color:red" ng-show="classForm.endingTime.$dirty && classForm.endingTime.$invalid">
                                         <span ng-show="classForm.endingTime.$error.required">Ending Time is required.</span>
                                     </span>
-                                </div>
+                                </div> -->
 
                                 
 

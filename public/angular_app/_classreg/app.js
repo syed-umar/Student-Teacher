@@ -18,23 +18,21 @@ function showMsg($scope, $timeout, r) {
 
 
 // create angular app
-var classRegApp = angular.module('classRegApp', ['ui.date']);
+var classRegApp = angular.module('classRegApp', []);
 
 // create angular controller
 classRegApp.controller('mainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
 	$scope.serverRes = false;
 	$scope.serverMsg = '';
-	$scope.course;
+	$scope.class;
 	$scope.users = [];
 	$scope.user_id;
 	$scope.currentUser;
-	$scope.showCreateClass = false;
-	$scope.showClassReg = false;
 
-	$http.get('/course/list')
-		.success(function(courses) {
-			$scope.courses = courses;
+	$http.get('/class/list')
+		.success(function(classes) {
+			$scope.classes = classes;
 		});
 
 	$http.get('/user/list/students')
@@ -47,49 +45,11 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 			$scope.teachers = teachers;
 		});
 
-	$scope.getCourse = function(_course) {
-		$scope.course = _course;
-		$scope.showCreateClass = false;
-		$scope.showClassReg = false;
-
-		// get class reg
-		$http.get('/classRegistration/' + $scope.course._id)
-		.success(function(res){
-			if(res == "not found"){
-				$scope.showCreateClass = true;
-			} else {
-				$scope.showClassReg = true;
-				$scope.classReg = res;
-			}
-		});
+	$scope.getClass = function(_class) {
+		$scope.class = _class;
 
 		//get class reg info
 		$scope.updateLists();
-	}
-
-	$scope.createClassReg = function(){
-		$http.get('/createClassReg/' + $scope.course._id + '/' + $scope.course.schoolName)
-		.success(function(res){
-			if(res.status == "created"){
-				//console.log(added);
-				$scope.showClassReg = true;
-				$scope.showCreateClass = false;
-				$scope.classReg = res.data;	
-			} else {
-				alert(res);
-			}
-		});		
-	}
-
-	$scope.updateClassReg = function(){
-		$http.post('/updateClassReg', { classReg: $scope.classReg })
-		.success(function(res){
-			if(res == "updated"){
-				alert('updated');
-			} else {
-				alert(res);
-			}
-		});	
 	}
 
 	$scope.getUser = function(user) {
@@ -117,12 +77,12 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 
 	$scope.updateLists = function(){
 		//get class reg info
-		$http.get('/getTeachersInClass/'+ $scope.course._id)
+		$http.get('/getTeachersInClass/'+ $scope.class._id)
 		.success(function(teachers) {
 			$scope.class_teachers = teachers;
 		});
 
-		$http.get('/getStudentsInClass/'+ $scope.course._id)
+		$http.get('/getStudentsInClass/'+ $scope.class._id)
 		.success(function(students) {
 			$scope.class_students = students;
 		});
@@ -130,14 +90,13 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 
 	$scope.addUser = function() {
 		$http.post('/classRegistration/add', {
-			course_id: $scope.course._id,
+			class_id: $scope.class._id,
 			user: $scope.currentUser,
 			classRegtype: $scope.classRegtype
 		}).
-		success(function(data) {
+		success(function(data, status, headers, config) {
 			
-			//showMsg($scope, $timeout, data);
-			alert(data);
+			showMsg($scope, $timeout, data);
 
 			$scope.updateLists();
 
@@ -149,7 +108,7 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 	}
 
 	$scope.deleteTeacher = function(user_id){
-		$http.delete('/classRegistration/deleteTeacher/'+ $scope.course._id + '/' + user_id)
+		$http.delete('/classRegistration/deleteTeacher/'+ $scope.class._id + '/' + user_id)
 		.success(function(data) {
 			if(data == "removed"){
 				$scope.updateLists();
@@ -160,7 +119,7 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 	}
 
 	$scope.deleteStudent = function(user_id){
-		$http.delete('/classRegistration/deleteStudent/'+ $scope.course._id + '/' + user_id)
+		$http.delete('/classRegistration/deleteStudent/'+ $scope.class._id + '/' + user_id)
 		.success(function(data) {
 			if(data == "removed"){
 				$scope.updateLists();

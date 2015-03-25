@@ -29,8 +29,9 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 	$scope.users = [];
 	$scope.user_id;
 	$scope.currentUser;
-	$scope.showCreateClass = false;
-	$scope.showClassReg = false;
+	// $scope.showCreateClass = false;
+	// $scope.showClassReg = false;
+	$scope._class;
 
 	$http.get('/course/list')
 		.success(function(courses) {
@@ -47,51 +48,94 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 			$scope.teachers = teachers;
 		});
 
+	//select Course
 	$scope.getCourse = function(_course) {
 		$scope.course = _course;
-		$scope.showCreateClass = false;
-		$scope.showClassReg = false;
+		// $scope.showCreateClass = false;
+		// $scope.showClassReg = false;
 
 		// get class reg
-		$http.get('/classRegistration/' + $scope.course._id)
-		.success(function(res){
-			if(res == "not found"){
-				$scope.showCreateClass = true;
-			} else {
-				$scope.showClassReg = true;
-				$scope.classReg = res;
-			}
-		});
+		// $http.get('/classRegistration/' + $scope.course._id)
+		// .success(function(res){
+		// 	if(res == "not found"){
+		// 		$scope.showCreateClass = true;
+		// 	} else {
+		// 		$scope.showClassReg = true;
+		// 		$scope.classReg = res;
+		// 	}
+		// });
 
 		//get class reg info
-		$scope.updateLists();
+		$scope.getClassRegList();
+		
+		// reset teacher/student list
+		$scope.class_teachers = [];
+		$scope.class_students = [];
 	}
 
+	// Create a New class in course
 	$scope.createClassReg = function(){
-		$http.get('/createClassReg/' + $scope.course._id + '/' + $scope.course.schoolName)
+		$http.post('/createClassReg', {
+			id: $scope.course._id,
+			school: $scope.course.schoolName,
+			classReg: $scope.classReg
+		})
 		.success(function(res){
 			if(res.status == "created"){
 				//console.log(added);
-				$scope.showClassReg = true;
-				$scope.showCreateClass = false;
-				$scope.classReg = res.data;	
+				// $scope.showClassReg = true;
+				// $scope.showCreateClass = false;
+				$scope.getClassRegList();
+				$scope.classReg = null;
+				alert('Class Created');
+				// $scope.classReg = res.data;	
 			} else {
 				alert(res);
 			}
 		});		
 	}
 
-	$scope.updateClassReg = function(){
-		$http.post('/updateClassReg', { classReg: $scope.classReg })
+	// Update the selected Class
+	$scope.updateClassReg = function(_class){
+		$http.post('/updateClassReg', {
+			class: _class
+		})
 		.success(function(res){
-			if(res == "updated"){
-				alert('updated');
+			if(res == 'error'){
+				alert('Problem updating Class');
+			} else if(res == 'updated'){
+				alert('Updated');
 			} else {
 				alert(res);
+			}
+		});
+	}
+
+	// Update the Class list drop down
+	$scope.getClassRegList = function(){
+		$http.get('/getClassRegList/' + $scope.course._id)
+		.success(function(res){
+			if(res.status != "error"){
+				$scope.classes = res;
 			}
 		});	
 	}
 
+	// get details of a class
+	$scope.getClass = function(_class){
+		// console.log(_class);
+		$http.get('/classReg/' + _class._id)
+		.success(function(res){
+			if(res == "not found"){
+				
+			} else {
+				$scope._class = res;
+				$scope.updateLists();
+			}
+		});	
+	}
+
+	// set user drop down
 	$scope.getUser = function(user) {
 
 		if (user == 0) {
@@ -103,6 +147,7 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 		}
 	}
 
+	// Set the selected user + type
 	$scope.setUser = function(user) {
 		$scope.user_id = user._id;
 		$scope.currentUser = user;
@@ -115,22 +160,24 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 		//console.log($scope.currentUser);
 	}
 
+	// Update the Teacher/Student List
 	$scope.updateLists = function(){
 		//get class reg info
-		$http.get('/getTeachersInClass/'+ $scope.course._id)
+		$http.get('/getTeachersInClass/'+ $scope._class._id)
 		.success(function(teachers) {
 			$scope.class_teachers = teachers;
 		});
 
-		$http.get('/getStudentsInClass/'+ $scope.course._id)
+		$http.get('/getStudentsInClass/'+ $scope._class._id)
 		.success(function(students) {
 			$scope.class_students = students;
 		});
 	}
 
+	// Add the user to class
 	$scope.addUser = function() {
 		$http.post('/classRegistration/add', {
-			course_id: $scope.course._id,
+			class_id: $scope._class._id,
 			user: $scope.currentUser,
 			classRegtype: $scope.classRegtype
 		}).

@@ -8,7 +8,6 @@ var classRegSchema = mongoose.Schema({
     teachers: [],
     course_id: String,
     classID: String,
-    name: String,
     startDate: Date,
     endDate: Date,
     classDay: String,

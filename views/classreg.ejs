@@ -33,7 +33,7 @@
                             <div class="box-body">
                                 <form role="form" novalidate name="classForm">
                                     <div class="form-group">
-                                        <label>Select</label>
+                                        <label>Select Course</label>
                                         <select class="form-control" ng-model="selectedCourse" ng-options="course as course.courseName for course in courses" ng-change="getCourse(selectedCourse)">
                                             <option value="">Select A Course</option>
                                         </select>
@@ -63,46 +63,98 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="box box-primary">
                             <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select User">
-                                <h3 class="box-title">Class</h3>
+                                <h3 class="box-title">Add Class</h3>
 
                             </div>
                             <div class="box-body">
-                                <span ng-if="showCreateClass">
-                                    <button ng-click="createClassReg()" class="btn btn-primary">Generate Class</button>
-                                </span>
-                                <span ng-if="showClassReg">
-                                    <form>
-                                        <div class="form-group">
-                                            Class ID: {{ classReg.classID }}
-                                        </div>
-                                        <div class="form-group">
-                                            Class Day: <select ng-model="classReg.classDay" class="form-control">
-                                                <option value="Monday">Monday</option>
-                                                <option value="Tuesday">Tuesday</option>
-                                                <option value="Wednessday">Wednessday</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
-                                                <option value="Saturday">Saturday</option>
-                                                <option value="Sunday">Sunday</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.startDate" value="{{classReg.startDate | date}}">
-                                        </div>
-                                        <div class="form-group">
-                                            End Date: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.endDate" value="{{classReg.endDate | date}}">
-                                        </div>
-                                        <div class="form-group">
-                                            Start Time: <input type="text" ng-model="classReg.startTime" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            Duration: <input type="text" ng-model="classReg.duration" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" ng-click="updateClassReg()">Update</button>
-                                        </div>
-                                    </form>
-                                </span>
+                                <form>
+                                    <div class="form-group">
+                                        Class Day: <select ng-model="classReg.classDay" class="form-control">
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednessday">Wednessday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                            <option value="Sunday">Sunday</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.startDate" value="{{classReg.startDate | date}}">
+                                    </div>
+                                    <div class="form-group">
+                                        End Date: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.endDate" value="{{classReg.endDate | date}}">
+                                    </div>
+                                    <div class="form-group">
+                                        Start Time: <input type="text" ng-model="classReg.startTime" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Duration: <input type="text" ng-model="classReg.duration" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" ng-click="createClassReg()">Save</button>
+                                    </div>
+                                </form>
+                                
+                            </div><!-- /.box-body -->
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
+                                <h3 class="box-title">Classes</h3>
+
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label>Select Class</label>
+                                    <select class="form-control" ng-model="selectedClass" ng-options="class as class.classID for class in classes" ng-change="getClass(selectedClass)">
+                                        <option value="">Select A Class</option>
+                                    </select>
+                                </div>
+                            </div><!-- /.box-body -->
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="box box-primary">
+                            <div class="box-header" data-toggle="tooltip" title="" data-original-title="Edit Class">
+                                <h3 class="box-title">Edit Class</h3>
+
+                            </div>
+                            <div class="box-body">
+                                <form>
+                                    <div class="form-group">
+                                        Class ID: {{ _class.classID }}
+                                    </div>
+                                    <div class="form-group">
+                                        Class Day: <select ng-model="_class.classDay" class="form-control">
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednessday">Wednessday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                            <option value="Sunday">Sunday</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.startDate" value="{{_class.startDate | date}}">
+                                    </div>
+                                    <div class="form-group">
+                                        End Date: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.endDate" value="{{_class.endDate | date}}">
+                                    </div>
+                                    <div class="form-group">
+                                        Start Time: <input type="text" ng-model="_class.startTime" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Duration: <input type="text" ng-model="_class.duration" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" ng-click="updateClassReg(_class)">Update</button>
+                                    </div>
+                                </form>
                             </div><!-- /.box-body -->
 
                         </div>

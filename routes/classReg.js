@@ -51,15 +51,66 @@ module.exports = function(app) {
         });
     });
 
+    /*
+     * GET one classRegistration by ID
+     */
+    app.get('/classReg/:id', function(req, res) {
+
+        var _id = req.param('id');
+
+        ClassReg.findOne({
+            _id: _id
+        }, function(err, classReg) {
+            // if there are any errors, return the error
+            if (err) {
+                res.send(err);
+            } else if (classReg) {
+                res.json(classReg);
+            } else {
+                res.send('not found');
+            }
+        });
+    });
+
+    // getClassRegList
+    app.get('/getClassRegList/:id', function(req, res){
+        var course_id = req.param("id");
+
+        ClassReg.find({
+            course_id: course_id
+        }, function(err, _class){
+            if(err){
+                res.send('error');
+            } else if(_class){
+                res.json(_class);
+            } else {
+                res.send('[]');
+            }
+        });
+    });
+
     // create class reg
-    app.get('/createClassReg/:id/:school', function(req, res) {
+    app.post('/createClassReg', function(req, res) {
         var ID = req.param('id');
         var schoolName = req.param('school');
 
+        var classReg = req.param('classReg');
+        // console.log(classReg);
+
+        // var startDate = req.param('startDate');
+        // var endDate = req.param('endDate');
+        // var classDay = req.param('classDay');
+        // var duration = req.param('duration');
+    
         var newClassReg = new ClassReg();
 
         newClassReg.course_id = ID;
         newClassReg.classID = schoolName + '_' + randomStr();
+        newClassReg.startDate = classReg.startDate;
+        newClassReg.endDate = classReg.endDate;
+        newClassReg.classDay = classReg.classDay;
+        newClassReg.duration = classReg.duration;
+        newClassReg.startTime = classReg.startTime;
 
         var r = {};
 
@@ -70,7 +121,8 @@ module.exports = function(app) {
                 res.send(r);
             } else {
                 r.status = 'created';
-                r.data = _class;
+                // console.log(_class);
+                // r.data = _class;
                 res.send(r);
             }
         });
@@ -89,14 +141,14 @@ module.exports = function(app) {
 
     //update Class reg
     app.post('/updateClassReg', function(req, res) {
-        var classReg = req.param('classReg');
+        var classReg = req.param('class');
         // console.log(_class);
 
         ClassReg.findOne({
-            course_id: classReg.course_id
+            _id: classReg._id
         }, function(err, _class) {
             if (err) {
-                res.send('error1');
+                res.send('error');
             } else if (_class) {
                 // console.log(_class);
                 if(classReg.classDay){ _class.classDay = classReg.classDay;}
@@ -108,7 +160,7 @@ module.exports = function(app) {
                 _class.save(function(err) {
                     if (err) {
                         console.log(err);
-                        res.send('error2');
+                        res.send('error');
                     } else {
                         res.send('updated');
                     }
@@ -126,7 +178,7 @@ module.exports = function(app) {
         var _id = req.param('id');
 
         ClassReg.findOne({
-            course_id: _id
+            _id: _id
         }, function(err, classReg) {
 
             // if there are any errors, return the error
@@ -166,7 +218,7 @@ module.exports = function(app) {
         var _id = req.param('id');
 
         ClassReg.findOne({
-            course_id: _id
+            _id: _id
         }, function(err, classReg) {
 
             // if there are any errors, return the error
@@ -174,7 +226,7 @@ module.exports = function(app) {
                 res.send(err);
             } else if (classReg) {
                 var User = require('../models/user');
-                console.log(classReg);
+                // console.log(classReg);
 
                 User
                     .find()
@@ -207,13 +259,13 @@ module.exports = function(app) {
         var async = require('async');
 
         var user = req.param('user');
-        var course_id = req.param('course_id');
+        var class_id = req.param('class_id');
         var classRegtype = req.param('classRegtype');
 
         // var id = req.param('id');
 
         ClassReg.findOne({
-            course_id: course_id
+            _id: class_id
         }, function(err, classReg) {
             // if there are any errors, return the error
             if (err) {
@@ -243,7 +295,7 @@ module.exports = function(app) {
                                 //console.log(err);
                                 res.send('Student Already Added!');
                             } else {
-                                classReg.course_id = course_id;
+                                // classReg.course_id = course_id;
 
                                 // save the user
                                 classReg.save(function(err) {
@@ -275,7 +327,7 @@ module.exports = function(app) {
                             if (err) {
                                 res.send('Teacher Already Added!');
                             } else {
-                                classReg.course_id = course_id;
+                                // classReg.course_id = course_id;
 
                                 // save the user
                                 classReg.save(function(err) {

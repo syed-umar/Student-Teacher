@@ -214,6 +214,25 @@ router.get('/editcourse', function(req, res) {
 	}
 });
 
+/* GET Admin add edit class */
+router.get('/addeditclass', function(req, res) {
+	if (req.session.isAdmin && req.isAuthenticated()) {
+
+		var common = require("../config/common");
+
+		res.locals.logged = 1;
+		res.locals.isAdmin = req.session.isAdmin;
+		res.render('addeditclass', {
+			title: 'Admin Add/Edit Class',
+			heading: '',
+			user: req.user,
+			common: common
+		});
+	} else {
+		res.redirect('/');
+	}
+});
+
 /* GET Admin create class */
 router.get('/classreg', function(req, res) {
 	if (req.session.isAdmin && req.isAuthenticated()) {
@@ -246,6 +265,25 @@ router.get('/classreg', function(req, res) {
 // 		res.redirect('/');
 // 	}
 // });
+
+router.get('/classroom/:id', function(req, res) {
+
+	res.locals.class_id = req.param('id');
+	res.locals.logged = 0;
+	res.locals.isAdmin = req.session.isAdmin;
+
+	if (req.isAuthenticated()) {
+		res.locals.logged = 1;
+		res.render('classroom', {
+			title: 'Class Room',
+			heading: 'Class Room page',
+			user: req.user
+		});
+	} else {
+		res.redirect('/');
+	}
+
+});
 
 /* GET home page. */
 router.get('/register', function(req, res) {

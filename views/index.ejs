@@ -65,29 +65,24 @@
                                 <div class="box box-primary">
                                     <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
                                         <h3 class="box-title">Class Details</h3>
-
                                     </div>
                                     <div class="box-body">
 
+                                        <a ng-href="/classroom/{{class._id}}" class="btn btn-primary">Goto Class</a>
+                                        <br>
                                         <dl>
                                             <dt>Class ID:</dt>
                                             <dd>{{ class.classID }}</dd>
-                                            <dt>Class Name:</dt>
-                                            <dd>{{ class.className }}</dd>
                                             <dt>Start Date:</dt>
-                                            <dd>{{ class.starttime }}</dd>
+                                            <dd>{{ class.startDate }}</dd>
                                             <dt>End Date:</dt>
-                                            <dd>{{ class.endtime }}</dd>
+                                            <dd>{{ class.endDate }}</dd>
                                             <dt>Start Time:</dt>
-                                            <dd>{{ class.startingTime }}</dd>
-                                            <dt>End Time:</dt>
-                                            <dd>{{ class.endingTime }}</dd>
-                                            <dt>Package Name:</dt>
-                                            <dd>{{ class.packageName }}</dd>
-                                            <dt>Class Category:</dt>
-                                            <dd>{{ class.classCategory }}</dd>
-                                            <dt>School Name:</dt>
-                                            <dd>{{ class.schoolName }}</dd>
+                                            <dd>{{ class.startTime }}</dd>
+                                            <dt>Duration:</dt>
+                                            <dd>{{ class.duration }}</dd>
+                                            <dt>classDay:</dt>
+                                            <dd>{{ class.classDay }}</dd>
                                         </dl>
 
                                     </div><!-- /.box-body -->

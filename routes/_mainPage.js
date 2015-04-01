@@ -1,4 +1,4 @@
-// var _Class = require('../models/class');
+var _Class = require('../models/class');
 var User = require('../models/user');
 var ClassReg = require('../models/classRegistration');
 
@@ -18,7 +18,6 @@ module.exports = function(app) {
 				if (err) {
 					res.send('User not Found');
 				} else {
-					// console.log('type: '+user.local.userType);
 					if (user.local.userType == 'teacher') {
 						ClassReg.find({
 							'teachers': {
@@ -34,18 +33,15 @@ module.exports = function(app) {
 								// //make array of ids
 								var class_ids = [];
 								docs.forEach(function(item) {
-									class_ids.push(item._id);
+									class_ids.push(item.class_id);
 								});
 
-								// console.log('class ids: '+ class_ids);
-
 								// //find all the class details
-								ClassReg.find({
+								_Class.find({
 									'_id': {
 										$in: class_ids
 									}
 								}, function(err, docs) {
-									// console.log('docs: '+ docs);
 									if (err) {
 										res.send(err);
 									} else {
@@ -69,22 +65,19 @@ module.exports = function(app) {
 							if (err) {
 								res.send(err);
 							} else if (docs) {
-								// console.log('classes: '+ JSON.stringify(docs));
+
 								// //make array of ids
 								var class_ids = [];
 								docs.forEach(function(item) {
-									class_ids.push(item._id);
+									class_ids.push(item.class_id);
 								});
 
-								// console.log('class ids: '+ class_ids);
-
 								// //find all the class details
-								ClassReg.find({
+								_Class.find({
 									'_id': {
 										$in: class_ids
 									}
 								}, function(err, docs) {
-									// console.log('docs: '+ docs);
 									if (err) {
 										res.send(err);
 									} else {
@@ -108,7 +101,7 @@ module.exports = function(app) {
 		var id = req.param('id');
 
 		ClassReg.findOne({
-			'_id': id
+			'class_id': id
 		}, function(err, classReg) {
 			if (err) {
 				res.send(err);
@@ -135,6 +128,10 @@ module.exports = function(app) {
 					});
 
 				});
+
+				
+
+
 			}
 		});
 	});

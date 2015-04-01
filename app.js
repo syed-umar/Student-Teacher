@@ -63,6 +63,7 @@ app.use('/', routes);
 require('./routes/users')(app);
 require('./routes/course')(app);
 require('./routes/classReg')(app);
+require('./routes/addeditclass')(app);
 require('./routes/mainPage')(app);
 require('./routes/wav')(app);
 
@@ -73,6 +74,7 @@ require('./routes/passport')(app, passport);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/editclasses', express.static(__dirname + '/public'));
+app.use('/classroom', express.static(__dirname + '/public'));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -34,6 +34,7 @@ validationApp.controller('dataController', function($scope, $http, $timeout) {
 		$http.get('/getclassRegbyClassid/' + _class._id)
 			.success(function(docs) {
 				$scope.classReg = docs;
+				console.log(docs);
 			})
 			.error(function(err) {
 				console.log(err);

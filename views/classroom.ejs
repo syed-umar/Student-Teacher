@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+    <script type="text/javascript">
+    var user_id = '<%= user._id %>';
+    var class_id = '<%= class_id %>';
+    var userType = '<%= user.local.userType %>';
+
+    console.log(user_id, class_id, userType);
+    </script>
+
+</body>
+</html>

@@ -72,7 +72,7 @@ module.exports = function(app) {
         });
     });
 
-    // getClassRegList
+    // getClassRegList by course ID
     app.get('/getClassRegList/:id', function(req, res){
         var course_id = req.param("id");
 

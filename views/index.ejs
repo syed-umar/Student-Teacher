@@ -25,7 +25,6 @@
             <!-- Main content -->
             <section class="content" ng-app="validationApp">
 
-
                 <% if(serverMsg != null) {%>
                 <div class="callout callout-primary server_msg">
                     <h4>Server Msg</h4>
@@ -33,12 +32,11 @@
                 </div>
                 <% } %>
 
-
                 <% if(logged){ %>
 
                 <div ng-controller="dataController" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="app" style="display: none;">
 
-                    Welcome, <%= user.local.firstName %> <%= user.local.lastName %>
+                    <%= __('Hello') %>, <%= user.local.firstName %> <%= user.local.lastName %>
 
                     <br><br>
 

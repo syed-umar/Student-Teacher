@@ -12,7 +12,8 @@ var classRegSchema = mongoose.Schema({
     endDate: Date,
     classDay: String,
     startTime: String,
-    duration: String
+    duration: String,
+    class_name: String
 });
 
 // methods ======================

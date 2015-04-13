@@ -85,7 +85,7 @@ module.exports = function(app) {
             var lastname = req.param('lastname', null);
             var phone = req.param('phone', null);
             var skype = req.param('skype', null);
-            var usertype = req.param('type', null);
+            var usertype = 'student'; //req.param('type', null);
             var userID = req.param('userID', null);
             var student_schoolName = req.param('student_schoolName', null);
             var student_guardianInfo = req.param('student_guardianInfo', null);
@@ -94,6 +94,7 @@ module.exports = function(app) {
             var teacher_qualification = req.param('teacher_qualification', null);
             var teacher_grade = req.param('teacher_grade', null);
             var teacher_description = req.param('teacher_description', null);
+            var prefered_lang = req.param('prefered_lang', null);
             //var teacher_attachments = req.param('teacher_attachments', null);
 
             User.findOne({
@@ -126,6 +127,7 @@ module.exports = function(app) {
                     newUser.local.teacher_qualification = teacher_qualification;
                     newUser.local.teacher_grade = teacher_grade;
                     newUser.local.teacher_description = teacher_description;
+                    newUser.local.prefered_lang = prefered_lang;
 
 
                     //save the user

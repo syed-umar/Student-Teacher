@@ -43,13 +43,13 @@
                             <form role="form" novalidate name="signupForm">
                                 <div class="box-body">
 
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>Select Type</label>
                                         <select class="form-control" ng-model="user.type" name="usertype" ng-init="user.type='student'">
                                             <option value="student">Student</option>
                                             <option value="teacher">Teacher</option>
                                         </select>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="email">Email address</label>
                                         <input type="email" class="form-control" ng-model="user.email" name="email" required placeholder="Enter email">
@@ -100,6 +100,14 @@
                                               <span ng-show="signupForm.skype.$error.required">Skype ID is required.</span>
                                         </span>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Select Prefered Language</label>
+                                        <select class="form-control" ng-model="user.prefered_lang" ng-init="user.prefered_lang='ch'">
+                                            <option value="ch">Chinese</option>
+                                            <option value="en">English</option>
+                                        </select>
+                                    </div>
+                                    
 
                                 </div><!-- /.box-body -->
 

@@ -13,8 +13,9 @@ var userSchema = mongoose.Schema({
         lastName: String,
         phone: String,
         skype: String,
-        userType: String, //student, teacher
+        userType: { type: String, default: "student"}, //student, teacher
         isEvaluator: { type: String, default: "false" },
+        prefered_lang: { type: String, default: "ch" },
         userID: String,
         student_schoolName: String,
         student_guardianInfo: String,

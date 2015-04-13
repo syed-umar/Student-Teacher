@@ -1,4 +1,6 @@
 var ClassReg = require('../models/classRegistration');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 module.exports = function(app) {
 
@@ -73,15 +75,15 @@ module.exports = function(app) {
     });
 
     // getClassRegList by course ID
-    app.get('/getClassRegList/:id', function(req, res){
+    app.get('/getClassRegList/:id', function(req, res) {
         var course_id = req.param("id");
 
         ClassReg.find({
             course_id: course_id
-        }, function(err, _class){
-            if(err){
+        }, function(err, _class) {
+            if (err) {
                 res.send('error');
-            } else if(_class){
+            } else if (_class) {
                 res.json(_class);
             } else {
                 res.send('[]');
@@ -101,7 +103,7 @@ module.exports = function(app) {
         // var endDate = req.param('endDate');
         // var classDay = req.param('classDay');
         // var duration = req.param('duration');
-    
+
         var newClassReg = new ClassReg();
 
         newClassReg.course_id = ID;
@@ -111,6 +113,7 @@ module.exports = function(app) {
         newClassReg.classDay = classReg.classDay;
         newClassReg.duration = classReg.duration;
         newClassReg.startTime = classReg.startTime;
+        newClassReg.class_name = classReg.class_name;
 
         var r = {};
 
@@ -151,12 +154,25 @@ module.exports = function(app) {
                 res.send('error');
             } else if (_class) {
                 // console.log(_class);
-                if(classReg.classDay){ _class.classDay = classReg.classDay;}
-                if(classReg.startDate){ _class.startDate = classReg.startDate;}
-                if(classReg.endDate){ _class.endDate = classReg.endDate;}
-                if(classReg.startTime){ _class.startTime = classReg.startTime;}
-                if(classReg.duration){ _class.duration = classReg.duration;}
-                
+                if (classReg.classDay) {
+                    _class.classDay = classReg.classDay;
+                }
+                if (classReg.startDate) {
+                    _class.startDate = classReg.startDate;
+                }
+                if (classReg.endDate) {
+                    _class.endDate = classReg.endDate;
+                }
+                if (classReg.startTime) {
+                    _class.startTime = classReg.startTime;
+                }
+                if (classReg.duration) {
+                    _class.duration = classReg.duration;
+                }
+                if (classReg.class_name) {
+                    _class.class_name = classReg.class_name;
+                }
+
                 _class.save(function(err) {
                     if (err) {
                         console.log(err);
@@ -168,6 +184,118 @@ module.exports = function(app) {
             }
         });
 
+    });
+
+    // ipload Class files
+    app.post('/classFilesUpload/:classId', multipartMiddleware, function(req, res) {
+
+        var classId = req.param('classId');
+        var fs = require('fs');
+        var savePath = './public/uploads/classes/' + classId + '/files/';
+
+        var files = req.files.fileToUpload;
+
+        var async = require('async');
+        async.map(files, function(file, cb) {
+            var summary = {};
+
+            //check type
+            if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif' || file.type == 'application/pdf' || file.type == 'application/msword' || file.type == 'application/vnd.oasis.opendocument.text') {
+                //check size - 10mb
+                if (file.size <= 10000000) {
+                    var fs = require('fs');
+
+                    //create save path
+                    if (!fs.exists(savePath)) {
+                        var mkdirp = require('mkdirp');
+
+                        mkdirp(savePath, function(err) {
+                            if (err) {
+                                // console.log(err)
+                                summary.status = file.name + ': ' + err;
+                                cb(null, summary);
+                            } else {
+                                fs.readFile(file.path, function(err, data) {
+                                    if (err) {
+                                        // res.send(err);
+                                        summary.status = file.name + ': ' + err;
+                                        cb(null, summary);
+                                    } else {
+
+                                        //set extention
+                                        var ext = '';
+                                        if (file.type == 'image/png') {
+                                            ext = ".png";
+                                        };
+                                        if (file.type == 'image/jpg') {
+                                            ext = ".jpg";
+                                        };
+                                        if (file.type == 'image/jpeg') {
+                                            ext = ".jpeg";
+                                        };
+                                        if (file.type == 'image/gif') {
+                                            ext = ".gif";
+                                        };
+                                        if (file.type == 'application/pdf') {
+                                            ext = ".pdf";
+                                        };
+                                        if (file.type == 'application/msword') {
+                                            ext = ".doc";
+                                        };
+                                        if (file.type == 'application/vnd.oasis.opendocument.text') {
+                                            ext = ".odt";
+                                        };
+
+                                        fs.writeFile(savePath + file.name, data, function(err) {
+                                            if (err) {
+                                                // res.send(err);
+                                                summary.status = file.name + ': ' + err;
+                                                cb(null, summary);
+                                            } else {
+                                                // res.send('Saved pic');
+                                                summary.status = file.name + ': saved';
+                                                // console.log(summary.status);
+                                                cb(null, summary);
+                                            }
+                                        });
+                                    }
+
+                                });
+                            }
+                        });
+                    };
+
+
+                } else {
+                    // res.send('Size must be less the 2 MB');
+                    summary.status = file.name + ': Size must be less than 10 MB';
+                    cb(null, summary);
+                }
+            } else {
+                summary.status = file.name + ': Allowed formats: jpg, jped, png, gif, pdf, msword, odt';
+                cb(null, summary);
+            }
+
+        }, function(err, results) {
+            // results is now an array of stats for each file 
+            // console.log(results);
+            res.send(results);
+        });
+
+        // res.end();
+
+    });
+
+    // get all Class files
+    app.get('/getClassFiles/:classId', function(req, res) {
+        var classId = req.param('classId');
+        var filesPath = './public/uploads/classes/' + classId + '/files/';
+
+        var fs = require('fs');
+        fs.readdir(filesPath, function(err, data) {
+            res.json({files: data});
+            // console.log(data);
+        });
     });
 
     /*

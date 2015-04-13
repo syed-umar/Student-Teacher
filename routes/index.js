@@ -29,13 +29,6 @@ module.exports = function(app) {
 
         } else {
 
-            // req.i18n.setLocale('ur');
-
-            // or set it via the cookie
-  			res.cookie('locale', 'ch');
-  			req.i18n.setLocaleFromCookie();
-
-            // console.log(req.i18n.__('Hello i18n'));
             res.render('index', {
                 title: 'Home',
                 heading: 'Main page'
@@ -47,10 +40,7 @@ module.exports = function(app) {
     // change language
     app.get('/changeLang/:lang', function(req, res){
     	var lang =  req.param('lang');
-
-    	res.cookie('locale', lang);
-		req.i18n.setLocaleFromCookie();
-
+        req.session.sessionLang = lang;
 		res.redirect('back');
     });
 

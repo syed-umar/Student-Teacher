@@ -65,7 +65,7 @@
 
                                 </div>
                                 <div class="box-body">
-                                    <form>
+                                    <form novalidate>
                                         <div class="form-group">
                                             Class Day: <select ng-model="classReg.classDay" class="form-control">
                                                 <option value="Monday">Monday</option>
@@ -76,6 +76,9 @@
                                                 <option value="Saturday">Saturday</option>
                                                 <option value="Sunday">Sunday</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            Class Name: <input type="text" ng-model="classReg.class_name" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.startDate" value="{{classReg.startDate | date}}">
@@ -89,6 +92,7 @@
                                         <div class="form-group">
                                             Duration: <input type="text" ng-model="classReg.duration" class="form-control">
                                         </div>
+                                        
                                         <div class="form-group">
                                             <button class="btn btn-primary" ng-click="createClassReg()">Save</button>
                                         </div>
@@ -121,6 +125,9 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            Class Name: <input type="text" ng-model="_class.class_name" class="form-control">
+                                        </div>
+                                        <div class="form-group">
                                             StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.startDate" value="{{_class.startDate | date}}">
                                         </div>
                                         <div class="form-group">
@@ -140,6 +147,39 @@
 
                             </div>
                         </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="showFiles">
+                            <div class="box box-primary">
+                                <div class="box-header" data-toggle="tooltip" title="" data-original-title="Edit Class">
+                                    <h3 class="box-title">Upload files</h3>
+
+                                </div>
+                                <div class="box-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">Select files</label>
+                                              <input id="classFiles" type="file" multiple>
+                                              <button ng-click="uploadFile()">Upload</button>
+                                              <p>{{uploadStatus}}</p>
+                                              <p>
+                                                  <ul>
+                                                      <li ng-repeat="result in uploadResults">
+                                                          {{ result.status }}
+                                                      </li>
+                                                  </ul>
+                                              </p>
+                                              <p>
+                                                  Files Added to Class<hr>
+                                                  <ul>
+                                                      <li ng-repeat="file in classFiles"><a ng-href="/uploads/classes/{{_class._id}}/files/{{file}}" target="_blank">{{ file }}</a></li>
+                                                  </ul>
+                                              </p>
+                                        </div>
+                                    </form>
+                                </div><!-- /.box-body -->
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -150,6 +190,7 @@
     <script src="/angular/angular.min.js"></script>
     <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
+    
     <script src="/angular_app/addeditclass/app.js"></script>
 
 

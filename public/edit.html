@@ -1,0 +1,22 @@
+<td>
+	<input type="text" ng-model="session.sessionID" ng-value="{{session.sessionID}}" />
+</td>
+<td>
+    <input type="text" ng-model="session.sessionDate" ng-value="{{session.sessionDate}}" />
+</td>
+<td>
+    <input type="text" ng-model="session.startTime" ng-value="{{session.startTime}}" />
+</td>
+<td>
+    <input type="text" ng-model="session.duration" ng-value="{{session.duration}}" />
+</td>
+<td>
+    <input type="text" ng-model="session.comments" ng-value="{{session.comments}}" />
+</td>
+<td>
+    <input type="text" ng-model="session.notification" ng-value="{{session.notification}}" />
+</td>
+<td>
+    <button ng-click="updateSession(session)">Save</button>
+    <button ng-click="reset()">Cancel</button>
+</td>

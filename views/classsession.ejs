@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+        <% var log = logged %>
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content" ng-app="sessionApp" ng-controller="mainController">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <select class="form-control" ng-model="selectedCourse" ng-options="course as course.courseName for course in courses" ng-change="getCourse(selectedCourse)">
+                            <option value="">Select A Course</option>
+                        </select>
+                        <br>
+                        <select class="form-control" ng-model="selectedClass" ng-options="class as class.classID for class in classes" ng-change="getClass(selectedClass)">
+                            <option value="">Select A Class</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 15px;" ng-show="showClasses">
+                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+                </div>
+
+                <div ng-show="showClasses">
+                  <table class="table table-bordered table-hover table-condensed">
+                    <tr style="font-weight: bold">
+                      <td >SessionID</td>
+                      <td >Session Date</td>
+                      <td >Start time</td>
+                      <td >Duration</td>
+                      <td >Comments</td>
+                      <td >Notification</td>
+
+                      <td>Edit</td>
+                      
+                    </tr>
+                    <!-- <tr ng-repeat="session in sessions"> -->
+                    <tr dir-paginate="session in sessions | itemsPerPage: sessionsPerPage" total-items="totalSessions" ng-include="getTemplate(session)">
+
+                      
+                    </tr>
+                  </table>
+
+
+                  
+                </div>
+
+                <!-- classID: String,
+    sessionID: String,
+    sessionDate: String, 
+    startTime: String, 
+    duration: String, 
+    comments: String,
+    notification: String -->
+
+                <div class="col-lg-6  col-md-6 col-sm-12 col-xs-12" ng-show="showAddForm">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Add New Session to Class</h3>
+                        </div><!-- /.box-header -->
+                        <!-- form start -->
+                        
+                        <div class="box-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Session Date</label>
+                                    <input type="text" ng-model="newSession.sessionDate" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Session Start Time</label>
+                                    <input type="text" ng-model="newSession.startTime" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input type="text" ng-model="newSession.duration" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Comments</label>
+                                    <input type="text" ng-model="newSession.comments" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Notification</label>
+                                    <input type="text" ng-model="newSession.notification" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" ng-click="addSession()">Add Session</button>
+                                </div>
+                            </form>     
+                        </div><!-- /.box-body -->
+
+                    </div>
+                    
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+
+<% if(logged){ %>
+<script>
+var logged_in = "<%= logged %>";
+</script>
+<%  } else { %>
+<script>
+//set user id
+var logged_in = "<%= logged %>";
+</script>
+<% } %>
+
+
+<script src="/angular/angular.min.js"></script>
+<script src="/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
+<script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
+<script src="/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="/angular_app/classSession/app.js"></script>
+
+
+    <script type="text/ng-template" id="edit">
+        <td><input type="text" ng-model="model.selected.name" /></td>
+        <td><input type="text" ng-model="model.selected.age" /></td>
+        <td>
+            <button ng-click="saveContact($index)">Save</button>
+            <button ng-click="reset()">Cancel</button>
+        </td>
+    </script>
+
+</body>
+</html>

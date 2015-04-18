@@ -31,7 +31,6 @@ editClassApp.controller('mainController', ['$scope', '$http', '$timeout', functi
     $scope.pagination = {
         current: 1
     };
-
     
     $scope.editClassfunc = function(isValid) {
         if (isValid) {

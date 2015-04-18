@@ -99,6 +99,7 @@ require('./routes/index')(app);
 require('./routes/users')(app);
 require('./routes/course')(app);
 require('./routes/classReg')(app);
+require('./routes/classSession')(app);
 require('./routes/mainPage')(app);
 require('./routes/wav')(app);
 

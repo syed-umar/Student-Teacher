@@ -7,7 +7,7 @@
         <ul class="sidebar-menu">
             <li>
                 <a href="/">
-                    <i class="fa fa-home"></i> <span>Home</span>
+                    <i class="fa fa-home"></i> <span><%= __('Home') %></span>
                 </a>
             </li>
             
@@ -40,7 +40,7 @@
             <% if(logged == '0'){%>
                 <li>
                     <a href="/auth">
-                        <i class="fa fa-user"></i> <span>Register and Login</span>
+                        <i class="fa fa-user"></i> <span><%= __('Register and Login') %></span>
                     </a>
                 </li>
             <% } %>
@@ -67,6 +67,11 @@
                 </a>
             </li>
             <li>
+                <a href="/classsession">
+                    <i class="fa fa-group"></i> <span>Add/Remove Class Sessions</span>
+                </a>
+            </li>
+            <li>
                 <a href="/manageEvaluators">
                     <i class="fa fa-group"></i> <span>Add/Remove Evaluators</span>
                 </a>
@@ -74,7 +79,7 @@
             <% } %>
             <li>
                 <a href="/contactus">
-                    <i class="fa fa-user"></i> <span>Contact Us</span>
+                    <i class="fa fa-user"></i> <span><%= __('Contact Us') %></span>
                 </a>
             </li>
             

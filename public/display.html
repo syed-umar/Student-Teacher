@@ -1,0 +1,33 @@
+<td>
+    <span editable-text="session.sessionID" e-name="sessionID" e-form="rowform" e-required>
+                          {{ session.sessionID || 'empty' }}
+                        </span>
+</td>
+<td>
+    <span editable-text="session.sessionDate" e-name="sessionDate" e-form="rowform" e-required>
+                          {{ session.sessionDate || 'empty' }}
+                        </span>
+</td>
+<td>
+    <span editable-text="session.startTime" e-name="startTime" e-form="rowform" e-required>
+                          {{ session.startTime || 'empty' }}
+                        </span>
+</td>
+<td>
+    <span editable-text="session.duration" e-name="duration" e-form="rowform" e-required>
+                          {{ session.duration || 'empty' }}
+                        </span>
+</td>
+<td>
+    <span editable-text="session.comments" e-name="comments" e-form="rowform" e-required>
+                          {{ session.comments || 'empty' }}
+                        </span>
+</td>
+<td>
+    <span editable-text="session.notification" e-name="notification" e-form="rowform" e-required>
+                          {{ session.notification || 'empty' }}
+                        </span>
+</td>
+<td>
+    <button ng-click="editContact(session)">Edit</button>
+</td>

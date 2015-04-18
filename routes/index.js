@@ -199,6 +199,22 @@ module.exports = function(app) {
         }
     });
 
+    /* GET Admin add/Edit class session */
+    app.get('/classsession', function(req, res) {
+        if (req.session.isAdmin && req.isAuthenticated()) {
+            res.locals.logged = 1;
+            res.locals.isAdmin = req.session.isAdmin;
+
+            res.render('classsession', {
+                title: 'Add/Edit Class Sessions',
+                heading: '',
+                user: req.user
+            });
+        } else {
+            res.redirect('/');
+        }
+    });
+
     /* GET Admin edit class */
     app.get('/editcourse', function(req, res) {
         if (req.session.isAdmin && req.isAuthenticated()) {

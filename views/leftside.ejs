@@ -15,24 +15,24 @@
             <% if(logged){ %>
             <li>
                 <a href="/editprofile">
-                    <i class="fa fa-user"></i> <span>Profile</span>
+                    <i class="fa fa-user"></i> <span><%= __('Profile') %></span>
                 </a>
             </li>
             <li>
                 <a href="/recordAudio">
-                    <i class="fa fa-user"></i> <span>Record Audio</span>
+                    <i class="fa fa-user"></i> <span><%= __('Record') %></span>
                 </a>
             </li>
             <li>
                 <a href="/myAudios">
-                    <i class="fa fa-user"></i> <span>My Recorded Audios</span>
+                    <i class="fa fa-user"></i> <span><%= __('My Audio Clips') %></span>
                 </a>
             </li>
 
                 <% if(isEvaluator){ %>
                     <li>
                         <a href="/scoreClips">
-                            <i class="fa fa-user"></i> <span>Score Clips</span>
+                            <i class="fa fa-user"></i> <span><%= __('Score Clips') %></span>
                         </a>
                     </li>                    
                 <% } %>
@@ -48,32 +48,32 @@
             <% if(isAdmin){ %>
             <li>
                 <a href="/createcourse">
-                    <i class="fa fa-bars"></i> <span>Add Course</span>
+                    <i class="fa fa-bars"></i> <span><%= __('Add Course') %></span>
                 </a>
             </li>
             <li>
                 <a href="/editcourse">
-                    <i class="fa fa-edit"></i> <span>Edit Course</span>
+                    <i class="fa fa-edit"></i> <span><%= __('Edit Course') %></span>
                 </a>
             </li>
             <li>
                 <a href="/addeditclass">
-                    <i class="fa fa-edit"></i> <span>Add/Edit Class</span>
+                    <i class="fa fa-edit"></i> <span><%= __('Add/Edit Class') %></span>
                 </a>
             </li>
             <li>
                 <a href="/classreg">
-                    <i class="fa fa-group"></i> <span>Add/Edit Class Registration</span>
+                    <i class="fa fa-group"></i> <span><%= __('Add/Edit Class Registration') %></span>
                 </a>
             </li>
             <li>
                 <a href="/classsession">
-                    <i class="fa fa-group"></i> <span>Add/Remove Class Sessions</span>
+                    <i class="fa fa-group"></i> <span><%= __('Add/Remove Class Sessions') %></span>
                 </a>
             </li>
             <li>
                 <a href="/manageEvaluators">
-                    <i class="fa fa-group"></i> <span>Add/Remove Evaluators</span>
+                    <i class="fa fa-group"></i> <span><%= __('Add/Edit Evaluators') %></span>
                 </a>
             </li>
             <% } %>

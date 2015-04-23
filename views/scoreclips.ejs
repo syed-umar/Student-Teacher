@@ -52,20 +52,20 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                Added: {{ clip.added | date }} <br>
-                                                Status: {{ clip.status }} <br>
-                                                Pronunciation : {{ clip.pronunciation }} <br>
-                                                Accent : {{ clip.accent }} <br>
-                                                Vocabulary : {{ clip.vocabulary }} <br>
-                                                Expression : {{ clip.expression }} <br>
-                                                Pace : {{ clip.pace }} <br>
-                                                Final Score : {{ clip.finalScore }} <br>
+                                                <%= __('Added') %>: {{ clip.added | date }} <br>
+                                                <%= __('Status') %>: {{ clip.status }} <br>
+                                                <%= __('Pronunciation') %> : {{ clip.pronunciation }} <br>
+                                                <%= __('Accent') %> : {{ clip.accent }} <br>
+                                                <%= __('Vocabulary') %> : {{ clip.vocabulary }} <br>
+                                                <%= __('Expression') %> : {{ clip.expression }} <br>
+                                                <%= __('Pace') %> : {{ clip.pace }} <br>
+                                                <%= __('Final Score') %> : {{ clip.finalScore }} <br>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                 <button class="btn btn-danger">Delete Clip</button>
                                                 <br><br>
                                                 <select class="form-control" ng-model="clipsModel[clip._id].status" ng-change="updateStatus(clip)">
-                                                    <option ng-selected="1">Select Status</option>
+                                                    <option ng-selected="1">Select <%= __('Status') %></option>
                                                     <option>New</option>
                                                     <option>In evaluation</option>
                                                     <option>Scored</option>
@@ -76,7 +76,7 @@
                                         <div class="col-lg-312 col-md-12 col-sm-12 col-xs-12 well" style="margin-top: 15px;">
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                 <select class="form-control" ng-model="clipsModel[clip._id].pronunciation">
-                                                    <option ng-selected="1">Score Pronunciation</option>
+                                                    <option ng-selected="1">Score <%= __('Pronunciation') %></option>
                                                     <option>1</option>
                                                     <option>2</option>
                                                     <option>3</option>
@@ -91,7 +91,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             <select class="form-control" ng-model="clipsModel[clip._id].accent">
-                                                <option ng-selected="1">Score Accent</option>
+                                                <option ng-selected="1">Score <%= __('Accent') %></option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -106,7 +106,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             <select class="form-control" ng-model="clipsModel[clip._id].vocabulary">
-                                                <option ng-selected="1">Score Vocabulary</option>
+                                                <option ng-selected="1">Score <%= __('Vocabulary') %></option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -121,7 +121,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             <select class="form-control" ng-model="clipsModel[clip._id].expression">
-                                                <option ng-selected="1">Score Expression</option>
+                                                <option ng-selected="1">Score <%= __('Expression') %></option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -136,7 +136,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             <select class="form-control" ng-model="clipsModel[clip._id].pace">
-                                                <option ng-selected="1">Score Pace</option>
+                                                <option ng-selected="1">Score <%= __('Pace') %></option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -151,7 +151,7 @@
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                             <select class="form-control" ng-model="clipsModel[clip._id].finalScore">
-                                                <option ng-selected="1">Final Score</option>
+                                                <option ng-selected="1"><%= __('Final Score') %></option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>

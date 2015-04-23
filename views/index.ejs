@@ -36,7 +36,7 @@
 
                 <div ng-controller="dataController" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="app" style="display: none;">
 
-                    <%= __('Hello') %>, <%= user.local.firstName %> <%= user.local.lastName %>
+                    <%= __('Welcome') %>, <%= user.local.firstName %> <%= user.local.lastName %>
 
                     <br><br>
 
@@ -46,7 +46,7 @@
                             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                 <div class="box box-primary">
                                     <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
-                                        <h3 class="box-title">Your Classes</h3>
+                                        <h3 class="box-title"><%= __('Your Classes') %></h3>
 
                                     </div>
                                     <div class="box-body">
@@ -62,24 +62,24 @@
                             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                 <div class="box box-primary">
                                     <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
-                                        <h3 class="box-title">Class Details</h3>
+                                        <h3 class="box-title"><%= __('Class Details') %></h3>
                                     </div>
                                     <div class="box-body">
 
-                                        <a ng-href="/classroom/{{class._id}}" class="btn btn-primary">Goto Class</a>
+                                        <a ng-href="/classroom/{{class._id}}" class="btn btn-primary"><%= __('Goto Class') %></a>
                                         <br>
                                         <dl>
-                                            <dt>Class ID:</dt>
+                                            <dt><%= __('Class ID') %>:</dt>
                                             <dd>{{ class.classID }}</dd>
-                                            <dt>Start Date:</dt>
+                                            <dt><%= __('StartDate') %>:</dt>
                                             <dd>{{ class.startDate }}</dd>
-                                            <dt>End Date:</dt>
+                                            <dt><%= __('End Date') %>:</dt>
                                             <dd>{{ class.endDate }}</dd>
-                                            <dt>Start Time:</dt>
+                                            <dt><%= __('Start Time') %>:</dt>
                                             <dd>{{ class.startTime }}</dd>
-                                            <dt>Duration:</dt>
+                                            <dt><%= __('Duration') %>:</dt>
                                             <dd>{{ class.duration }}</dd>
-                                            <dt>classDay:</dt>
+                                            <dt><%= __('Class Day') %>:</dt>
                                             <dd>{{ class.classDay }}</dd>
                                         </dl>
 
@@ -90,14 +90,14 @@
                             <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                                 <div class="box box-primary">
                                     <div class="box-header" data-toggle="tooltip" title="" data-original-title="Class Info">
-                                        <h3 class="box-title">Class Info</h3>
+                                        <h3 class="box-title"><%= __('Class Info') %></h3>
 
                                     </div>
                                     <div class="box-body">
                                       <div class="box box-solid">
                                         <div class="box-header">
                                             <i class="fa fa-user"></i>
-                                            <h3 class="box-title">Teachers</h3>
+                                            <h3 class="box-title"><%= __('Teachers') %></h3>
                                         </div><!-- /.box-header -->
                                         <div class="box-body">
                                             <ul class="list-unstyled">
@@ -123,7 +123,7 @@
                                     <div class="box box-solid">
                                         <div class="box-header">
                                             <i class="fa fa-users"></i>
-                                            <h3 class="box-title">Students</h3>
+                                            <h3 class="box-title"><%= __('Students') %></h3>
                                         </div><!-- /.box-header -->
                                         <div class="box-body">
                                             <ul class="list-unstyled">

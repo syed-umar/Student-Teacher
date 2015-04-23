@@ -37,17 +37,17 @@
                         </div><!-- /.box-header -->
                         <div class="box-body">
                             <select class="form-control" ng-model="selectedUser" ng-options="user as user.local.firstName for user in users" ng-change="setUser(selectedUser)">
-                                <option value="">Select A Teacher</option>
+                                <option value=""><%= __('Select a Teacher') %></option>
                             </select>
 
                             <br>
-                            <button class="btn btn-info" ng-click="makeEvaluator()">Make Evaluator</button>
+                            <button class="btn btn-info" ng-click="makeEvaluator()"><%= __('Make Evaluator') %></button>
                             <br><br>
-                            Full Name: {{ user.local.firstName }} {{ user.local.lastName }}
+                            <%= __('Full Name') %>: {{ user.local.firstName }} {{ user.local.lastName }}
                             <br>
-                            Availability: {{ user.local.teacher_availability }}
+                            <%= __('Availability') %>: {{ user.local.teacher_availability }}
                             <br>
-                            Qualification: {{ user.local.teacher_qualification }}
+                            <%= __('Qualification') %>: {{ user.local.teacher_qualification }}
 
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Current Evaluators</h3>
+                            <h3 class="box-title"><%= __('Current Evaluator') %></h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                             <ul>

@@ -1,6 +1,6 @@
 <div ng-controller="loginController">
 
-To Register a New Account Click <a href="/register">Here</a>
+{{ t_registerMsg }} <a href="/register">{{ t_here }}</a>
 
     <div class="pull-right col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <div class="box box-primary">
@@ -12,7 +12,7 @@ To Register a New Account Click <a href="/register">Here</a>
             <form role="form" method="post" action="/login" novalidate name="userForm" ng-submit="submitForm(userForm.$valid)">
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
+                        <label for="exampleInputEmail1">{{ t_email }}</label>
                         <input ng-model="email" required type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
 
                         <span style="color:red" ng-show="userForm.email.$dirty && userForm.email.$invalid">
@@ -22,7 +22,7 @@ To Register a New Account Click <a href="/register">Here</a>
 
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label for="exampleInputPassword1">{{ t_password }}</label>
                         <input ng-model="password" required type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         <span style="color:red" ng-show="userForm.password.$dirty && userForm.password.$invalid">
                                 <span ng-show="userForm.password.$error.required">Password is required.</span>
@@ -33,11 +33,11 @@ To Register a New Account Click <a href="/register">Here</a>
 
                         <div >
                             <label>
-                                <input ng-model="remember" name="remember" type="checkbox"> Remember
+                                <input ng-model="remember" name="remember" type="checkbox"> {{ t_remember }}
                             </label>
                         </div>
                         <div class="pull-right">
-                            <button type="button" ng-disabled="userForm.$invalid" ng-click="doLogin()" class="btn btn-primary">Login</button>
+                            <button type="button" ng-disabled="userForm.$invalid" ng-click="doLogin()" class="btn btn-primary">{{ t_login }}</button>
                         </div>
                     </div>
                     <div class="form-group">

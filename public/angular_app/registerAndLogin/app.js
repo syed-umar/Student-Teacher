@@ -41,6 +41,15 @@ authApp.config(['$routeProvider',
 
 // create angular controller
 authApp.controller('loginController', function($scope, $http, $location) {
+
+    //translations 
+    $scope.t_email = t_email;
+    $scope.t_password = t_password;
+    $scope.t_remember = t_remember;
+    $scope.t_login = t_login;
+    $scope.t_registerMsg = t_registerMsg;
+    $scope.t_here = t_here;
+
 	$scope.serverMsg = null;
 
 	if(logged_in == '0'){

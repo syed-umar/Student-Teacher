@@ -680,7 +680,7 @@ module.exports = function(app) {
 
         // score clip page
         app.get('/scoreClips', function(req, res) {
-            if (req.session.isAdmin && req.isAuthenticated()) {
+            if (req.isAuthenticated()) {
                 res.locals.logged = 1;
                 res.locals.isAdmin = req.session.isAdmin;
                 res.render('scoreclips', {

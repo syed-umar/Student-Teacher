@@ -35,20 +35,20 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title">Create New Course</h3>
+                                    <h3 class="box-title"><%= __('Create New Course') %></h3>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
                                 
                                 <div class="box-body">
                                     <p>
                                         <select class="form-control" ng-model="selectedCourse" ng-options="course as course.courseName for course in courses" ng-change="getCourse(selectedCourse)">
-                                                    <option value="">Select A Course</option>
+                                                    <option value=""><%= __('Select A Course') %></option>
                                                 </select>
                                     </p>
 
                                     <p>
                                         <select class="form-control" ng-model="selectedClass" ng-options="c as c.classID for c in classes" ng-change="getClass(selectedClass)">
-                                                    <option value="">Select A Class</option>
+                                                    <option value=""><%= __('Select A Class') %></option>
                                                 </select>
                                     </p>
 
@@ -61,13 +61,13 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="showAddClass">
                             <div class="box box-primary">
                                 <div class="box-header" data-toggle="tooltip" title="" data-original-title="Add Class">
-                                    <h3 class="box-title">Add Class to Course</h3>
+                                    <h3 class="box-title"><%= __('Add Class to Course') %></h3>
 
                                 </div>
                                 <div class="box-body">
                                     <form novalidate>
                                         <div class="form-group">
-                                            Class Day: <select ng-model="classReg.classDay" class="form-control">
+                                            <%= __('Class Day') %>: <select ng-model="classReg.classDay" class="form-control">
                                                 <option value="Monday">Monday</option>
                                                 <option value="Tuesday">Tuesday</option>
                                                 <option value="Wednessday">Wednessday</option>
@@ -78,19 +78,19 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            Class Name: <input type="text" ng-model="classReg.class_name" class="form-control">
+                                            <%= __('Class Name') %>: <input type="text" ng-model="classReg.class_name" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.startDate" value="{{classReg.startDate | date}}">
+                                            <%= __('StartDate') %>: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.startDate" value="{{classReg.startDate | date}}">
                                         </div>
                                         <div class="form-group">
-                                            End Date: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.endDate" value="{{classReg.endDate | date}}">
+                                            <%= __('End Date') %>: <input ui-date name="class_end_time" required class="form-control" ng-model="classReg.endDate" value="{{classReg.endDate | date}}">
                                         </div>
                                         <div class="form-group">
-                                            Start Time: <input type="text" ng-model="classReg.startTime" class="form-control">
+                                            <%= __('Start Time') %>: <input type="text" ng-model="classReg.startTime" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            Duration: <input type="text" ng-model="classReg.duration" class="form-control">
+                                            <%= __('Duration') %>: <input type="text" ng-model="classReg.duration" class="form-control">
                                         </div>
                                         
                                         <div class="form-group">
@@ -105,16 +105,16 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-show="showEditClass">
                             <div class="box box-primary">
                                 <div class="box-header" data-toggle="tooltip" title="" data-original-title="Edit Class">
-                                    <h3 class="box-title">Edit Class</h3>
+                                    <h3 class="box-title"><%= __('Edit Class') %></h3>
 
                                 </div>
                                 <div class="box-body">
                                     <form>
                                         <div class="form-group">
-                                            Class ID: {{ _class.classID }}
+                                            <%= __('Class ID') %>: {{ _class.classID }}
                                         </div>
                                         <div class="form-group">
-                                            Class Day: <select ng-model="_class.classDay" class="form-control">
+                                            <%= __('Class Day') %>: <select ng-model="_class.classDay" class="form-control">
                                                 <option value="Monday">Monday</option>
                                                 <option value="Tuesday">Tuesday</option>
                                                 <option value="Wednessday">Wednessday</option>
@@ -125,19 +125,19 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            Class Name: <input type="text" ng-model="_class.class_name" class="form-control">
+                                            <%= __('Class Name') %>: <input type="text" ng-model="_class.class_name" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            StartDate: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.startDate" value="{{_class.startDate | date}}">
+                                            <%= __('StartDate') %>: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.startDate" value="{{_class.startDate | date}}">
                                         </div>
                                         <div class="form-group">
-                                            End Date: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.endDate" value="{{_class.endDate | date}}">
+                                            <%= __('End Date') %>: <input ui-date name="class_end_time" required class="form-control" ng-model="_class.endDate" value="{{_class.endDate | date}}">
                                         </div>
                                         <div class="form-group">
-                                            Start Time: <input type="text" ng-model="_class.startTime" class="form-control">
+                                            <%= __('Start Time') %>: <input type="text" ng-model="_class.startTime" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            Duration: <input type="text" ng-model="_class.duration" class="form-control">
+                                            <%= __('Duration') %>: <input type="text" ng-model="_class.duration" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary" ng-click="updateClassReg(_class)">Update</button>

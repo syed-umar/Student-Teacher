@@ -32,28 +32,28 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Create New Course</h3>
+                            <h3 class="box-title"><%= __('Create New Course') %></h3>
                         </div><!-- /.box-header -->
                         <!-- form start -->
                         <form role="form" novalidate name="classForm">
                             <div class="box-body">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label for="class_name">Course Name</label>
+                                        <label for="class_name"><%= __('Course Name') %></label>
                                         <input ng-model="course.coursename" required type="text" class="form-control" name="class_name" placeholder="Enter Class name">
                                         <span style="color:red" ng-show="classForm.class_name.$dirty && classForm.class_name.$invalid">
                                             <span ng-show="classForm.class_name.$error.required">Course Name is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_ID">Course ID</label>
+                                        <label for="class_ID"><%= __('Course ID') %></label>
                                         <input ng-model="course.courseID" required type="text" class="form-control" name="class_id" placeholder="Enter Class ID">
                                         <span style="color:red" ng-show="classForm.class_id.$dirty && classForm.class_id.$invalid">
                                             <span ng-show="classForm.class_id.$error.required">Course ID is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_category">Category</label>
+                                        <label for="class_category"><%= __('Category') %></label>
                                         <!-- <input ng-model="course.courseCategory" required type="text" class="form-control" name="class_category" placeholder="Enter Course Category">
                                         <span style="color:red" ng-show="classForm.class_category.$dirty && classForm.class_category.$invalid">
                                             <span ng-show="classForm.class_category.$error.required">Course Category is required.</span>
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label for="class_school_name">School Name</label>
+                                        <label for="class_school_name"><%= __('School Name') %></label>
                                         <!-- <input ng-model="course.schoolName" required type="text" class="form-control" name="class_school_name" placeholder="Enter School name">
                                         <span style="color:red" ng-show="classForm.class_school_name.$dirty && classForm.class_school_name.$invalid">
                                             <span ng-show="classForm.class_school_name.$error.required">School Name is required.</span>
@@ -90,21 +90,21 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_desc">Description</label>
+                                        <label for="class_desc"><%= __('Description') %></label>
                                         <textarea ng-model="course.description" required class="form-control" name="class_desc" placeholder="Enter Class Description"></textarea>
                                         <span style="color:red" ng-show="classForm.class_desc.$dirty && classForm.class_desc.$invalid">
                                             <span ng-show="classForm.class_desc.$error.required">Description is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_school_name">Number of Classes</label>
+                                        <label for="class_school_name"><%= __('Number of Classes') %></label>
                                         <input ng-model="course.numberof" required type="text" class="form-control" name="class_numberof" placeholder="Enter Number of Classes">
                                         <span style="color:red" ng-show="classForm.class_numberof.$dirty && classForm.class_numberof.$invalid">
                                             <span ng-show="classForm.class_numberof.$error.required">Number is required.</span>
                                         </span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="class_package_name">Package Name</label>
+                                        <label for="class_package_name"><%= __('Package Name') %></label>
                                         <input ng-model="course.packageName" required type="text" class="form-control" name="class_package_name" placeholder="Enter Class Package name">
                                         <span style="color:red" ng-show="classForm.class_package_name.$dirty && classForm.class_package_name.$invalid">
                                             <span ng-show="classForm.class_package_name.$error.required">Package Name is required.</span>

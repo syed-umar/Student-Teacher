@@ -46,7 +46,7 @@
 
 
                       <div class="form-group">
-                        <label for="email">Email address</label>
+                        <label for="email"><%= __('Email address') %></label>
                         <input type="email" class="form-control" ng-model="user.email" name="email" required placeholder="Enter email">
 
                         <span style="color:red" ng-show="editForm.email.$dirty && editForm.email.$invalid">
@@ -57,7 +57,7 @@
                       </div>
 
                       <div class="form-group">
-                        <label for="firstname">First Name</label>
+                        <label for="firstname"><%= __('First Name') %></label>
                         <input type="text" class="form-control" ng-model="user.firstName" name="firstname" required placeholder="Enter First Name">
 
                         <span style="color:red" ng-show="editForm.firstname.$dirty && editForm.firstname.$invalid">
@@ -65,7 +65,7 @@
                         </span>
                       </div>
                       <div class="form-group">
-                        <label for="lastname">Last Name</label>
+                        <label for="lastname"><%= __('Last Name') %></label>
                         <input type="text" class="form-control" ng-model="user.lastName" name="lastname" required placeholder="Enter Last Name">
 
                         <span style="color:red" ng-show="editForm.lastname.$dirty && editForm.lastname.$invalid">
@@ -73,7 +73,7 @@
                         </span>
                       </div>
                       <div class="form-group">
-                        <label for="phone">Phone</label>
+                        <label for="phone"><%= __('Phone') %></label>
                         <input type="text" class="form-control" ng-model="user.phone" name="phone" required placeholder="Enter Phone">
 
                         <span style="color:red" ng-show="editForm.phone.$dirty && editForm.phone.$invalid">
@@ -104,29 +104,29 @@
                     <div class="box-body">
                       <div id="student-info" ng-if="user.type == 'student'">
                         <div class="form-group">
-                          <label for="student_schoolName">School Name</label>
+                          <label for="student_schoolName"><%= __('School Name') %></label>
                           <input ng-model="user.student_schoolName" type="text" name="student_schoolName" class="form-control" id="student_schoolName" placeholder="Enter School Name">
                         </div>
                         <div class="form-group">
-                          <label for="student_guardianInfo">Guardian Info</label>
+                          <label for="student_guardianInfo"><%= __('Guardian Info') %></label>
                           <textarea ng-model="user.student_guardianInfo" class="form-control" id="student_guardianInfo" name="student_guardianInfo" placeholder="Enter Guardian Info"></textarea>
                         </div>
                         <div class="form-group">
-                          <label for="student_grade">Student Grade</label>
+                          <label for="student_grade"><%= __('Student Grade') %></label>
                           <input ng-model="user.student_grade" type="text" class="form-control" id="student_grade" name="student_grade" placeholder="Enter Student Grade">
                         </div>
                       </div>
                       <div id="teacher-info" ng-if="user.type == 'teacher'">
                         <div class="form-group">
-                          <label for="teacher_availability">Availability</label>
+                          <label for="teacher_availability"><%= __('Availability') %></label>
                           <input ng-model="user.teacher_availability" type="text" name="teacher_availability" class="form-control" id="teacher_availability" placeholder="Enter Availability">
                         </div>
                         <div class="form-group">
-                          <label for="teacher_qualification">Qualification</label>
+                          <label for="teacher_qualification"><%= __('Qualification') %></label>
                           <textarea ng-model="user.teacher_qualification" class="form-control" id="teacher_qualification" name="teacher_qualification" placeholder="Enter Qualification"></textarea>
                         </div>
                         <div class="form-group">
-                          <label for="teacher_description">Teacher profile description</label>
+                          <label for="teacher_description"><%= __('Teacher profile description') %></label>
                           <input ng-model="user.teacher_description" type="text" class="form-control" id="teacher_description" name="teacher_description" placeholder="Enter Description">
                         </div>
                       </div>
@@ -276,7 +276,7 @@
 
 
       </div><!-- ./wrapper -->
-      <footer>footer</footer>
+      
 
       <script>
             //set user id

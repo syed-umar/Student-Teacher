@@ -41,17 +41,17 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                Added: {{ clip.added | date }} <br>
-                                                Status: {{ clip.status }} <br>
-                                                Pronunciation : {{ clip.pronunciation }} <br>
-                                                Accent : {{ clip.accent }} <br>
-                                                Vocabulary : {{ clip.vocabulary }} <br>
-                                                Expression : {{ clip.expression }} <br>
-                                                Pace : {{ clip.pace }} <br>
-                                                Final Score : {{ clip.finalScore }} <br>
+                                                <%= __('Added') %>: {{ clip.added | date }} <br>
+                                                <%= __('Status') %>: {{ clip.status }} <br>
+                                                <%= __('Pronunciation') %> : {{ clip.pronunciation }} <br>
+                                                <%= __('Accent') %> : {{ clip.accent }} <br>
+                                                <%= __('Vocabulary') %> : {{ clip.vocabulary }} <br>
+                                                <%= __('Expression') %> : {{ clip.expression }} <br>
+                                                <%= __('Pace') %> : {{ clip.pace }} <br>
+                                                <%= __('Final Score') %> : {{ clip.finalScore }} <br>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <button class="btn btn-danger" ng-click="deleteClip(clip._id)">Delete</button>
+                                                <button class="btn btn-danger" ng-click="deleteClip(clip._id)"><%= __('Delete')%></button>
                                             </div>
                                         </div>
                                     </div>        

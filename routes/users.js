@@ -161,6 +161,7 @@ module.exports = function(app) {
             var lastName = req.param('lastName', null);
             var phone = req.param('phone', null);
             var skype = req.param('skype', null);
+            var prefered_lang = req.param('prefered_lang', null);
             // var usertype = req.param('usertype', null);
             // var userID = req.param('userID', null);
             var student_schoolName = req.param('student_schoolName', null);
@@ -195,6 +196,9 @@ module.exports = function(app) {
                     }
                     if (skype != null) {
                         user.local.skype = skype;
+                    }
+                    if (prefered_lang != null) {
+                        user.local.prefered_lang = prefered_lang;
                     }
                     if (student_schoolName != null) {
                         user.local.student_schoolName = student_schoolName;

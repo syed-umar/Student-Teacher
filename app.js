@@ -44,7 +44,8 @@ app.use(cookieParser('secret'));
 i18n.expressBind(app, {
     locales: ['en', 'ch'],
     // set the default locale
-    defaultLocale: 'ch',
+    // defaultLocale: 'ch',
+    defaultLocale: 'en',
     // set the cookie name
     cookieName: 'locale'
 });

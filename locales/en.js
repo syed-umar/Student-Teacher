@@ -81,5 +81,9 @@
 	"Select A User": "Select A User",
 	"Email": "Email",
 	"Availibility": "Availibility",
-	"Grade": "Grade"
+	"Grade": "Grade",
+	"Class Details": "Class Details",
+	"Goto Class": "Goto Class",
+	"Upload Files": "Upload Files",
+	"Class Files": "Class Files"
 }

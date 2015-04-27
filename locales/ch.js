@@ -86,5 +86,7 @@
 	"Goto Class": "Goto Class",
 	"Start Date": "Start Date",
 	"Select A Teacher": "Select A Teacher",
-	"Current Evaluators": "Current Evaluators"
+	"Current Evaluators": "Current Evaluators",
+	"Upload Files": "Upload Files",
+	"Class Files": "Class Files"
 }

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<% include head.ejs %>
+<body class="skin-blue">
+    <% include header.ejs %>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        <% var log = logged %>
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <%= title %>
+                    <small><%= heading %></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                    <li class="active"><%= title %></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content" ng-app="validationApp">
+
+                <% if(logged){ %>
+
+                <div ng-controller="dataController" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="app" style="display: none;">
+
+                    <%= __('Welcome') %>, <%= user.local.firstName %> <%= user.local.lastName %>
+
+                    <br><br>
+
+
+                    <div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
+                                        <h3 class="box-title"><%= __('Your Classes') %></h3>
+
+                                    </div>
+                                    <div class="box-body">
+                                        <ul class="list-unstyled" >
+                                            <li ng-repeat="class in classes"><a href="#" ng-click="showDetails(class)">{{ class.classID }}</a></li>
+                                        </ul>    
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>    
+                        </div>
+
+                        <% if(isAdmin || user.local.userType == 'teacher'){ %>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="showClass">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Upload Files">
+                                        <h3 class="box-title"><%= __('Upload Files') %></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">Select files</label>
+                                                  <input id="classFiles" type="file" multiple>
+                                                  <button ng-click="uploadFile()">Upload</button>
+                                                  <p>{{uploadStatus}}</p>
+                                                  <p>
+                                                      <ul>
+                                                          <li ng-repeat="result in uploadResults">
+                                                              {{ result.status }}
+                                                          </li>
+                                                      </ul>
+                                                  </p>
+                                                  <p>
+                                                      Files Added to Class<hr>
+                                                      <ul>
+                                                          <li ng-repeat="file in classFiles"><a ng-href="/uploads/classes/{{_class._id}}/files/{{file}}" target="_blank">{{ file }}</a></li>
+                                                      </ul>
+                                                  </p>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <% if(user.local.userType == 'student'){ %>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="showClass">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Upload Files">
+                                        <h3 class="box-title"><%= __('Class Files') %></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <form>
+                                            <div class="form-group">
+                                                
+                                                  <p>
+                                                      Files Added to Class<hr>
+                                                      <ul>
+                                                          <li ng-repeat="file in classFiles"><a ng-href="/uploads/classes/{{class._id}}/files/{{file}}" target="_blank">{{ file }}</a></li>
+                                                      </ul>
+                                                  </p>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="showClass">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
+                                        <h3 class="box-title"><%= __('Class Details') %></h3>
+                                    </div>
+                                    <div class="box-body">
+
+                                        <dl>
+                                            <dt><%= __('Class ID') %>:</dt>
+                                            <dd>{{ class.classID }}</dd>
+                                            <dt><%= __('StartDate') %>:</dt>
+                                            <dd>{{ class.startDate }}</dd>
+                                            <dt><%= __('End Date') %>:</dt>
+                                            <dd>{{ class.endDate }}</dd>
+                                            <dt><%= __('Start Time') %>:</dt>
+                                            <dd>{{ class.startTime }}</dd>
+                                            <dt><%= __('Duration') %>:</dt>
+                                            <dd>{{ class.duration }}</dd>
+                                            <dt><%= __('Class Day') %>:</dt>
+                                            <dd>{{ class.classDay }}</dd>
+                                        </dl>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Class Info">
+                                        <h3 class="box-title"><%= __('Class Info') %></h3>
+
+                                    </div>
+                                    <div class="box-body">
+                                      <div class="box box-solid">
+                                        <div class="box-header">
+                                            <i class="fa fa-user"></i>
+                                            <h3 class="box-title"><%= __('Teachers') %></h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <ul class="list-unstyled">
+                                                <li ng-repeat="c in classReg[0]">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <img style="width:150px; height:150px;" ng-src="/uploads/{{c._id}}/files/profile">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                {{ c.local.firstName }} {{ c.local.lastName }}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <hr>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /.box-body -->
+                                    </div>
+
+                                    <div class="box box-solid">
+                                        <div class="box-header">
+                                            <i class="fa fa-users"></i>
+                                            <h3 class="box-title"><%= __('Students') %></h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <ul class="list-unstyled">
+                                                <li ng-repeat="c in classReg[1]">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <img style="width:150px; height:150px;" ng-src="/uploads/{{c._id}}/files/profile">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                {{ c.local.firstName }} {{ c.local.lastName }}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <hr>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div><!-- /.box-body -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+
+
+            </div>
+            <% } %>
+
+            
+
+    </section><!-- /.content -->
+</aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+
+<% if(logged){ %>
+<script>
+//set user id
+var user_id = "<%= user._id %>";
+</script>
+<% } %>
+<script src="/angular/angular.min.js"></script>
+<script src="/angular_app/yourclasses/app.js"></script>
+
+</body>
+</html>

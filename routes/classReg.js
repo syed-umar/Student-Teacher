@@ -272,7 +272,7 @@ module.exports = function(app) {
                     cb(null, summary);
                 }
             } else {
-                summary.status = file.name + ': Allowed formats: jpg, jped, png, gif, pdf, msword, odt';
+                summary.status = file.name + ': Allowed formats: jpg, jpeg, png, gif, pdf, msword, odt';
                 cb(null, summary);
             }
 

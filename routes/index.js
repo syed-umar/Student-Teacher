@@ -215,6 +215,22 @@ module.exports = function(app) {
         }
     });
 
+    /* GET Admin add/Edit class session */
+    app.get('/yourclasses', function(req, res) {
+        if (req.isAuthenticated()) {
+            res.locals.logged = 1;
+            res.locals.isAdmin = req.session.isAdmin;
+
+            res.render('yourclasses', {
+                title: 'Your Classes',
+                heading: '',
+                user: req.user
+            });
+        } else {
+            res.redirect('/');
+        }
+    });
+
     /* GET Admin edit class */
     app.get('/editcourse', function(req, res) {
         if (req.session.isAdmin && req.isAuthenticated()) {

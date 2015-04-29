@@ -37,7 +37,8 @@
                             </label>
                         </div>
                         <div class="pull-right">
-                            <button type="button" ng-disabled="userForm.$invalid" ng-click="doLogin()" class="btn btn-primary">{{ t_login }}</button>
+                            <span style="margin-right: 5px;">{{ errorMsg }}</span>
+                            <button type="button" ng-disabled="userForm.$invalid" ng-click="doLogin()" class="btn btn-primary">{{ t_login }}</button> 
                         </div>
                     </div>
                     <div class="form-group">

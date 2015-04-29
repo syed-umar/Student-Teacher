@@ -47,9 +47,9 @@ module.exports = function(app, passport) {
 							return next(err);
 						}
 
-						
+						// console.log('rem '+req.body.remember);
 						//set remember cookie
-						if (req.body.remember == "on") {
+						if (req.body.remember) {
 							req.session.cookie.maxAge = 6000000 * 60 * 24 * 30;
 						} else {
 							req.session.cookie.expires = false;

@@ -49,6 +49,7 @@ authApp.controller('loginController', function($scope, $http, $location) {
     $scope.t_login = t_login;
     $scope.t_registerMsg = t_registerMsg;
     $scope.t_here = t_here;
+    $scope.errorMsg = '';
 
 	$scope.serverMsg = null;
 
@@ -68,7 +69,10 @@ authApp.controller('loginController', function($scope, $http, $location) {
 			// console.log(data);
 			if(res.status == 'logged in'){
 				window.location.href = '/';
-			}
+			} else {
+                // alert(res.error);
+                $scope.errorMsg = res.error;
+            }
 		});
 	}
 });

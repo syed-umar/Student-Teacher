@@ -83,11 +83,14 @@
                             <form>
                                 <div class="form-group">
                                     <label>Session Date</label>
-                                    <input type="text" ng-model="newSession.sessionDate" class="form-control" />
+                                    <!-- <input type="text" ng-model="newSession.sessionDate" class="form-control" /> -->
+                                    <input ui-date name="session_date" class="form-control" ng-model="newSession.sessionDate" >
                                 </div>
                                 <div class="form-group">
                                     <label>Session Start Time</label>
-                                    <input type="text" ng-model="newSession.startTime" class="form-control" />
+                                    <!-- <input type="text" ng-model="newSession.startTime" class="form-control" /> -->
+                                     <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" ></timepicker>
+
                                 </div>
                                 <div class="form-group">
                                     <label>Duration</label>
@@ -128,7 +131,10 @@ var logged_in = "<%= logged %>";
 
 
 <script src="/angular/angular.min.js"></script>
+<script src="/angular/angular-resourse.min.js"></script>
 <script src="/angular/angular-route.min.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+
 <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
 <script type="text/javascript" src="/bower_components/angular-ui-date/src/date.js"></script>
 <script src="/bower_components/angular-utils-pagination/dirPagination.js"></script>
@@ -143,6 +149,8 @@ var logged_in = "<%= logged %>";
             <button ng-click="reset()">Cancel</button>
         </td>
     </script>
+
+
 
 </body>
 </html>

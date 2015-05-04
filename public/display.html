@@ -5,7 +5,7 @@
 </td>
 <td>
     <span editable-text="session.sessionDate" e-name="sessionDate" e-form="rowform" e-required>
-                          {{ session.sessionDate || 'empty' }}
+                          {{ session.sessionDate || 'empty' | date }}
                         </span>
 </td>
 <td>

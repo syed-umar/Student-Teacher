@@ -85,5 +85,6 @@
 	"Class Details": "Class Details",
 	"Goto Class": "Goto Class",
 	"Upload Files": "Upload Files",
-	"Class Files": "Class Files"
+	"Class Files": "Class Files",
+	"Class Sessions": "Class Sessions"
 }

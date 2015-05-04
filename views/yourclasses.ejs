@@ -113,6 +113,36 @@
                         <% } %>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="showClass">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="box box-primary">
+                                    <div class="box-header" data-toggle="tooltip" title="" data-original-title="Class Sessions">
+                                        <h3 class="box-title"><%= __('Class Sessions') %></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <table class="table">
+                                            <tr>
+                                                <td>Session ID</td>
+                                                <td>Session Date</td>
+                                                <td>Start Time</td>
+                                                <td>Duration</td>
+                                                <td>Comments</td>
+                                                <td>Notification</td>
+                                            </tr>
+                                            <tr ng-repeat="session in SessionsInClass">
+                                                <td>{{ session.sessionID}}</td>
+                                                <td>{{ session.sessionDate | date}}</td>
+                                                <td>{{ session.startTime}}</td>
+                                                <td>{{ session.duration}}</td>
+                                                <td>{{ session.comments}}</td>
+                                                <td>{{ session.notification}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="showClass">
                             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                 <div class="box box-primary">
                                     <div class="box-header" data-toggle="tooltip" title="" data-original-title="Select Class">
@@ -123,10 +153,12 @@
                                         <dl>
                                             <dt><%= __('Class ID') %>:</dt>
                                             <dd>{{ class.classID }}</dd>
+                                            <dt><%= __('Class Name') %>:</dt>
+                                            <dd>{{ class.class_name }}</dd>
                                             <dt><%= __('StartDate') %>:</dt>
-                                            <dd>{{ class.startDate }}</dd>
+                                            <dd>{{ class.startDate |date }}</dd>
                                             <dt><%= __('End Date') %>:</dt>
-                                            <dd>{{ class.endDate }}</dd>
+                                            <dd>{{ class.endDate | date }}</dd>
                                             <dt><%= __('Start Time') %>:</dt>
                                             <dd>{{ class.startTime }}</dd>
                                             <dt><%= __('Duration') %>:</dt>

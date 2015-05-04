@@ -10,15 +10,18 @@ function showMsg($scope, $timeout, r) {
 
 // app.js
 // create angular app
-var sessionApp = angular.module('sessionApp', ['ui.date', 'angularUtils.directives.dirPagination']);
+var sessionApp = angular.module('sessionApp', ['ui.date', 'angularUtils.directives.dirPagination', 'ui.bootstrap']);
 
 sessionApp.config(function(paginationTemplateProvider) {
     paginationTemplateProvider.setPath('/bower_components/angular-utils-pagination/dirPagination.tpl.html');
 });
 
+
+
 sessionApp.controller('mainController', function($scope, $filter, $http) {
 
     $scope.openedstart = false;
+    $scope.newSession = {};
     $scope.sessions = [];
     $scope.totalSessions = 0;
     $scope.sessionsPerPage = 5 // this should match however many results your API puts on one page
@@ -29,6 +32,41 @@ sessionApp.controller('mainController', function($scope, $filter, $http) {
     $scope.pagination = {
         current: 1
     };
+
+    // Time picker
+
+    $scope.mytime = new Date();
+
+    $scope.hstep = 1;
+    $scope.mstep = 15;
+
+    $scope.options = {
+        hstep: [1, 2, 3],
+        mstep: [1, 5, 10, 15, 25, 30]
+    };
+
+    $scope.ismeridian = true;
+    $scope.toggleMode = function() {
+        $scope.ismeridian = !$scope.ismeridian;
+    };
+
+    $scope.update = function() {
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(0);
+        $scope.mytime = d;
+    };
+
+    $scope.changed = function(){
+        $scope.newSession.startTime = $scope.mytime;
+        $scope.newSession.startTime = $filter('date')($scope.mytime, "shortTime"); ;
+        //console.log($scope.newSession.startTime);
+    }
+
+    $scope.clear = function() {
+        $scope.mytime = null;
+    };
+
 
     $scope.pageChanged = function(newPage) {
         getResultsPage(newPage);
@@ -78,21 +116,23 @@ sessionApp.controller('mainController', function($scope, $filter, $http) {
 
     }
 
-    $scope.model = { selected : {}};
+    $scope.model = {
+        selected: {}
+    };
 
-     // gets the template to ng-include for a table row / item
-    $scope.getTemplate = function (session) {
+    // gets the template to ng-include for a table row / item
+    $scope.getTemplate = function(session) {
         if (session._id === $scope.model.selected._id) return 'edit.html';
         else return 'display.html';
         // return 'display.html';
     };
 
-    $scope.editContact = function (session) {
+    $scope.editContact = function(session) {
         $scope.model.selected = angular.copy(session);
         // console.log(session);
     };
 
-    $scope.reset = function () {
+    $scope.reset = function() {
         $scope.model.selected = {};
     };
 
@@ -121,21 +161,21 @@ sessionApp.controller('mainController', function($scope, $filter, $http) {
         return Str;
     }
 
-    $scope.addSession = function(){
-    	var newSession = $scope.newSession;
-    	
-    	newSession.classID = $scope._class._id;
-    	newSession.sessionID = $scope.randomStr();
+    $scope.addSession = function() {
+        var newSession = $scope.newSession;
 
-    	$http.post('/addSession', {
+        newSession.classID = $scope._class._id;
+        newSession.sessionID = $scope.randomStr();
+
+        $http.post('/addSession', {
                 newSession: newSession
             })
             .success(function(data) {
                 // reset form
-                if(data == 'added'){
-                	alert('Session added');
+                if (data == 'added') {
+                    alert('Session added');
                 } else {
-                	alert(data);
+                    alert(data);
                 }
             });
     }
@@ -148,7 +188,7 @@ sessionApp.controller('mainController', function($scope, $filter, $http) {
         newSession.classID = $scope._class._id;
         // console.log(data);
 
-             // newSession.id = sessionid;
+        // newSession.id = sessionid;
         $http.post('/updateSession', {
                 Session: newSession
             })
@@ -158,5 +198,6 @@ sessionApp.controller('mainController', function($scope, $filter, $http) {
 
     };
 
-});
+   
 
+});

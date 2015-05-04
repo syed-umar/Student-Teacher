@@ -1,11 +1,18 @@
 <td>
-	<input type="text" ng-model="session.sessionID" ng-value="{{session.sessionID}}" />
+    <input type="text" ng-model="session.sessionID" ng-value="{{session.sessionID}}" />
 </td>
 <td>
-    <input type="text" ng-model="session.sessionDate" ng-value="{{session.sessionDate}}" />
+    <!-- <input type="text" ng-model="session.sessionDate" ng-value="{{session.sessionDate}}" /> -->
+    <input ui-date name="session_date_edit" ng-model="session.sessionDate" ng-value="{{session.sessionDate | date}}" />
 </td>
 <td>
     <input type="text" ng-model="session.startTime" ng-value="{{session.startTime}}" />
+	<!-- <div class="input-group">
+	    <input type="text" class="form-control timepicker" ng-model="session.startTime" ng-value="{{session.startTime}}">
+	    <div class="input-group-addon">
+	      <i class="fa fa-clock-o"></i>
+	    </div>
+	  </div> -->
 </td>
 <td>
     <input type="text" ng-model="session.duration" ng-value="{{session.duration}}" />

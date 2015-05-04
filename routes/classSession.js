@@ -89,4 +89,26 @@ module.exports = function(app) {
 
 
     });
+
+    // get sessions in a class
+    app.get('/getSessionsInClass/:id', function(req, res) {
+
+        var id = req.param('id');
+
+        ClassSession.find({
+            classID: id
+        }, function(err, sessions) {
+            if (err) {
+                res.send(err);
+            } else if (sessions) {
+                res.json({
+                    status: "ok",
+                    data: sessions
+                });
+            } else {
+                res.send('[]');
+            }
+        });
+    });
+
 }

@@ -31,6 +31,8 @@ validationApp.controller('dataController', function($scope, $http, $timeout) {
 		$scope.class = _class;
 		$scope.showClass = true;
 
+        $scope.getSessionsInClass(_class._id);
+
 		$http.get('/getclassRegbyClassid/' + _class._id)
 			.success(function(docs) {
 				$scope.classReg = docs;
@@ -41,6 +43,15 @@ validationApp.controller('dataController', function($scope, $http, $timeout) {
 				console.log(err);
 			});
 	}
+
+     $scope.getSessionsInClass = function(id){
+        $http.get('/getSessionsInClass/' + id)
+            .success(function(data){
+                if(data.status == 'ok'){
+                    $scope.SessionsInClass = data.data;
+                }
+            });
+    }
 
 	$scope.getClassFiles = function(){
         $http.get('/getClassFiles/' + $scope.class._id)

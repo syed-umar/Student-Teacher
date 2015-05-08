@@ -180,6 +180,21 @@ module.exports = function(app) {
         }
     });
 
+    app.get('/adminEditUser/:userID', function(req, res){
+       if (req.session.isAdmin && req.isAuthenticated()) {
+            res.locals.logged = 1;
+            res.locals.isAdmin = req.session.isAdmin;
+            res.render('adminedituser', {
+                title: 'Admin',
+                heading: 'Edit User',
+                user: req.user,
+                userID: req.param('userID')
+            });
+        } else {
+            res.redirect('/');
+        } 
+    });
+
     /* GET Admin create class */
     app.get('/createcourse', function(req, res) {
         if (req.session.isAdmin && req.isAuthenticated()) {

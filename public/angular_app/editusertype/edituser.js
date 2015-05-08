@@ -190,7 +190,7 @@ editProfileApp.controller('mainController', ['$scope', 'fileUpload', '$http', '$
     $scope.uploadFile = function() {
         var file = $scope.myFile;
         // console.log('file is ' + JSON.stringify(file));
-        var uploadUrl = "/user/uploadpic/"+ $scope.user_id;
+        var uploadUrl = "/user/uploadpic/" + $scope.user_id;
         fileUpload.uploadFileToUrl(file, uploadUrl, $scope);
     };
 

@@ -39,6 +39,23 @@ module.exports = function(app) {
             });
         });
 
+        // Get user by Email
+        app.get('/getUserByEmail/:email', function(req, res){
+            var email = req.param('email');
+
+            User.findOne({
+                'local.email': email
+            }, function(err, user){
+                if(err){
+                    res.json({ status: 'err', data: err});
+                } else if(user){
+                    res.json({ status: 'ok', data: user});
+                } else {
+                    res.send('[]');
+                }
+            })
+        });
+
         /*
          * GET all students
          */
@@ -305,10 +322,12 @@ module.exports = function(app) {
         /*
          * Upload file
          */
-        app.post('/user/uploadpic', multipartMiddleware, function(req, res) {
+        app.post('/user/uploadpic/:userID', multipartMiddleware, function(req, res) {
             var file = req.files.file;
             var fs = require('fs');
-            var savePath = './public/uploads/' + req.user._id + '/files/';
+            var userID = req.param('userID');
+            // var savePath = './public/uploads/' + req.user._id + '/files/';
+            var savePath = './public/uploads/' + userID + '/files/';
 
             //check type
             if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
@@ -734,7 +753,7 @@ module.exports = function(app) {
                 });
         });
 
-        app.post('/updateScore', function(req, res){
+        app.post('/updateScore', function(req, res) {
             var id = req.param('id');
             var score = req.param('score');
 
@@ -746,30 +765,30 @@ module.exports = function(app) {
                 if (err) {
                     res.send(err);
                 } else {
-                    if(score.pronunciation){
+                    if (score.pronunciation) {
                         clip.pronunciation = score.pronunciation;
                     }
 
-                    if(score.accent){
+                    if (score.accent) {
                         clip.accent = score.accent;
                     }
 
-                    if(score.vocabulary){
+                    if (score.vocabulary) {
                         clip.vocabulary = score.vocabulary;
                     }
 
-                    if(score.expression){
+                    if (score.expression) {
                         clip.expression = score.expression;
                     }
 
-                    if(score.pace){
+                    if (score.pace) {
                         clip.pace = score.pace;
                     }
 
-                    if(score.finalScore){
+                    if (score.finalScore) {
                         clip.finalScore = score.finalScore;
                     }
-                    
+
                     clip.save(function(err) {
                         if (err) {
                             res.send(err);
@@ -781,7 +800,7 @@ module.exports = function(app) {
             });
         });
 
-        app.get('/updateStatus/:id/:status', function(req, res){
+        app.get('/updateStatus/:id/:status', function(req, res) {
             var id = req.param('id');
             var status = req.param('status');
 
@@ -804,7 +823,20 @@ module.exports = function(app) {
                     });
                 }
             });
+        });
 
+        app.get('/editusertype', function(req, res) {
+            if (req.session.isAdmin && req.isAuthenticated()) {
+                res.locals.logged = 1;
+                res.locals.isAdmin = req.session.isAdmin;
+                res.render('editusertype', {
+                    title: 'Admin',
+                    heading: 'Edit User Type',
+                    user: req.user
+                });
+            } else {
+                res.redirect('/');
+            }
         });
 
         /*

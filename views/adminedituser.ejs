@@ -1,0 +1,299 @@
+    <!DOCTYPE html>
+    <html>
+    <% include head.ejs %>
+
+    <body class="skin-blue">
+      <% include header.ejs %>
+      <div class="wrapper row-offcanvas row-offcanvas-left">
+        <% var log = logged %>
+        <% include leftside.ejs %>
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+          <!-- Content Header (Page header) -->
+          <section class="content-header">
+            <h1>
+              <%= title %>
+              <small><%= heading %></small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+              <li class="active"><%= title %></li>
+            </ol>
+          </section>
+
+          <!-- Main content -->
+          <section class="content" ng-app="editProfileApp" ng-controller="mainController">
+
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="app" style="display: none;">
+
+
+              <div class="callout callout-danger server_msg" ng-if="serverRes" style="position: absolute; z-index: 10">
+
+                <p>{{ serverMsg }}</p>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <h3 class="box-title"></h3>
+                  </div><!-- /.box-header -->
+                  <!-- form start -->
+                  <form role="form" novalidate name="editForm">
+                    <div class="box-body">
+
+
+                      <div class="form-group">
+                        <label for="email"><%= __('Email address') %></label>
+                        <input type="email" class="form-control" ng-model="user.email" name="email" required placeholder="Enter email">
+
+                        <span style="color:red" ng-show="editForm.email.$dirty && editForm.email.$invalid">
+                          <span ng-show="editForm.email.$error.required">Email is required.</span>
+                          <span ng-show="editForm.email.$error.email">Invalid email format.</span>
+                        </span>
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="firstname"><%= __('First Name') %></label>
+                        <input type="text" class="form-control" ng-model="user.firstName" name="firstname" required placeholder="Enter First Name">
+
+                        <span style="color:red" ng-show="editForm.firstname.$dirty && editForm.firstname.$invalid">
+                          <span ng-show="editForm.firstname.$error.required">First Name is required.</span>
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label for="lastname"><%= __('Last Name') %></label>
+                        <input type="text" class="form-control" ng-model="user.lastName" name="lastname" required placeholder="Enter Last Name">
+
+                        <span style="color:red" ng-show="editForm.lastname.$dirty && editForm.lastname.$invalid">
+                          <span ng-show="editForm.lastname.$error.required">Last Name is required.</span>
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label for="phone"><%= __('Phone') %></label>
+                        <input type="text" class="form-control" ng-model="user.phone" name="phone" required placeholder="Enter Phone">
+
+                        <span style="color:red" ng-show="editForm.phone.$dirty && editForm.phone.$invalid">
+                          <span ng-show="editForm.phone.$error.required">Phone is required.</span>
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label for="skype">Skype ID</label>
+                        <input type="text" class="form-control" ng-model="user.skype" name="skype" required placeholder="Enter Skype ID">
+
+                        <span style="color:red" ng-show="editForm.skype.$dirty && editForm.skype.$invalid">
+                          <span ng-show="editForm.skype.$error.required">Skype ID is required.</span>
+                        </span>
+                      </div>
+                      <div class="form-group">
+                        <label>Select Prefered Language</label>
+                          <select class="form-control" ng-model="user.prefered_lang">
+                              <option value="ch">Chinese</option>
+                              <option value="en">English</option>
+                          </select>
+                      </div>
+
+                    </div><!-- /.box-body -->
+
+
+
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="box box-primary">
+                    <div class="box-header">
+                      <h3 class="box-title"></h3>
+                    </div><!-- /.box-header -->
+
+                    <div class="box-body">
+                      <div id="student-info" ng-if="user.type == 'student'">
+                        <div class="form-group">
+                          <label for="student_schoolName"><%= __('School Name') %></label>
+                          <input ng-model="user.student_schoolName" type="text" name="student_schoolName" class="form-control" id="student_schoolName" placeholder="Enter School Name">
+                        </div>
+                        <div class="form-group">
+                          <label for="student_guardianInfo"><%= __('Guardian Info') %></label>
+                          <textarea ng-model="user.student_guardianInfo" class="form-control" id="student_guardianInfo" name="student_guardianInfo" placeholder="Enter Guardian Info"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="student_grade"><%= __('Student Grade') %></label>
+                          <input ng-model="user.student_grade" type="text" class="form-control" id="student_grade" name="student_grade" placeholder="Enter Student Grade">
+                        </div>
+                      </div>
+                      <div id="teacher-info" ng-if="user.type == 'teacher'">
+                        <div class="form-group">
+                          <label for="teacher_availability"><%= __('Availability') %></label>
+                          <input ng-model="user.teacher_availability" type="text" name="teacher_availability" class="form-control" id="teacher_availability" placeholder="Enter Availability">
+                        </div>
+                        <div class="form-group">
+                          <label for="teacher_qualification"><%= __('Qualification') %></label>
+                          <textarea ng-model="user.teacher_qualification" class="form-control" id="teacher_qualification" name="teacher_qualification" placeholder="Enter Qualification"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="teacher_description"><%= __('Teacher profile description') %></label>
+                          <input ng-model="user.teacher_description" type="text" class="form-control" id="teacher_description" name="teacher_description" placeholder="Enter Description">
+                        </div>
+                      </div>
+
+
+                    </div><!-- /.box-body -->
+
+
+                  </div>
+                </form>
+                
+
+
+              </div>
+
+              <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg" ng-disabled="editForm.$invalid" ng-click="editFormfunc(editForm.$valid)">Update</button>    
+              </div>
+
+              <% if(user.local.userType == 'teacher'){ %>
+              <!-- Teacher docs -->
+              <div class="col-lg-12" style="margin-top: 15px;">
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <h3 class="box-title">Upload Teacher Documents</h3>
+                  </div><!-- /.box-header -->
+                  <!-- form start -->
+                  
+                  <div class="box-body">
+                    <div class="form-group">
+                    <label for="exampleInputFile">Select file</label>
+                      <input type="file" file-model-file="myFile">
+                    </div>
+
+                    <div class="form-group">
+                      <ul>
+                        
+                        <% if (typeof files != 'undefined'){ %>
+                          <% files.forEach(function(item){ 
+                            var url = 'uploads/' + user._id + '/files/' ; %>
+                            <% if(item == 'profile'){ %>
+                            <% } else { %>
+                            <li><a href="<%= url %><%= item %>" target="_blank" ><%= item %></a></li>
+                            <% } %>
+                          <% }) %>
+                        <% } %>
+                      </ul>
+                    </div>
+                    
+                  </div><!-- /.box-body -->
+
+                  <div class="box-footer">
+                    <button ng-click="uploadFile()" ng-if="Upload_file_btn" class="btn btn-primary">Submit</button>
+                    <span>{{ uploadMsg_file }}</span>
+                  </div>
+                  
+                </div>
+              </div>
+              <% } %>
+
+              <!-- profile picture -->
+              <div class="col-lg-6" style="margin-top: 15px;">
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <h3 class="box-title">Profile Picture</h3>
+                  </div><!-- /.box-header -->
+                  <!-- form start -->
+                  
+                  <div class="box-body">
+                    <div class="form-group">
+                    <label for="exampleInputFile">Select Profile Picture</label>
+                      <input type="file" id="exampleInputFile" file-model="myFile">
+                    </div>
+                    
+                  </div><!-- /.box-body -->
+
+                  <div class="box-footer">
+                    <button ng-click="uploadFile()" ng-if="Upload_btn" class="btn btn-primary">Submit</button>
+                    <span>{{ uploadMsg }}</span>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="col-lg-6" style="margin-top: 15px;">
+                <!-- change password -->
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <h3 class="box-title">Change Password</h3>
+                  </div><!-- /.box-header -->
+                  <!-- form start -->
+                  <form role="form" novalidate name="passwordForm">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <label for="oldpass">Old Password</label>
+                        <input type="password" class="form-control" ng-model="oldpass" name="oldpass" required placeholder="Enter Old Password">
+
+                        <span style="color:red" ng-show="passwordForm.oldpass.$dirty && passwordForm.oldpass.$invalid">
+                          <span ng-show="passwordForm.oldpass.$error.required">Old Password is required</span>
+                        </span>
+
+                      </div>
+                      <div class="form-group">
+                        <label for="oldpass">New Password</label>
+                        <input type="password" class="form-control" ng-model="newpass" name="newpass" required placeholder="Enter New Password">
+
+                        <span style="color:red" ng-show="passwordForm.newpass.$dirty && passwordForm.newpass.$invalid">
+                          <span ng-show="passwordForm.newpass.$error.required">New Password is required</span>
+                        </span>
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="oldpass">Repeat Password</label>
+                        <input type="password" class="form-control" ng-model="repass" name="repass" repeat-password="newpass" required placeholder="Enter Old Password">
+
+                        <span style="color:red" ng-show="passwordForm.repass.$dirty && passwordForm.repass.$invalid">
+                          <span ng-show="passwordForm.repass.$error.required">Repeat Password is required<br></span>
+                          <span ng-show="passwordForm.repass.$error">Password didn't match</span>
+                        </span>
+
+                      </div>
+                      <div class="form-group">
+                        <div class="">
+                          <button class="btn btn-primary" ng-click="passwordFormfunc(passwordForm.$valid)" ng-disabled="passwordForm.$invalid">Submit</button>    
+                          <span ng-show="passwordFormMsg">{{ passwordFormRes }}</span>
+                        </div>  
+                      </div>
+
+                    </div><!-- /.box-body -->
+                  </form>
+                </div><!-- /.change password -->
+              </div>
+
+            </div>
+
+            
+
+            
+
+          </section><!-- /.content -->
+
+
+
+        </aside><!-- /.right-side -->
+
+
+
+      </div><!-- ./wrapper -->
+      
+
+      <script>
+            //set user id
+            user_id = "<%= userID %>";
+          </script>
+          <script src="/angular/angular.min.js"></script>
+          <script src="/angular/angular-resource.min.js"></script>
+          <script src="/angular/angular-animate.min.js"></script>
+          <script src="/angular_app/editusertype/edituser.js"></script>
+          
+
+        </body>
+        </html>

@@ -81,6 +81,14 @@
                         </span>
                       </div>
                       <div class="form-group">
+                          <label for="phone"><%= __('Zip Code')%></label>
+                          <input type="text" class="form-control" ng-model="user.zipCode" name="zipCode" required placeholder="Enter Zip Code">
+
+                          <span style="color:red" ng-show="editForm.zipCode.$dirty && editForm.zipCode.$invalid">
+                                <span ng-show="editForm.zipCode.$error.required">Zip Code is required.</span>
+                          </span>
+                      </div>
+                      <div class="form-group">
                         <label for="skype">Skype ID</label>
                         <input type="text" class="form-control" ng-model="user.skype" name="skype" required placeholder="Enter Skype ID">
 
@@ -89,11 +97,23 @@
                         </span>
                       </div>
                       <div class="form-group">
+                          <label for="skype">WeChat ID</label>
+                          <input type="text" class="form-control" ng-model="user.weChatID" name="wechatID" placeholder="Enter WeChat ID">
+                      </div>
+                      <div class="form-group">
+                          <label for="skype">QQ ID</label>
+                          <input type="text" class="form-control" ng-model="user.QQID" name="skype" placeholder="Enter QQ ID">
+                      </div>
+                      <div class="form-group">
                         <label>Select Prefered Language</label>
                           <select class="form-control" ng-model="user.prefered_lang">
                               <option value="ch">Chinese</option>
                               <option value="en">English</option>
                           </select>
+                      </div>
+                      <div class="form-group">
+                      <label><%= __('Comments')%></label>
+                          <textarea ng-model="user.comments" class="form-control" id="comments" name="comments" placeholder="Enter Comments"></textarea>
                       </div>
 
                     </div><!-- /.box-body -->

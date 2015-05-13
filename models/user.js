@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt-nodejs');
 var userSchema = mongoose.Schema({
 
     local: {
-        email: String,
+        email: { type: 'string', unique : true },
         password: String,
         firstName: String,
         lastName: String,
@@ -16,7 +16,12 @@ var userSchema = mongoose.Schema({
         userType: { type: String, default: "student" }, //student, teacher
         isEvaluator: { type: String, default: "false" },
         prefered_lang: { type: String, default: "ch" },
-        userID: String,
+        userID: { type: 'string', unique : true },
+        screenName: String,
+        weChatID: String,
+        QQID: String,
+        zipCode: String,
+        comments: String,
         student_schoolName: String,
         student_guardianInfo: String,
         student_grade: String,

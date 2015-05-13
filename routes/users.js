@@ -40,16 +40,22 @@ module.exports = function(app) {
         });
 
         // Get user by Email
-        app.get('/getUserByEmail/:email', function(req, res){
+        app.get('/getUserByEmail/:email', function(req, res) {
             var email = req.param('email');
 
             User.findOne({
                 'local.email': email
-            }, function(err, user){
-                if(err){
-                    res.json({ status: 'err', data: err});
-                } else if(user){
-                    res.json({ status: 'ok', data: user});
+            }, function(err, user) {
+                if (err) {
+                    res.json({
+                        status: 'err',
+                        data: err
+                    });
+                } else if (user) {
+                    res.json({
+                        status: 'ok',
+                        data: user
+                    });
                 } else {
                     res.send('[]');
                 }
@@ -104,6 +110,10 @@ module.exports = function(app) {
             var skype = req.param('skype', null);
             var usertype = 'student'; //req.param('type', null);
             var userID = req.param('userID', null);
+            var weChatID = req.param('weChatID', null);
+            var QQID = req.param('QQID', null);
+            var zipCode = req.param('zipCode', null);
+            var comments = req.param('comments', null);
             var student_schoolName = req.param('student_schoolName', null);
             var student_guardianInfo = req.param('student_guardianInfo', null);
             var student_grade = req.param('student_grade', null);
@@ -123,42 +133,63 @@ module.exports = function(app) {
                     res.send(err);
                 } else if (user) {
                     res.json({
-                        res: "That email is already taken"
+                        res: "Email is already taken"
                     });
                 } else {
-                    var newUser = new User();
+                    User.findOne({
+                        'local.userID': userID
+                    }, function(err, user) {
+                        // if there are any errors, return the error
 
-                    newUser.local.email = email;
-                    newUser.local.password = newUser.generateHash(password);
-                    newUser.local.firstName = firstname;
-                    newUser.local.lastName = lastname;
-                    newUser.local.phone = phone;
-                    newUser.local.skype = skype;
-                    newUser.local.userType = usertype;
-                    newUser.local.userID = userID;
-                    newUser.local.student_schoolName = student_schoolName;
-                    newUser.local.student_guardianInfo = student_guardianInfo;
-                    newUser.local.student_grade = student_grade;
-                    newUser.local.teacher_availability = teacher_availability;
-                    newUser.local.teacher_qualification = teacher_qualification;
-                    newUser.local.teacher_qualification = teacher_qualification;
-                    newUser.local.teacher_grade = teacher_grade;
-                    newUser.local.teacher_description = teacher_description;
-                    newUser.local.prefered_lang = prefered_lang;
-
-
-                    //save the user
-                    newUser.save(function(err) {
                         if (err) {
+                            res.send(err);
+                        } else if (user) {
                             res.json({
-                                response: err
+                                res: "User Name already taken"
                             });
-
                         } else {
-                            // res.send('User added!');
-                            res.status(200).send('User added!');
+                            
+                            var newUser = new User();
+
+                            newUser.local.email = email;
+                            newUser.local.password = newUser.generateHash(password);
+                            newUser.local.firstName = firstname;
+                            newUser.local.lastName = lastname;
+                            newUser.local.phone = phone;
+                            newUser.local.skype = skype;
+                            newUser.local.userType = usertype;
+                            newUser.local.userID = userID;
+                            newUser.local.weChatID = weChatID;
+                            newUser.local.QQID = QQID;
+                            newUser.local.zipCode = zipCode;
+                            newUser.local.comments = comments;
+                            newUser.local.student_schoolName = student_schoolName;
+                            newUser.local.student_guardianInfo = student_guardianInfo;
+                            newUser.local.student_grade = student_grade;
+                            newUser.local.teacher_availability = teacher_availability;
+                            newUser.local.teacher_qualification = teacher_qualification;
+                            newUser.local.teacher_qualification = teacher_qualification;
+                            newUser.local.teacher_grade = teacher_grade;
+                            newUser.local.teacher_description = teacher_description;
+                            newUser.local.prefered_lang = prefered_lang;
+
+
+                            //save the user
+                            newUser.save(function(err) {
+                                if (err) {
+                                    res.json({
+                                        response: err
+                                    });
+
+                                } else {
+                                    // res.send('User added!');
+                                    res.status(200).send('User added!');
+                                }
+                            });
                         }
                     });
+
+
                 }
             });
         });
@@ -179,8 +210,12 @@ module.exports = function(app) {
             var phone = req.param('phone', null);
             var skype = req.param('skype', null);
             var prefered_lang = req.param('prefered_lang', null);
-            // var usertype = req.param('usertype', null);
-            // var userID = req.param('userID', null);
+            var userType = req.param('userType', null);
+            var userID = req.param('userID', null);
+            var weChatID = req.param('weChatID', null);
+            var QQID = req.param('QQID', null);
+            var zipCode = req.param('zipCode', null);
+            var comments = req.param('comments', null);
             var student_schoolName = req.param('student_schoolName', null);
             var student_guardianInfo = req.param('student_guardianInfo', null);
             var student_grade = req.param('student_grade', null);
@@ -219,6 +254,24 @@ module.exports = function(app) {
                     }
                     if (student_schoolName != null) {
                         user.local.student_schoolName = student_schoolName;
+                    }
+                    if (userType != null) {
+                        user.local.userType = userType;
+                    }
+                    if (userID != null) {
+                        user.local.userID = userID;
+                    }
+                    if (weChatID != null) {
+                        user.local.weChatID = weChatID;
+                    }
+                    if (QQID != null) {
+                        user.local.QQID = QQID;
+                    }
+                    if (zipCode != null) {
+                        user.local.zipCode = zipCode;
+                    }
+                    if (comments != null) {
+                        user.local.comments = comments;
                     }
                     if (student_guardianInfo != null) {
                         user.local.student_guardianInfo = student_guardianInfo;

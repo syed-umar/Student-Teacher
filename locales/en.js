@@ -87,5 +87,8 @@
 	"Upload Files": "Upload Files",
 	"Class Files": "Class Files",
 	"Class Sessions": "Class Sessions",
-	"Edit User Type": "Edit User Type"
+	"Edit User Type": "Edit User Type",
+	"Username": "Username",
+	"Zip Code": "Zip Code",
+	"Comments": "Comments"
 }

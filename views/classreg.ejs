@@ -70,7 +70,7 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label><%= __('Select Class') %></label>
-                                    <select class="form-control" ng-model="selectedClass" ng-options="class as class.classID for class in classes" ng-change="getClass(selectedClass)">
+                                    <select class="form-control" ng-model="selectedClass" ng-options="class as class.class_name for class in classes" ng-change="getClass(selectedClass)">
                                         <option value=""><%= __('Select A Class') %></option>
                                     </select>
                                 </div>
@@ -99,7 +99,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label><%= __('Select User') %></label>
-                                            <select class="form-control" ng-model="selectedUser" ng-options="user as user.local.firstName for user in users" ng-change="setUser(selectedUser)">
+                                            <select class="form-control" ng-model="selectedUser" ng-options="user as (user.local.firstName+ ' ' + user.local.lastName) for user in users" ng-change="setUser(selectedUser)">
                                                 <option value=""><%= __('Select A User') %></option>
                                             </select>
                                         </div>

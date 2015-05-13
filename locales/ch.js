@@ -88,5 +88,8 @@
 	"Select A Teacher": "Select A Teacher",
 	"Current Evaluators": "Current Evaluators",
 	"Upload Files": "Upload Files",
-	"Class Files": "Class Files"
+	"Class Files": "Class Files",
+	"Username": "Username",
+	"Zip Code": "Zip Code",
+	"Comments": "Comments"
 }

@@ -47,7 +47,7 @@
                                     </p>
 
                                     <p>
-                                        <select class="form-control" ng-model="selectedClass" ng-options="c as c.classID for c in classes" ng-change="getClass(selectedClass)">
+                                        <select class="form-control" ng-model="selectedClass" ng-options="c as c.class_name for c in classes" ng-change="getClass(selectedClass)">
                                                     <option value=""><%= __('Select A Class') %></option>
                                                 </select>
                                     </p>

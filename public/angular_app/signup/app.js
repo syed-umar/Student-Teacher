@@ -41,7 +41,9 @@ signupValidationApp.controller('mainController', ['$scope', '$timeout', 'User', 
 		// check to make sure the form is completely valid
 		if (isValid) {
 			User.save($scope.user).$promise.then(function(r) {
-				if(r.res == "That email is already taken"){
+				if(r.res == "Email is already taken"){
+					showError($scope, $timeout, r);
+				} else if(r.res == "User Name already taken"){
 					showError($scope, $timeout, r);
 				} else {
 					// window.location.href = "http://student-teacher.nodejitsu.com";

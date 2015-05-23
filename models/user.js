@@ -27,7 +27,8 @@ var userSchema = mongoose.Schema({
         student_grade: String,
         teacher_availability: String,
         teacher_qualification: String,
-        teacher_description: String
+        teacher_description: String,
+        regDate: { type: Date, default: Date.now }
     },
     facebook: {
         id: String,

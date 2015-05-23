@@ -21,6 +21,39 @@ module.exports = function(app) {
         });
 
         /*
+         * Get users with Pagination
+         */
+        app.get('/getUsers', function(req, res) {
+            var page = req.param('page', 1);
+            var perPage = req.param('perpage', 5);
+            page = page - 1;
+
+            User
+                .find()
+                //.select('local.email')
+                .limit(perPage)
+                .skip(Math.ceil(perPage * page))
+                // .sort({email: 'asc'})
+                .exec(function(err, users) {
+                    User.count().exec(function(err, count) {
+                        // console.log(count);
+                        if (err) {
+                            res.json({
+                                status: "error",
+                                err: err
+                            });
+                        } else {
+                            res.json({
+                                "count": count,
+                                "users": users,
+                                "status": 'ok'
+                            });
+                        }
+                    });
+                });
+        });
+
+        /*
          * GET one user by ID
          */
         app.get('/user/:id', function(req, res) {
@@ -101,7 +134,6 @@ module.exports = function(app) {
          */
         app.post('/user', function(req, res) {
 
-
             var email = req.param('email', 'err');
             var password = req.param('password', 'err');
             var firstname = req.param('firstname', null);
@@ -148,7 +180,7 @@ module.exports = function(app) {
                                 res: "User Name already taken"
                             });
                         } else {
-                            
+
                             var newUser = new User();
 
                             newUser.local.email = email;
@@ -435,7 +467,7 @@ module.exports = function(app) {
                 } else {
                     res.send('Size must be less the 2 MB');
                 }
-            } else if (file.type == 'application/pdf' || file.type == 'application/msword' || file.type == 'application/vnd.oasis.opendocument.text') {
+            } else if (file.type == 'application/pdf' || file.type == 'application/msword' || file.type == 'application/vnd.oasis.opendocument.text' || file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                 //check size - 5mb
                 if (file.size <= 5000000) {
                     var fs = require('fs');
@@ -890,6 +922,47 @@ module.exports = function(app) {
             } else {
                 res.redirect('/');
             }
+        });
+
+        app.post('/deleteUsers', function(req, res) {
+            var postData = req.body.deleteIDs;
+
+            var deleteUsers = [];
+
+            var async = require('async');
+            async.series([
+                    function(callback) {
+                        for (var p in postData) {
+                            if (postData[p]) {
+                                deleteUsers.push(p);
+                            }
+                        }
+                        callback(null, deleteUsers);
+                    },
+                    function(callback) {
+
+                        User.remove({
+                            _id: { $in: deleteUsers }
+                        }, function(err) {
+                            if (err) {
+                                console.log(err);
+                                callback(err);
+                            } else {
+                                callback(null);
+                            }
+                        });
+                        // callback(null);
+                    }
+                ],
+                // optional callback 
+                function(err, results) {
+                    if(err){
+                        res.json({ status: "error", err: err});
+                    } else {
+                        res.json({ status: "ok"});
+                    }
+                });
+
         });
 
         /*

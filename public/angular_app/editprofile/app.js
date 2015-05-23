@@ -121,10 +121,14 @@ editProfileApp.directive('fileModelFile', ['$parse', function($parse) {
                     //modelSetter(scope, element[0].files[0]);
 
                     var file = element[0].files[0];
-                    console.log(file);
+                    // console.log(file);
 
                         //check type
-                        if(file.type == 'application/pdf' || file.type == 'application/msword' || file.type == 'application/vnd.oasis.opendocument.text'){
+                        if(file.type == 'application/pdf' 
+                            || file.type == 'application/msword' 
+                            || file.type == 'application/vnd.oasis.opendocument.text'
+                            || file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                            ){
                         	//check size for images - 2mb
                             if (file.size <= 5000000) {
                             	scope.Upload_file_btn = true;

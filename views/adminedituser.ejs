@@ -25,7 +25,9 @@
           <!-- Main content -->
           <section class="content" ng-app="editProfileApp" ng-controller="mainController">
 
-
+          <p>
+            <button class="btn btn-danger" ng-click="deleteUser()">Delete This User</button>
+          </p>
 
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="app" style="display: none;">
 
@@ -234,7 +236,7 @@
                   <!-- form start -->
                   <form role="form" novalidate name="passwordForm">
                     <div class="box-body">
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label for="oldpass">Old Password</label>
                         <input type="password" class="form-control" ng-model="oldpass" name="oldpass" required placeholder="Enter Old Password">
 
@@ -242,7 +244,7 @@
                           <span ng-show="passwordForm.oldpass.$error.required">Old Password is required</span>
                         </span>
 
-                      </div>
+                      </div> -->
                       <div class="form-group">
                         <label for="oldpass">New Password</label>
                         <input type="password" class="form-control" ng-model="newpass" name="newpass" required placeholder="Enter New Password">

@@ -30,13 +30,26 @@ module.exports = function(app) {
 
             User
                 .find()
+                // .sort({regDate: -1})
                 //.select('local.email')
                 .limit(perPage)
                 .skip(Math.ceil(perPage * page))
                 // .sort({email: 'asc'})
+                // .sort({regDate: 'asc'})
+                // .sort({regDate: 1})
+                // .sort('regDate', -1)
                 .exec(function(err, users) {
                     User.count().exec(function(err, count) {
                         // console.log(count);
+
+                        //sort 
+                        users.sort(function(a,b){
+                          // Turn your strings into dates, and then subtract them
+                          // to get a value that is either negative, positive, or zero.
+                          return b.local.regDate - a.local.regDate;
+                        });
+
+
                         if (err) {
                             res.json({
                                 status: "error",
@@ -393,6 +406,55 @@ module.exports = function(app) {
                         } else {
                             res.send({
                                 "res": "ID missmatch"
+                            });
+                        }
+                    }
+                });
+            } else {
+                res.send({
+                    "res": "Not Logged In"
+                });
+            }
+        });
+
+        /*
+         * Admin Change Password
+         */
+        app.put('/adminchangepassword', function(req, res) {
+            if (req.isAuthenticated()) {
+
+                var _id = req.param('id');
+                var newpassword = req.param('password');
+                // var oldpassword = req.param('oldpassword');
+
+                User.findOne({
+                    _id: _id
+                }, function(err, user) {
+                    if (err) {
+                        res.send(err);
+                    } else if (user) {
+                        if (res.locals.isAdmin) {
+
+                            var bcrypt = require('bcrypt-nodejs');
+
+                            user.local.password = bcrypt.hashSync(newpassword, bcrypt.genSaltSync(8), null);
+
+                            // save the user
+                            user.save(function(err) {
+                                if (err) {
+                                    res.send({
+                                        "err": err
+                                    });
+                                } else {
+                                    res.send({
+                                        "res": 'Password updated!'
+                                    });
+                                }
+                            });
+
+                        } else {
+                            res.send({
+                                "res": "Only Admin can Update"
                             });
                         }
                     }
@@ -942,7 +1004,9 @@ module.exports = function(app) {
                     function(callback) {
 
                         User.remove({
-                            _id: { $in: deleteUsers }
+                            _id: {
+                                $in: deleteUsers
+                            }
                         }, function(err) {
                             if (err) {
                                 console.log(err);
@@ -956,10 +1020,15 @@ module.exports = function(app) {
                 ],
                 // optional callback 
                 function(err, results) {
-                    if(err){
-                        res.json({ status: "error", err: err});
+                    if (err) {
+                        res.json({
+                            status: "error",
+                            err: err
+                        });
                     } else {
-                        res.json({ status: "ok"});
+                        res.json({
+                            status: "ok"
+                        });
                     }
                 });
 
@@ -968,21 +1037,30 @@ module.exports = function(app) {
         /*
          * DELETE to deleteuser.
          */
-        // app.delete('/user/:email', function(req, res) {
+        app.delete('/user/:id', function(req, res) {
 
-        //     var email = req.param('email');
+            var id = req.param('id');
 
-        //     User.remove({
-        //         'local.email': email
-        //     }, function(err) {
-        //         if (err) {
-        //             res.send(err);
-        //         } else {
-        //             res.send('User removed!');
-        //         }
-        //     });
+            if (req.isAuthenticated() && req.session.isAdmin) {
+                User.remove({
+                    _id: id
+                }, function(err) {
+                    if (err) {
+                        res.send({
+                            status: 'error',
+                            err: err
+                        });
+                    } else {
+                        res.send({
+                            status: 'ok'
+                        });
+                    }
+                });
+            } else {
+                res.send('not logged in or not an admin');
+            }
 
-        // });
+        });
 
     }
     // module.exports = router;

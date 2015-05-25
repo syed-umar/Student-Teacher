@@ -85,23 +85,23 @@ editProfileApp.directive('fileModel', ['$parse', function($parse) {
 
                     var file = element[0].files[0];
 
-                        //check type
-                        if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
-                            
-							//check size for images - 2mb
-                            if (file.size <= 2000000) {
-                            	scope.Upload_btn = true;
-                            	modelSetter(scope, element[0].files[0]);
-                            	scope.uploadMsg = '';
-                            } else {
-                                scope.uploadMsg = 'Size must be less then 2 MB';
-                                scope.Upload_btn = false;
-                            }
+                    //check type
+                    if (file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg' || file.type == 'image/gif') {
+
+                        //check size for images - 2mb
+                        if (file.size <= 2000000) {
+                            scope.Upload_btn = true;
+                            modelSetter(scope, element[0].files[0]);
+                            scope.uploadMsg = '';
                         } else {
-                            scope.uploadMsg = 'Wrong format!';
+                            scope.uploadMsg = 'Size must be less then 2 MB';
                             scope.Upload_btn = false;
                         }
-                    
+                    } else {
+                        scope.uploadMsg = 'Wrong format!';
+                        scope.Upload_btn = false;
+                    }
+
                 });
             });
         }
@@ -123,22 +123,22 @@ editProfileApp.directive('fileModelFile', ['$parse', function($parse) {
                     var file = element[0].files[0];
                     console.log(file);
 
-                        //check type
-                        if(file.type == 'application/pdf' || file.type == 'application/msword' || file.type == 'application/vnd.oasis.opendocument.text'){
-                        	//check size for images - 2mb
-                            if (file.size <= 5000000) {
-                            	scope.Upload_file_btn = true;
-                            	modelSetter(scope, element[0].files[0]);
-                            	scope.uploadMsg_file = '';
-                            } else {
-                                scope.uploadMsg_file = 'Size must be less then 5 MB';
-                                scope.Upload_file_btn = false;
-                            }
+                    //check type
+                    if (file.type == 'application/pdf' || file.type == 'application/msword' || file.type == 'application/vnd.oasis.opendocument.text') {
+                        //check size for images - 2mb
+                        if (file.size <= 5000000) {
+                            scope.Upload_file_btn = true;
+                            modelSetter(scope, element[0].files[0]);
+                            scope.uploadMsg_file = '';
                         } else {
-                            scope.uploadMsg_file = 'Wrong format!';
+                            scope.uploadMsg_file = 'Size must be less then 5 MB';
                             scope.Upload_file_btn = false;
                         }
-                    
+                    } else {
+                        scope.uploadMsg_file = 'Wrong format!';
+                        scope.Upload_file_btn = false;
+                    }
+
                 });
             });
         }
@@ -157,14 +157,14 @@ editProfileApp.service('fileUpload', ['$http', function($http) {
                 }
             })
             .success(function(data) {
-            	if(data == 'Saved pic'){
-            		scope.uploadMsg = data;
-            	} else {
-            		scope.uploadMsg_file = data;
-            	}
+                if (data == 'Saved pic') {
+                    scope.uploadMsg = data;
+                } else {
+                    scope.uploadMsg_file = data;
+                }
             })
             .error(function(data) {
-            	alert(data);
+                alert(data);
             });
     }
 }]);
@@ -220,6 +220,18 @@ editProfileApp.controller('mainController', ['$scope', 'fileUpload', '$http', '$
 
     };
 
+    $scope.deleteUser = function() {
+
+        $http.delete('/user/' + $scope.user_id)
+            .success(function(res) {
+                if(res.status == "error"){
+                    alert(res.err);
+                } else if(res.status == 'ok'){
+                    window.location.href  = '/editusertype';
+                }
+            });
+    }
+
     // function to submit the form after all validation has occurred            
     $scope.passwordFormfunc = function(isValid) {
 
@@ -229,10 +241,9 @@ editProfileApp.controller('mainController', ['$scope', 'fileUpload', '$http', '$
             //set user id
             $scope.user.id = $scope.user_id;
 
-            $http.put('/changepassword', {
+            $http.put('/adminchangepassword', {
                 id: $scope.user_id,
-                password: $scope.repass,
-                oldpassword: $scope.oldpass
+                password: $scope.repass
             }).
             success(function(data, status, headers, config) {
                 showPasswordMsg($scope, $timeout, data);

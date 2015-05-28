@@ -91,5 +91,6 @@
 	"Class Files": "Class Files",
 	"Username": "Username",
 	"Zip Code": "Zip Code",
-	"Comments": "Comments"
+	"Comments": "Comments",
+	"Edit User Type": "Edit User Type"
 }

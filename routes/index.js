@@ -12,7 +12,6 @@ module.exports = function(app) {
             res.locals.serverMsg = null;
         }
 
-
         res.locals.logged = 0;
         res.locals.isAdmin = req.session.isAdmin;
 
@@ -38,10 +37,26 @@ module.exports = function(app) {
     });
 
     // change language
-    app.get('/changeLang/:lang', function(req, res){
-    	var lang =  req.param('lang');
+    app.get('/changeLang/:lang', function(req, res) {
+        var lang = req.param('lang');
         req.session.sessionLang = lang;
-		res.redirect('back');
+        res.redirect('back');
+    });
+
+    // temp chat admin
+    app.get('/adminchat', function(req, res) {
+        res.render('chatdashboard', {
+            logged: 1,
+            isAdmin: 1,
+            user: {
+                local: {
+                    firstName: "admin",
+                    lastName: "min"
+                }
+            },
+            title: 'Admin',
+                heading: 'Chat'
+        });
     });
 
     /* get Class reg info for main page */
@@ -89,7 +104,7 @@ module.exports = function(app) {
                                     cb(err);
                                 } else {
                                     // res.send(docs);
-                                    // return docs;									
+                                    // return docs;                                 
                                     cb(docs);
                                 }
                             });
@@ -180,8 +195,8 @@ module.exports = function(app) {
         }
     });
 
-    app.get('/adminEditUser/:userID', function(req, res){
-       if (req.session.isAdmin && req.isAuthenticated()) {
+    app.get('/adminEditUser/:userID', function(req, res) {
+        if (req.session.isAdmin && req.isAuthenticated()) {
             res.locals.logged = 1;
             res.locals.isAdmin = req.session.isAdmin;
             res.render('adminedituser', {
@@ -192,7 +207,7 @@ module.exports = function(app) {
             });
         } else {
             res.redirect('/');
-        } 
+        }
     });
 
     /* GET Admin create class */
@@ -300,21 +315,21 @@ module.exports = function(app) {
     });
 
     // router.get('/editclass/:classid', function(req, res){
-    // 	if(req.session.isAdmin && req.isAuthenticated()){
+    //  if(req.session.isAdmin && req.isAuthenticated()){
 
-    // 		//get class 
-    // 		var class_id = req.param('classid');
+    //      //get class 
+    //      var class_id = req.param('classid');
 
-    // 		res.locals.logged = 1;
-    // 		res.render('editclass', {
-    // 			title: 'Admin Edit Class',
-    // 			heading: '',
-    // 			user: req.user,
-    // 			class_id: class_id
-    // 		});
-    // 	} else {
-    // 		res.redirect('/');
-    // 	}
+    //      res.locals.logged = 1;
+    //      res.render('editclass', {
+    //          title: 'Admin Edit Class',
+    //          heading: '',
+    //          user: req.user,
+    //          class_id: class_id
+    //      });
+    //  } else {
+    //      res.redirect('/');
+    //  }
     // });
 
     app.get('/classroom/:id', function(req, res) {

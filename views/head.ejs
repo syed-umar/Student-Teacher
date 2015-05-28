@@ -12,10 +12,110 @@
     <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="/bower_components/jquery-ui/themes/cupertino/jquery-ui.css"/>
+    <style>
+    #dialog label, #dialog input { display:block; }
+    #dialog label { margin-top: 0.5em; }
+    #dialog input, #dialog textarea { width: 95%; }
+    #tabs { margin-top: 1em; }
+    #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+    #add_tab { cursor: pointer; }
+    </style>
 
 
     <!-- jQuery 2.0.2 -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+ 
+
+    <!-- // <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script> -->
+    <link type="text/css" href="css/jquery.ui.chatbox.css" rel="stylesheet" />
+    
+    <% if(logged){ %>
+    <script>
+    //set user id
+    var user_id = "<%= user._id %>";
+    var firstName = "<%= user.local.firstName %>";
+    var lastName = "<%= user.local.lastName %>";
+    </script>
+    <% } else {%>
+    <script>
+    //set user id
+    var user_id = "0";
+    var firstName = "Guest";
+    var lastName = "";
+    </script>
+    <% }%>
+
+    <script id="step1" type="text/x-jQuery-tmpl">
+      <div>
+        ${clientID} - <button class="btn btn-primary btn-xs startAdminChat" data-adminID="${clientID}">Start Chat</button>
+      </div>  
+      <br>
+    </script>
+
+    <script id="step2" type="text/x-jQuery-tmpl">
+      ${status}
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+
+      // socket.on('update', function(data){
+      //   alert(data);
+      // });
+
+      // get admin list
+      socket.emit('getAdmins', { userID: user_id, firstName: firstName, lastName: lastName});
+
+      socket.on('adminsOnline', function(res){
+        // console.log(res.list);
+        $("#step1").tmpl(res.list).appendTo("#step1_cont");
+        $('#step1_cont').show();
+
+        // start chat with admin 
+        $('.startAdminChat').off().on('click', function(){
+          // console.log(this);
+          var adminID = $(this).data('adminid');
+
+          socket.emit('startChat', {
+            adminID: adminID
+          });
+        });
+      });  
+      
+      socket.on('adminSendMsg', function(res){
+        // console.log(res);
+        // alert(res.msg);
+      });
+
+      socket.on('status', function(res){
+        if(res.connected){
+          // $("#step2").tmpl(res).appendTo("#step2_cont");
+          $('#step1_cont').hide();
+          $('#step2_cont').show();
+        }
+      });
+
+      $(document).ready(function(){
+
+        // send a msg to admin
+        $('.sendmsg').click(function(){
+            var msg = $('#msg').val();
+            
+
+            socket.emit('userSendMsg', {
+                msg: msg
+            });
+
+            // $('#chat').append('<li>user: ' + msg + '</li>');
+        });
+      });
+    </script>
+
+
     <!-- Bootstrap -->
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- AdminLTE App -->

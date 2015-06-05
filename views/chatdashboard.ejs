@@ -48,13 +48,24 @@
 
 <script type="text/javascript">
 
+    var msgUserTab = 0;
+
     socket.on('userSendMsg', function(data) {
-        console.log(data);
+        // console.log(data);
+        var uid = String('#' + data.sid);
+        $(uid).append('<li>' + data.msg + '</li>');
     });
 
     $(document).ready(function(){
         
-        var tabs = $( "#tabs" ).tabs();
+        // var tabs = $( "#tabs" ).tabs();
+        var tabs = $('#tabs').tabs({
+              activate: function(event, ui){
+                 // console.log($(ui.newTab));
+                 // console.log('id', $(".ui-state-active").attr("id"));
+                 msgUserTab = $(ui.newTab).find("a").attr("href");
+             }
+         });
 
         var tabTitle = $( "#tab_title" ),
           tabContent = $( "#tab_content" ),
@@ -72,6 +83,7 @@
             // tabContent.html(uid + ' ' + firstName + ' ' + lastName);
             // tabContentHtml = tabContent.val();
             tabContentHtml = '<span class="user-details" data-uid="'+uid+'" data-fname="'+firstName+'" data-lname="'+lastName+'"></span>';
+            tabContentHtml += '<ul id="'+uid+'"></ul>';
             tabContentHtml += uid + ' ' + firstName + ' ' + lastName;
      
           tabs.find( ".ui-tabs-nav" ).append( li );
@@ -104,18 +116,17 @@
 
         $('.send').click(function(){
             var msg = $('#msg').val();
-            var active = $( "#tabs" ).tabs( "option", "active" );
-            var activeID = "#tabs-" + active;
-            activeID = $(activeID).find('.user-details').data('uid');
+            activeID = $(msgUserTab).find('.user-details').data('uid');
             
             socket.emit('adminSendMsg', {
                 msg: msg,
                 userID: activeID
             });
 
-            $('#msg').val('')
+            var activeChat = '#' + activeID;
+            $(activeChat).append('<li>' + msg + '</li>');
 
-            // $('#titles').append('<li>Admin: ' + msg + '</li>');
+            // $('#msg').val('');
         });
 
 

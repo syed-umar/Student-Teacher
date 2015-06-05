@@ -9,9 +9,9 @@ var server = app.listen(app.get('port'), function() {
 });
 
 
-var chatStore = require('memory-cache');
-var chats = [];
-chats.push('test');
-chatStore.put('chats', chats);
+// var chatStore = require('memory-cache');
+// var chats = [];
+// chats.push('test');
+// chatStore.put('chats', chats);
 
 require('./routes/chat')(server, app);

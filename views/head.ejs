@@ -34,6 +34,8 @@
     
     <% if(logged){ %>
     <script>
+    //set sid
+    var sid = "<%= sid %>";
     //set user id
     var user_id = "<%= user._id %>";
     var firstName = "<%= user.local.firstName %>";
@@ -41,6 +43,8 @@
     </script>
     <% } else {%>
     <script>
+    //set sid
+    var sid = "<%= sid %>";
     //set user id
     var user_id = "0";
     var firstName = "Guest";
@@ -85,10 +89,23 @@
           });
         });
       });  
+
+      socket.on('continue', function(data){
+          $('#step1_cont').hide();
+
+          if(data.chat != null){
+            $.each(data.chat, function(i, v){
+              // console.log(i, v);
+              $('#chats').append('<li>'+ v +'</li>');      
+            });
+          }
+
+          $('#step2_cont').show();  
+      });
       
       socket.on('adminSendMsg', function(res){
-        // console.log(res);
-        // alert(res.msg);
+        // console.log(res.msg);
+        $('#chats').append('<li> Admin: '+res.msg+'</li>');
       });
 
       socket.on('status', function(res){
@@ -104,14 +121,20 @@
         // send a msg to admin
         $('.sendmsg').click(function(){
             var msg = $('#msg').val();
-            
-
+               
             socket.emit('userSendMsg', {
                 msg: msg
             });
 
-            // $('#chat').append('<li>user: ' + msg + '</li>');
+            $('#chats').append('<li>user: ' + msg + '</li>');
+            $('#msg').val('');
         });
+
+        // quit chat
+        $('#leavechat').click(function(){
+            socket.emit('leave');
+        });
+
       });
     </script>
 

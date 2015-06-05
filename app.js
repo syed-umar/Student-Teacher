@@ -23,6 +23,8 @@ app.use(session({
     saveUninitialized: true,
     resave: true
 }));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -34,11 +36,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
+
+
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('secret'));
+
+app.use(function(req, res, next){
+
+    // console.log('sid', req.sessionID);
+    // console.log("Cookies: ", decodeURIComponent(req.cookies['connect.sid']));
+    // cookieParser.signedCookie(str, secret)
+    // var Cookies = require( "cookies" );
+    // var cookies = new Cookies( req, res )
+    // var cookie = cookies.get( "connect.sid" );
+    // console.log(cookie);
+
+    // var cookieParser = require('cookie-parser');
+    // var sessionId = cookieParser.signedCookie(req.cookies['connect.sid'], "secret");
+    // console.log('sessionId', sessionId);
+    next();
+});
 
 
 i18n.expressBind(app, {
@@ -52,6 +72,16 @@ i18n.expressBind(app, {
 
 // set evaluator and admin
 app.use(function(req, res, next) {
+
+    // set sid for views
+    res.locals.sid = req.sessionID;
+    app.set('sid', req.sessionID);
+
+    if (typeof req.user !== "undefined") {
+        app.set('uid', req.user.id);
+    } else {
+        app.set('uid', 0);
+    }
 
     // console.log(req.session.sessionLang);
 

@@ -4,7 +4,10 @@ var mongoose = require('mongoose');
 
 // define the schema for our class model
 var chatSchema = mongoose.Schema({
-    
+    sid: String,
+    adminID: String,
+    userID: String,
+    log: []
 });
 
 // methods ======================

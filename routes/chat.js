@@ -6,6 +6,8 @@ var chatStore = require('memory-cache');
 // chatStore.put('foo', 'bar');
 
 
+
+
 module.exports = function(server, app) {
     var io = require('socket.io')(server);
 
@@ -40,6 +42,56 @@ module.exports = function(server, app) {
         cb();
     }
 
+    function finishChat(sid, cb){
+      // save chat cache in DB
+      var chat = chatStore.get(sid);
+
+      ChatLog.findOne({
+          sid: sid
+      }, function(err, chatlog) {
+          if (err) {
+              console.error(err);
+          } else if (chatlog) {
+
+              chatlog.adminID = chat.adminID;
+              chatlog.userID = chat.userID;
+              var c = chatlog.log.concat(chat.log);
+              chatlog.log = c;
+
+              chatlog.save(function(err){
+                  if(err){
+                      console.error(err);
+                      cb(err);
+                  } else {
+                      clients[sid].disconnect();
+                      delete clients[sid];
+                      console.log('leave', sid);
+                      cb(null);
+                  }
+              });
+          } else {
+              var newChatLog = new ChatLog();
+
+              newChatLog.sid = sid;
+              newChatLog.adminID = chat.adminID;
+              newChatLog.userID = chat.userID;
+              newChatLog.log = chat.log;
+
+              newChatLog.save(function(err){
+                  if(err){
+                      console.error(err);
+                      cb(err);
+                  } else {
+                      clients[sid].disconnect();
+                      delete clients[sid];
+                      console.log('leave', sid);
+                      cb(null);
+                  }
+              });
+          }
+      });
+    }
+
     // initial browser connection
     io.on('connection', function(client) {
         // console.log(app.get('sid'));
@@ -60,7 +112,7 @@ module.exports = function(server, app) {
                     clients[sid].userDetails = {};
                     clients[sid].userDetails.userID = id.userID;
                     clients[sid].userDetails.firstName = id.firstName;
-                    clients[sid].userDetails.lastName = id.lastName;    
+                    clients[sid].userDetails.lastName = id.lastName;
                     clients[sid].userDetails.uid = app.get('uid');
 
                     makeAdminList(clients, function(list) {
@@ -71,7 +123,7 @@ module.exports = function(server, app) {
                 } else {
                     clients[sid].userDetails.userID = id.userID;
                     clients[sid].userDetails.firstName = id.firstName;
-                    clients[sid].userDetails.lastName = id.lastName;    
+                    clients[sid].userDetails.lastName = id.lastName;
                     clients[sid].userDetails.uid = app.get('uid');
 
                     // continue chat
@@ -83,9 +135,9 @@ module.exports = function(server, app) {
                         clients[sid].emit('continue', { chat: null });
                     }
 
-                    
+
                 }
-                
+
             });
 
             // admin - set admin
@@ -124,10 +176,10 @@ module.exports = function(server, app) {
                     log: []
                 });
                 // chatStore.put(String(sid), {test: 'hello'});
-                
+
 
             });
-    
+
             // admin sends a message
             clients[sid].on('adminSendMsg', function(data) {
                 clients[data.userID].emit('adminSendMsg', {
@@ -169,27 +221,24 @@ module.exports = function(server, app) {
                 console.log('dis', sid);
             });
 
+            // admin - finish Chat with a user
+            clients[sid].on('finishChat', function(data){
+              clients[data.userID].emit('chatClosed');
+
+              finishChat(data.userID, function(err){
+                if(err){
+                  console.log(err);
+                }
+              });
+            });
+
             // remove leaving clients
             clients[sid].on('leave', function() {
-
-                // save chat cache in DB
-                var chat = chatStore.get(sid);
-
-                ChatLog.findOne({
-                    sid: sid
-                }, function(err, chatlog) {
-                    if (err) {
-                        
-                    } else if (chatlog) {
-                        
-                    } else {
-                        
-                    }
-                });
-
-                clients[sid].disconnect();
-                delete clients[sid];
-                console.log('leave', sid);
+              finishChat(sid, function(err){
+                if(err){
+                  console.log(err);
+                }
+              });
             });
         });
     });

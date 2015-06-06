@@ -9,7 +9,7 @@
         <% include leftside.ejs %>
 
         <!-- Right side column. Contains the navbar and content of the page -->
-        <aside class="right-side">                
+        <aside class="right-side">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
@@ -27,17 +27,20 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                     <div id="tabs" style="height: 400px; overflow-y: auto;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <ul>
-                        
+
                       </ul>
-                      
+
                     </div>
 
-                        
+
                         <div class="input-group">
                             <input type="text" id="msg" class="form-control" placeholder="Enter Message">
                             <span class="input-group-btn">
                             <button class="btn btn-default send" type="button">Send</button>
                           </span>
+                        </div>
+                        <div class="input-group">
+
                         </div>
                     </div>
             </section><!-- /.content -->
@@ -57,13 +60,36 @@
     });
 
     $(document).ready(function(){
-        
+
         // var tabs = $( "#tabs" ).tabs();
         var tabs = $('#tabs').tabs({
               activate: function(event, ui){
                  // console.log($(ui.newTab));
                  // console.log('id', $(".ui-state-active").attr("id"));
                  msgUserTab = $(ui.newTab).find("a").attr("href");
+
+                 // stop a chat with user
+                 $('.finish-chat').off().on('click', function(){
+                   // activeID = $(msgUserTab).find('.user-details').data('uid');
+
+                   var activeID = $(this).data('uid');
+                   console.log('close tab', msgUserTab);
+
+                  //  $(msgUserTab).remove();
+                  //  tabs.tabs( "refresh" );
+
+                  var panelId = tabs.find( ".ui-tabs-active" ).remove().attr( "aria-controls" );
+                  $( "#" + panelId ).remove();
+                  tabs.tabs( "refresh" );
+
+                   socket.emit('finishChat', {
+                       userID: activeID
+                   });
+
+                   var activeChat = '#' + activeID;
+                   $(activeChat).append('<li>Chat closed</li>');
+                 });
+
              }
          });
 
@@ -83,9 +109,10 @@
             // tabContent.html(uid + ' ' + firstName + ' ' + lastName);
             // tabContentHtml = tabContent.val();
             tabContentHtml = '<span class="user-details" data-uid="'+uid+'" data-fname="'+firstName+'" data-lname="'+lastName+'"></span>';
+            tabContentHtml += '<br><button class="finish-chat" data-uid="'+uid+'">Close this Chat</button><br>';
             tabContentHtml += '<ul id="'+uid+'"></ul>';
             tabContentHtml += uid + ' ' + firstName + ' ' + lastName;
-     
+
           tabs.find( ".ui-tabs-nav" ).append( li );
           tabs.append( "<div id='" + id + "'><p>" + tabContentHtml + "</p></div>" );
           tabs.tabs( "refresh" );
@@ -95,10 +122,11 @@
         // close icon: removing the tab on click
         tabs.delegate( "span.ui-icon-close", "click", function() {
           var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+          // console.log('panel',panelId);
           $( "#" + panelId ).remove();
           tabs.tabs( "refresh" );
         });
-     
+
         tabs.bind( "keyup", function( event ) {
           if ( event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE ) {
             var panelId = tabs.find( ".ui-tabs-active" ).remove().attr( "aria-controls" );
@@ -113,11 +141,11 @@
         });
 
 
-
+        // send msg to user
         $('.send').click(function(){
             var msg = $('#msg').val();
             activeID = $(msgUserTab).find('.user-details').data('uid');
-            
+
             socket.emit('adminSendMsg', {
                 msg: msg,
                 userID: activeID
@@ -130,9 +158,11 @@
         });
 
 
+
+
     });
 
-    
+
 </script>
 
 </body>

@@ -25,13 +25,13 @@
     <!-- jQuery 2.0.2 -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
- 
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.tmpl.js"></script>
+
 
     <!-- // <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script> -->
     <link type="text/css" href="css/jquery.ui.chatbox.css" rel="stylesheet" />
-    
+
     <% if(logged){ %>
     <script>
     //set sid
@@ -55,7 +55,7 @@
     <script id="step1" type="text/x-jQuery-tmpl">
       <div>
         ${clientID} - <button class="btn btn-primary btn-xs startAdminChat" data-adminID="${clientID}">Start Chat</button>
-      </div>  
+      </div>
       <br>
     </script>
 
@@ -79,7 +79,7 @@
         $("#step1").tmpl(res.list).appendTo("#step1_cont");
         $('#step1_cont').show();
 
-        // start chat with admin 
+        // start chat with admin
         $('.startAdminChat').off().on('click', function(){
           // console.log(this);
           var adminID = $(this).data('adminid');
@@ -88,7 +88,7 @@
             adminID: adminID
           });
         });
-      });  
+      });
 
       socket.on('continue', function(data){
           $('#step1_cont').hide();
@@ -96,13 +96,13 @@
           if(data.chat != null){
             $.each(data.chat, function(i, v){
               // console.log(i, v);
-              $('#chats').append('<li>'+ v +'</li>');      
+              $('#chats').append('<li>'+ v +'</li>');
             });
           }
 
-          $('#step2_cont').show();  
+          $('#step2_cont').show();
       });
-      
+
       socket.on('adminSendMsg', function(res){
         // console.log(res.msg);
         $('#chats').append('<li> Admin: '+res.msg+'</li>');
@@ -116,12 +116,19 @@
         }
       });
 
+      // admin closed chat
+      socket.on('chatClosed', function(){
+        $('#chats').append('<li>Admin has left the chat</li>');
+        $('.sendmsg').attr("disabled", true);
+        $('#msg').attr("disabled", true);
+      });
+
       $(document).ready(function(){
 
         // send a msg to admin
         $('.sendmsg').click(function(){
             var msg = $('#msg').val();
-               
+
             socket.emit('userSendMsg', {
                 msg: msg
             });
@@ -133,6 +140,8 @@
         // quit chat
         $('#leavechat').click(function(){
             socket.emit('leave');
+            $('#step1_cont').show();
+            $('#step2_cont').hide();
         });
 
       });

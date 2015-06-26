@@ -46,7 +46,10 @@ this.onmessage = function(e){
 };
 
 function init(config){
-  sampleRate = config.sampleRate;
+  // sampleRate = config.sampleRate;
+  // var ty = Object.prototype.toString.call(sampleRate).replace(/^\[object (.+)\]$/,"$1").toLowerCase();
+  // console.log(ty);
+  sampleRate = 22050;
 }
 
 function record(inputBuffer){
@@ -97,18 +100,33 @@ function mergeBuffers(recBuffers, recLength){
 }
 
 function interleave(inputL, inputR){
-  var length = inputL.length + inputR.length;
-  var result = new Float32Array(length);
+  return inputL;
+  // var length = inputL.length / 4;
+  // var length = inputL.length + inputR.length;
+  // var result = new Float32Array(length);
 
-  var index = 0,
-    inputIndex = 0;
+  // var index = 0,
+  //   inputIndex = 0;
 
-  while (index < length){
-    result[index++] = inputL[inputIndex];
-    result[index++] = inputR[inputIndex];
-    inputIndex++;
-  }
-  return result;
+  // while (index < length){
+  //   result[index++] = inputL[inputIndex];
+  //   result[index++] = inputR[inputIndex];
+  //   inputIndex++;
+  // }
+  // return result;
+
+  // var length = inputL.length / 4;
+  // var result = new Float32Array(length);
+
+  // var index = 0,
+  //   inputIndex = 0;
+
+  // while (index < length) {
+  //     result[index++] = 0.25 * (inputL[inputIndex++] + inputL[inputIndex++] +
+  //                               inputL[inputIndex++] + inputL[inputIndex++]);
+  // }
+
+  // return result;
 }
 
 function floatTo16BitPCM(output, offset, input){
@@ -141,7 +159,9 @@ function encodeWAV(samples, mono){
   /* sample format (raw) */
   view.setUint16(20, 1, true);
   /* channel count */
-  view.setUint16(22, mono?1:2, true);
+  view.setUint16(22, 2, true);
+  /* channel count */
+  // view.setUint16(22, mono?1:2, true);
   /* sample rate */
   view.setUint32(24, sampleRate, true);
   /* byte rate (sample rate * block align) */

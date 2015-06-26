@@ -644,47 +644,20 @@ module.exports = function(app) {
             }
         });
 
-        function convertToMp3(file){
-
-          var sox = require('sox');
-
-          // these options are all default, you can leave any of them off
-          var job = sox.transcode('/Users/Dev/Desktop/test.wav', 'dest.mp3', {
-            sampleRate: 44100,
-            format: 'mp3',
-            channelCount: 2,
-            bitRate: 192 * 1024,
-            compressionQuality: 5, // see `man soxformat` search for '-C' for more info
-          });
-          job.on('error', function(err) {
-            console.error(err);
-          });
-          job.on('progress', function(amountDone, amountTotal) {
-            console.log("progress", amountDone, amountTotal);
-          });
-          job.on('src', function(info) {
-            console.log(src, info);
-          });
-          job.on('dest', function(info) {
-            console.log(src, info);
-          });
-          job.on('end', function() {
-            console.log("all done");
-          });
-          job.start();
-        }
-
         // Save and transfer Audio
         app.post('/uploadwav', multipartMiddleware, function(req, res) {
 
             if (req.isAuthenticated()) {
-                console.log(req.files); 
+                // console.log(req.files); res.end();
+
+                // var worker = new Worker('./public/recordScripts/worker/EmsWorkerProxy.js');
+                // var fr = new FileReader();
+
+
+
                 var file = req.files.blob;
                 var fs = require('fs');
                 var savePath = './public/uploads/' + req.user._id + '/files/';
-                var fileURL = '../public/uploads' + req.user._id + '/files/'
-
-                // res.end();
 
                 //create save path
                 if (!fs.exists(savePath)) {
@@ -694,7 +667,7 @@ module.exports = function(app) {
                         if (err) {
                             console.log(err)
                         } else {
-                            // console.log('created');
+                            console.log('created');
                         }
 
                     });
@@ -729,8 +702,6 @@ module.exports = function(app) {
                                         res.send(err);
                                     } else {
                                         res.send('saved');
-                                        // call convert function
-                                        convertToMp3(fileURL + fileName);
                                     }
                                 });
                             }

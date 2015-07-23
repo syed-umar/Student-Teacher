@@ -42,6 +42,18 @@ module.exports = function(server, app) {
         cb();
     }
 
+    function disconnectAdmin(sid, cb){
+        if(clients.length > 0 && clients[sid].isAdmin){
+            for(i in clients){
+                if(clients[i].userDetails.activeChat == sid){
+                    clients[i].emit('adminDisconnect');
+                    clients[i].userDetails.activeChat = null;
+                }
+            }
+        }
+        cb();
+    }
+
     function finishChat(sid, cb){
       // save chat cache in DB
       var chat = chatStore.get(sid);
@@ -94,13 +106,14 @@ module.exports = function(server, app) {
 
     // initial browser connection
     io.on('connection', function(client) {
-        // console.log(app.get('sid'));
+        console.log('sid', app.get('sid'));
         var sid = app.get('sid');
 
         updateList(client, sid, function() {
-
+            
             // user - get online admins
             clients[sid].on('getAdmins', function(id) {
+                // console.log('update');
                 // console.log(id);
                 // set userID
                 // clients[sid].userID = id.userID;
@@ -215,10 +228,29 @@ module.exports = function(server, app) {
                 }
             });
 
+
+
             // remove disconnected clients
             clients[sid].on('disconnect', function() {
                 // delete clients[sid];
                 console.log('dis', sid);
+
+                disconnectAdmin(sid, function(){
+                    // console.log('del', sid);
+                    if(clients[sid].isAdmin){
+                        delete clients[sid];    
+                    }
+                });
+
+                // close tab on admin
+                //if(clients[sid].userDetails.activeChat){
+                    // adminID = clients[sid].userDetails.activeChat;
+
+                    // open a tab on admin panel
+                    // clients[adminID].emit('userDisconnect', {
+                    //     sid: sid
+                    // });    
+                // }
             });
 
             // admin - finish Chat with a user
@@ -245,130 +277,6 @@ module.exports = function(server, app) {
 }
 
 /*
-module.exports = function(server, app) {
-    var io = require('socket.io')(server);
-    var sid = app.get('sid');
-
-    var clients = [];
-    var chats = [];
-
-    function makeAdminList(clients, cb) {
-        var list = [];
-
-        for (i in clients) {
-            var item = {};
-            if (clients[i].isAdmin) {
-                item.clientID = clients[i].id;
-                list.push(item);
-            }
-        }
-        cb(list);
-    }
-
-    function updateClients(client){
-        // console.log('sock',clients[sid]);
-        if(clients[sid]){
-            clients[sid] = client;
-            clients[sid].chatActive = false;
-            clients[sid].isAdmin = false;
-            console.log(clients.length);
-            // cb();
-        } else {
-            clients[sid] = client;
-            console.log(clients.length);
-            // cb();
-        }
-        // console.log(clients.length);
-    }
-
-    // initial browser connection
-    io.on('connection', function(client) {
-
-        updateClients(client);
-
-        // user - get online admins
-        clients[sid].on('getAdmins', function(id) {
-            // console.log(id);
-            //set userID
-            clients[sid].userID = id.userID;
-            clients[sid].firstName = id.firstName;
-            clients[sid].lastname = id.lastName;
-
-            //get list
-            makeAdminList(clients, function(list) {
-                clients[sid].emit('adminsOnline', {
-                    list: list
-                });
-            });
-        });
-
-        clients[sid].on('startChat', function(id) {
-            console.log(sid, 'started chat with: ', id);
-
-            // set active chat with id on user object
-            clients[sid].activeChat = id.adminID;
-
-            // open a tab on admin panel
-            clients[id.adminID].emit('newTab', {
-                clientID: client.id,
-                firstName: clients[sid].firstName,
-                lastName: clients[sid].lastName
-            });
-
-            // send status to both
-            clients[sid].emit('status', {
-                status: 'Now chatting with ' + clients[id.adminID].firstName,
-                connected: true
-            });
-
-            // start recording in mem-cache
-            console.log('sid', app.get('sid'));
-            chatStore.put(app.get('sid'), {
-                adminID: id,
-                log: {}
-            });
-            console.log(chatStore.get(app.get('sid')));
-
-        });
-
-        // admin - set admin
-        clients[sid].on('isAdmin', function() {
-
-            console.log('admin logged', client.id);
-            clients[sid].isAdmin = true;
-            clients[sid].adminName = "Admin - 1";
-        });
-
-        clients[sid].on('adminSendMsg', function(data) {
-            clients[data.userID].emit('adminSendMsg', {
-                msg: data.msg
-            });
-        });
-
-        // client - send a message to admin
-        clients[sid].on('userSendMsg', function(data) {
-            // console.log(data);
-            clients[clients[sid].activeChat].emit('userSendMsg', {
-                msg: data.msg
-            });
-        });
-
-
-        // remove disconnected clients
-        clients[sid].on('disconnect', function() {
-            delete clients[sid];
-        });
-
-        // remove leaving clients
-        clients[sid].on('leave', function() {
-            clients[sid].disconnect();
-            delete clients[sid];
-        });
-
-    });
-
-}
-
 function generateToken() {
     var token = '';
     var availableSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0987654321"; // just so they're easier to type, I removed the !@#$%^&*

@@ -1,0 +1,26 @@
+body div#chat-container ul#tabs li.tab {
+	box-shadow: -2px 3px 5px 1px rgba(0, 0, 0, .05);
+}
+body div#chat-container ul#tabs li.tab div.tab-header, body div#chat-container div#tab-scroller div.tab-header {
+	background: #fafafa;
+	background: -moz-linear-gradient(top,  #fafafa 0%, #dddddd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#dddddd));
+	background: -webkit-linear-gradient(top,  #fafafa 0%,#dddddd 100%);
+	background: -o-linear-gradient(top,  #fafafa 0%,#dddddd 100%);
+	background: -ms-linear-gradient(top,  #fafafa 0%,#dddddd 100%);
+	background: linear-gradient(to bottom,  #fafafa 0%,#dddddd 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#dddddd',GradientType=0 );
+}
+body div#chat-container ul#tabs li.tab.active:active div.tab-header {
+	background: #3f6898;
+}
+body div#chat-container ul#tabs li.tab.active div.tab-header , div#chat-container div#tab-scroller ul.dropdown li:hover {
+	background: #4a79b2;
+	background: -moz-linear-gradient(top,  #4a79b2 0%, #3f6898 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4a79b2), color-stop(100%,#3f6898));
+	background: -webkit-linear-gradient(top,  #4a79b2 0%,#3f6898 100%);
+	background: -o-linear-gradient(top,  #4a79b2 0%,#3f6898 100%);
+	background: -ms-linear-gradient(top,  #4a79b2 0%,#3f6898 100%);
+	background: linear-gradient(to bottom,  #4a79b2 0%,#3f6898 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4a79b2', endColorstr='#3f6898',GradientType=0 );
+}

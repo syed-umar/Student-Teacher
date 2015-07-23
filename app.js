@@ -39,7 +39,7 @@ app.set('view engine', 'ejs');
 
 
 app.use(favicon());
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('secret'));
@@ -143,6 +143,7 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/editclasses', express.static(__dirname + '/public'));
 app.use('/classroom', express.static(__dirname + '/public'));
 app.use('/adminEditUser', express.static(__dirname + '/public'));
+app.use('/webrtc', express.static(__dirname + '/public'));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,358 @@
+div#chat-container {
+  /* Base font size */
+  font-size: 13px;
+  /* Inline Block across all browsers */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  /* Stick to the right bottom */
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding: 0 15px;
+  /* No pointer events as it may cover whole screen */
+  pointer-events: none;
+  z-index: 9999;
+}
+div#chat-container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+div#chat-container .pull-left {
+  float: left;
+}
+div#chat-container .pull-right {
+  float: right;
+}
+div#chat-container .form-control {
+  border: 0;
+  box-sizing: border-box;
+  height: 30px;
+  outline: 0;
+  overflow: hidden;
+  resize: none;
+  width: 100%;
+  font-size: 13px;
+}
+div#chat-container img.avatar {
+  width: 35px;
+  height: 35px;
+}
+div#chat-container .clearfix:before,
+div#chat-container .clearfix:after {
+  content: "";
+  display: table;
+}
+div#chat-container .clearfix:after {
+  clear: both;
+}
+div#chat-container .clearfix {
+  zoom: 1;
+}
+div#chat-container div#tab-scroller {
+  width: auto;
+  display: inline-block;
+  /* Absolute positioned so, it doesn't mess with the tabs */
+  position: absolute;
+  left: -20px;
+  bottom: -2px;
+  border: 1px solid #d3d7dc;
+  /* We don't want to inherit properties */
+  pointer-events: auto;
+  z-index: 9999;
+}
+div#chat-container div#tab-scroller.active div.tab-header {
+  background-color: white;
+}
+div#chat-container div#tab-scroller.active ul.dropdown {
+  display: block;
+}
+div#chat-container div#tab-scroller div.tab-header {
+  background-color: #eaedf1;
+  color: black;
+  cursor: pointer;
+  /* Vertical centering of text in the header */
+  height: 35px;
+  line-height: 35px;
+  padding: 0 10px;
+}
+div#chat-container div#tab-scroller ul.dropdown {
+  background-color: white;
+  border: 1px solid #d3d7dc;
+  bottom: 35px;
+  display: none;
+  left: -1px;
+  padding: 10px 0;
+  position: absolute;
+  width: 150px;
+  z-index: 9999;
+}
+div#chat-container div#tab-scroller ul.dropdown li {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+div#chat-container div#tab-scroller ul.dropdown li:hover {
+  background-color: #2574a9;
+  color: white;
+}
+div#chat-container ul#tabs {
+  /* We want to render tabs from right to left */
+  direction: rtl;
+  /* We don't want to inherit properties */
+  pointer-events: auto;
+  /* We don't want the children to stack weirdly when browser width is small */
+  white-space: nowrap;
+  width: 100%;
+}
+div#chat-container ul#tabs li.tab {
+  width: 215px;
+  position: relative;
+  border: 1px solid #d3d7dc;
+  margin-left: 10px;
+  /* We don't want to inherit properties */
+  direction: ltr;
+  white-space: normal;
+  /* Inline Block across all browsers */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  /* direction property in the parent messes with the text so, we need to force the text on the left */
+  text-align: left;
+  /* Stick to the bottom no matter what */
+  vertical-align: bottom;
+}
+div#chat-container ul#tabs li.tab.active {
+  width: 300px;
+}
+div#chat-container ul#tabs li.tab.active div.tab-header {
+  background-color: #2574a9;
+  color: white;
+  margin: -1px -1px 0 -1px;
+}
+div#chat-container ul#tabs li.tab.active div.tab-body {
+  display: block;
+}
+div#chat-container ul#tabs li.tab.active div.tab-footer {
+  display: block;
+}
+div#chat-container ul#tabs li.tab div.tab-header {
+  background-color: #eaedf1;
+  color: black;
+  cursor: pointer;
+  /* Vertical Centering text in the header */
+  height: 35px;
+  line-height: 35px;
+  padding: 0 10px;
+}
+div#chat-container ul#tabs li.tab div.tab-body {
+  background-color: #eaedf1;
+  padding: 10px;
+  height: 220px;
+  border-bottom: 1px solid #d3d7dc;
+  /* Hidden by default. Show when li.tab has the class active */
+  display: none;
+  /* Have a scrollbar */
+  overflow-y: scroll;
+  /* IE7 needs this property */
+  position: relative;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages:empty {
+  text-align: center;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages:empty:before {
+  content: "No messages to show.";
+  display: inline-block;
+  padding: 5px  0 0 0;
+  color: #95a5a6;
+  font-weight: bold;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message {
+  padding: 5px 0;
+  position: relative;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message img {
+  position: absolute;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message div.bubble {
+  padding: 10px;
+  position: relative;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message div.bubble:before {
+  /* New technique for triangles. Forget borders. */
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+  content: "\00a0";
+  display: block;
+  height: 12px;
+  position: absolute;
+  top: 12px;
+  width: 12px;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message div.bubble p {
+  margin: 0;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message div.bubble p:not(:last-child) {
+  margin-bottom: 7px;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message.me img.avatar {
+  left: 0;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message.me div.bubble {
+  /* Float left when the li.message has me class */
+  float: left;
+  margin: 0 0 0 50px;
+  background-color: #ffffff;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message.me div.bubble:before {
+  left: -6px;
+  background-color: #ffffff;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message.you img.avatar {
+  right: 0;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message.you div.bubble {
+  /* Float right when the li.message has you class */
+  float: right;
+  margin: 0 50px 0 0;
+  background-color: #ffffff;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.message.you div.bubble:before {
+  right: -6px;
+  background-color: #ffffff;
+}
+div#chat-container ul#tabs li.tab div.tab-body ul.messages li.date {
+  padding: 10px 0;
+  position: relative;
+  text-align: center;
+  color: #95a5a6;
+}
+div#chat-container ul#tabs li.tab div.tab-body div.message-information {
+  padding: 10px 0;
+  color: #95a5a6;
+}
+div#chat-container ul#tabs li.tab div.tab-footer {
+  background-color: white;
+  display: none;
+  height: 30px;
+  padding: 5px 10px;
+}
+div#chat-container ul#tabs li.tab.users-list-tab.active {
+  width: 215px;
+}
+div#chat-container ul#tabs li.tab.users-list-tab {
+  -webkit-transition: width .5s ease;
+          transition: width .5s ease;
+  -webkit-transition-delay: .5s;
+          transition-delay: .5s;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body {
+  background-color: white;
+  max-height: 400px;
+  min-height: 400px;
+  padding: 0;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list {
+  white-space: nowrap;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list:empty {
+  text-align: center;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list:empty:before {
+  content: "No users to show.";
+  display: inline-block;
+  padding: 5px  0 0 0;
+  color: #95a5a6;
+  font-weight: bold;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list li {
+  cursor: pointer;
+  height: 35px;
+  line-height: 35px;
+  padding: 5px 15px;
+  position: relative;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list li:hover {
+  background-color: #eaedf1;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list li.active:before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background-color: #2574a9;
+  position: absolute;
+  bottom: 5px;
+  left: 15px;
+  border: 2px solid white;
+}
+div#chat-container ul#tabs li.tab.users-list-tab div.tab-body ul.users-list li img {
+  float: left;
+  margin-right: 15px;
+}
+@media all and (min-width: 1170px) and (max-width: 1280px) {
+  div#chat-container.sidebar {
+    height: 100%;
+    padding-right: 0;
+    margin-right: -1px;
+  }
+  div#chat-container.sidebar ul#tabs {
+    height: 100%;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab {
+    height: 100%;
+    width: 65px;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab:hover {
+    width: 215px;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab:hover div.tab-body {
+    margin-top: -40px;
+    padding-top: 40px;
+    box-sizing: border-box;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab:hover div.tab-footer {
+    display: block !important;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab div.tab-header {
+    display: none;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab div.tab-body {
+    display: block !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab div.tab-body:hover {
+    overflow-y: scroll;
+  }
+}
+@media all and (min-width: 1280px) {
+  div#chat-container.sidebar {
+    height: 100%;
+    padding-right: 0;
+    margin-right: -1px;
+  }
+  div#chat-container.sidebar ul#tabs {
+    height: 100%;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab {
+    height: 100%;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab div.tab-header {
+    display: none;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab div.tab-body {
+    display: block !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    margin-top: -40px;
+    padding-top: 40px;
+    box-sizing: border-box;
+  }
+  div#chat-container.sidebar ul#tabs li.tab.users-list-tab div.tab-footer {
+    display: block !important;
+  }
+}

@@ -15,3 +15,5 @@ var server = app.listen(app.get('port'), function() {
 // chatStore.put('chats', chats);
 
 require('./routes/chat')(server, app);
+
+// var io = require('socket.io')(server);

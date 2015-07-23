@@ -21,6 +21,14 @@
     #add_tab { cursor: pointer; }
     </style>
 
+    <!-- includes for chat template -->
+    <link rel="stylesheet" href="chattemplate/css/normalize.min.css">
+    <link rel="stylesheet" href="chattemplate/css/chat.css">
+    <link rel="stylesheet" href="chattemplate/css/chat-theme.css">
+    <!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="chattemplate/css/chat-ie.css">
+    <![endif]-->
+
 
     <!-- jQuery 2.0.2 -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
@@ -28,9 +36,6 @@
     <script src="js/jquery-ui.js"></script>
     <script type="text/javascript" src="js/jquery.tmpl.js"></script>
 
-
-    <!-- // <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script> -->
-    <link type="text/css" href="css/jquery.ui.chatbox.css" rel="stylesheet" />
 
     <% if(logged){ %>
     <script>
@@ -52,79 +57,43 @@
     </script>
     <% }%>
 
-    <script id="step1" type="text/x-jQuery-tmpl">
-      <div>
-        ${clientID} - <button class="btn btn-primary btn-xs startAdminChat" data-adminID="${clientID}">Start Chat</button>
-      </div>
-      <br>
-    </script>
-
-    <script id="step2" type="text/x-jQuery-tmpl">
-      ${status}
-    </script>
-
     <script src="/socket.io/socket.io.js"></script>
+
+    <script id="step1" type="text/x-jQuery-tmpl">
+        <li class="active" id="active-admins">
+            <img class="avatar" src="chattemplate/img/avatar.jpg" alt="User Profile Image">
+            ${clientID} - <br>
+            <button class="btn btn-primary btn-xs startAdminChat" data-adminID="${clientID}">Start Chat</button>
+        </li>
+    </script>
+
+    <script id="chat-tab" type="text/x-jQuery-tmpl">
+        <li class="tab active">
+            <div class="tab-header">Admin ID - ${adminID}</div>
+            <div class="tab-body">
+                <ul class="messages">
+                    <li>Please wait for Admin to join ...</li>
+                </ul>
+            </div>
+            <div class="tab-footer">
+                <textarea class="form-control" rows="1" id="msg"></textarea>
+            </div>
+            <div class="tab-footer">
+                <button class="sendmsg">Send</button>
+            </div>
+        </li>
+    </script>
+
     <script>
+    
       var socket = io();
 
       // socket.on('update', function(data){
       //   alert(data);
       // });
 
-      // get admin list
-      socket.emit('getAdmins', { userID: user_id, firstName: firstName, lastName: lastName});
-
-      socket.on('adminsOnline', function(res){
-        // console.log(res.list);
-        $("#step1").tmpl(res.list).appendTo("#step1_cont");
-        $('#step1_cont').show();
-
-        // start chat with admin
-        $('.startAdminChat').off().on('click', function(){
-          // console.log(this);
-          var adminID = $(this).data('adminid');
-
-          socket.emit('startChat', {
-            adminID: adminID
-          });
-        });
-      });
-
-      socket.on('continue', function(data){
-          $('#step1_cont').hide();
-
-          if(data.chat != null){
-            $.each(data.chat, function(i, v){
-              // console.log(i, v);
-              $('#chats').append('<li>'+ v +'</li>');
-            });
-          }
-
-          $('#step2_cont').show();
-      });
-
-      socket.on('adminSendMsg', function(res){
-        // console.log(res.msg);
-        $('#chats').append('<li> Admin: '+res.msg+'</li>');
-      });
-
-      socket.on('status', function(res){
-        if(res.connected){
-          // $("#step2").tmpl(res).appendTo("#step2_cont");
-          $('#step1_cont').hide();
-          $('#step2_cont').show();
-        }
-      });
-
-      // admin closed chat
-      socket.on('chatClosed', function(){
-        $('#chats').append('<li>Admin has left the chat</li>');
-        $('.sendmsg').attr("disabled", true);
-        $('#msg').attr("disabled", true);
-      });
-
-      $(document).ready(function(){
-
+        function bindEvents(){
+            console.log('bind');
         // send a msg to admin
         $('.sendmsg').click(function(){
             var msg = $('#msg').val();
@@ -133,20 +102,122 @@
                 msg: msg
             });
 
-            $('#chats').append('<li>user: ' + msg + '</li>');
+        $('.messages').append('<li class="message you clearfix"><img class="avatar" src="chattemplate/img/avatar.jpg" alt="User Profile Image"><div class="bubble"><p>'+msg+'</p></div></li>');
             $('#msg').val('');
         });
 
         // quit chat
         $('#leavechat').click(function(){
             socket.emit('leave');
-            $('#step1_cont').show();
-            $('#step2_cont').hide();
+            // $('#step1_cont').show();
+            // $('#step2_cont').hide();
         });
+      }
 
+      // get admin list
+      socket.emit('getAdmins', { userID: user_id, firstName: firstName, lastName: lastName});
+
+      socket.on('adminsOnline', function(res){
+        // console.log('list', res.list);
+        $("#step1").tmpl(res.list).appendTo(".users-list");
+        // $('#step1_cont').show();
+
+        // start chat with admin
+        $('.startAdminChat').off().on('click', function(){
+          // console.log(this);
+          var adminID = $(this).data('adminid');
+
+
+        if($('#tabs').children('.tab').length == 1){
+          socket.emit('startChat', {
+            adminID: adminID
+          });
+
+          // add a new tab on screen
+          // $('#tabs').append('');
+          $("#chat-tab").tmpl({adminID: adminID}).appendTo("#tabs");
+
+          // add event to open tab
+          $('.tab-header').off().on('click', function(){
+            if($(this).parent().hasClass('active')){
+                $(this).parent().removeClass('active');
+            } else {
+                $(this).parent().addClass('active');
+            }
+
+          });
+          bindEvents();
+
+          //disable active admins
+          $('#active-admins').hide();
+        }
+
+        });
       });
+
+      socket.on('continue', function(data){
+        console.log('continue');
+
+        $("#chat-tab").tmpl({adminID: "adminID"}).appendTo("#tabs");
+
+        // add event to open tab
+          $('.tab-header').off().on('click', function(){
+            if($(this).parent().hasClass('active')){
+                $(this).parent().removeClass('active');
+            } else {
+                $(this).parent().addClass('active');
+            }
+
+          });
+          bindEvents();
+        
+          // $('.users-list').hide();
+
+          // if(data.chat != null){
+          //   $.each(data.chat, function(i, v){
+          //     // console.log(i, v);
+          //     $('#chats').append('<li>'+ v +'</li>');
+          //   });
+          // }
+
+          // $('#step2_cont').show();
+      });
+
+      socket.on('adminSendMsg', function(res){
+        // console.log(res.msg);
+        $('.messages').append('<li class="message me clearfix"><img class="avatar" src="chattemplate/img/avatar.jpg" alt="User Profile Image"><div class="bubble"><p>'+res.msg+'</p></div></li>');
+      });
+
+      socket.on('status', function(res){
+        if(res.connected){
+          // $("#step2").tmpl(res).appendTo("#step2_cont");
+          // $('#step1_cont').hide();
+          // $('#step2_cont').show();
+        }
+      });
+
+      // admin closed chat
+      socket.on('chatClosed', function(){
+        $('.messages').append('<li><b>Admin has closed this chat. To chat again, please refresh the page</b></li>');
+        $('.sendmsg').attr("disabled", true);
+        $('#msg').attr("disabled", true);
+      });
+
+      socket.on('adminDisconnect', function(){
+        $('.messages').append('<li><b>Admin has disconnected. To chat again, please refresh the page</b></li>');
+        $('.sendmsg').attr("disabled", true);
+        $('#msg').attr("disabled", true);
+      });
+
+      
+    
     </script>
 
+
+    <!-- // <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script> -->
+    <!-- <link type="text/css" href="css/jquery.ui.chatbox.css" rel="stylesheet" /> -->
+
+    
 
     <!-- Bootstrap -->
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
@@ -189,6 +260,7 @@
         opacity: 0;
       }
       </style>
+
 
 
 </head>

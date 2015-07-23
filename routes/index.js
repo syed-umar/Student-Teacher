@@ -3,6 +3,10 @@
 
 module.exports = function(app) {
 
+    app.get('/webrtc', function(req, res){
+        res.render('webrtc2');
+    });
+
     /* GET home page. */
     app.get('/', function(req, res) {
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>web rtc</title>
+	<script src="webrtc/conversation.js"></script>
+	<script src="//cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+	<!-- jQuery 2.0.2 -->
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+  	var socket = io.connect();
+
+	// initializing constructor
+	var signaler = new Signaler();
+
+	// whatever sent from conversation.js
+	signaler.on('message', function(message) {
+	    // here, you received message from conversation.js
+	    // pass/emit message to node.js
+	    // socket.emit('message', message);
+	    console.log(message);
+	});
+
+	// your socket.io listener that subscribes
+	// for all messages broadcasted from Node.js
+	socket.on('message', function(message) {
+	    // here, you received a message from node.js server
+	    // pass message to conversation.js
+	    // signaler.emit('message', message);
+	    console.log(message);
+	});
+
+	var user = new User();
+	console.log(user);
+
+	// connect user to signaler
+	signaler.connect(user);
+
+
+	$(document).ready(function(){
+		// $('#send').on('click', function(){
+		// 	socket.emit();
+		// });
+
+		// button used to invite a user
+		document.getElementById('btn-invite-username').onclick = function() {
+		    this.disabled = true;
+		    user.openconversationwith( document.getElementById('invite-username').value );
+		    document.getElementById('invite-username').disabled = true;
+		};
+		
+	});
+</script>
+
+</body>
+</html>

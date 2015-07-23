@@ -59,6 +59,12 @@
         $(uid).append('<li>' + data.msg + '</li>');
     });
 
+    socket.on('userDisconnect', function(data) {
+        // console.log(data);
+        var uid = String('#' + data.sid);
+        $(uid).append('<li>user Disconnected</li>');
+    });
+
     $(document).ready(function(){
 
         // var tabs = $( "#tabs" ).tabs();

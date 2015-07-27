@@ -90,5 +90,6 @@
 	"Edit User Type": "Edit User Type",
 	"Username": "Username",
 	"Zip Code": "Zip Code",
-	"Comments": "Comments"
+	"Comments": "Comments",
+	"Search by Email": "Search by Email"
 }

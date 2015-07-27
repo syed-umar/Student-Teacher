@@ -293,9 +293,28 @@ module.exports = function(app) {
 
         var fs = require('fs');
         fs.readdir(filesPath, function(err, data) {
-            res.json({files: data});
+            res.json({
+                files: data
+            });
             // console.log(data);
         });
+    });
+
+    // Delete a File in class
+    app.get('/deleteFileInClass/:classID/:fileName', function(req, res) {
+        var classID = req.param('classID');
+        var fileName = req.param('fileName');
+        var filePath = './public/uploads/classes/' + classID + '/files/' + fileName;
+
+        var fs = require("fs");
+        fs.unlink(filePath, function(err) {
+            if (err) {
+                res.json({ status: "error", error: err});
+            } else {
+                res.json({ status: "ok"});
+            }
+        });
+
     });
 
     /*

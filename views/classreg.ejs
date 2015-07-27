@@ -104,6 +104,16 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            <label><%= __('Search by Email') %></label>
+                                            <input class="form-control" ng-model="emailSearch" placeholder="Enter Email">
+                                            <button class="form-control btn btn-primary" ng-click="findUser()">Find</button>
+                                            <div ng-show="selectType">
+                                            Teacher: <input type="radio" ng-model="user_type" name="user_type" value="teacher" ng-click="setTeacher()">
+                                            <br>
+                                            Student: <input type="radio" ng-model="user_type" name="user_type" value="student" checked ng-click="setStudent()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="class_name"><%= __('First Name') %>: {{ currentUser.local.firstName }}</label>
                                         </div>
                                         <div class="form-group">

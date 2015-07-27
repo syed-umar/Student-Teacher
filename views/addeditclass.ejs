@@ -170,7 +170,7 @@
                                               <p>
                                                   Files Added to Class<hr>
                                                   <ul>
-                                                      <li ng-repeat="file in classFiles"><a ng-href="/uploads/classes/{{_class._id}}/files/{{file}}" target="_blank">{{ file }}</a></li>
+                                                      <li ng-repeat="file in classFiles"><i style="color:red; cursor: pointer;" class="fa fa-close" ng-click="deleteFile(file)"></i><a ng-href="/uploads/classes/{{_class._id}}/files/{{file}}" target="_blank">{{ file }}</a></li>
                                                   </ul>
                                               </p>
                                         </div>

@@ -133,4 +133,18 @@ classApp.controller('mainController', ['$scope', '$http', '$timeout', function($
         });
     }
 
+    // Delete File
+    $scope.deleteFile = function(fileName){
+        // console.log(file); /deleteFileInClass/:classID/:fileName
+        $http.get('/deleteFileInClass/' + $scope._class._id + '/' + fileName)
+        .success(function(res){
+            if(res.status == 'error'){
+                alert(JSON.stringify(res.error));
+            } else {
+                alert('File was deleted!');
+            }
+            $scope.getClassFiles()
+        });
+    }
+
 }]);

@@ -29,6 +29,7 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 	$scope.users = [];
 	$scope.user_id;
 	$scope.currentUser;
+	$scope.selectType = false;
 	// $scope.showCreateClass = false;
 	// $scope.showClassReg = false;
 	$scope._class;
@@ -160,6 +161,28 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 		//console.log($scope.currentUser);
 	}
 
+	// get User by Email
+	$scope.findUser = function() {
+        $http.get('/getUserByEmail/' + $scope.emailSearch)
+            .success(function(res) {
+                if (res.status == 'ok') {
+                    $scope.currentUser = res.data;
+                    $scope.selectType = true;
+                    $scope.classRegtype = "student";
+                } else if (res.status == 'err'){
+                    alert(JSON.stringify(res.data));
+                }
+            });
+    };
+
+    $scope.setStudent = function(){
+    	$scope.classRegtype = 'student';
+    }
+
+    $scope.setTeacher = function(){
+    	$scope.classRegtype = 'teacher';
+    }
+
 	// Update the Teacher/Student List
 	$scope.updateLists = function(){
 		//get class reg info
@@ -176,6 +199,9 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 
 	// Add the user to class
 	$scope.addUser = function() {
+
+		// console.log($scope.classRegtype);
+		
 		$http.post('/classRegistration/add', {
 			class_id: $scope._class._id,
 			user: $scope.currentUser,
@@ -187,6 +213,7 @@ classRegApp.controller('mainController', ['$scope', '$http', '$timeout', functio
 			alert(data);
 
 			$scope.updateLists();
+			$scope.selectType = false;
 
 		}).
 		error(function(data, status, headers, config) {
